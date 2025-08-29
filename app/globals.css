@@ -2,67 +2,249 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================
+   THEME TOKENS (HSL)
+   ========================= */
 @layer base {
   :root {
+    /* Base neutrals (Light) */
     --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --foreground: 220 14.3% 4.1%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --card-foreground: 220 14.3% 4.1%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
+    --popover-foreground: 220 14.3% 4.1%;
+
+    /* Brand & accents */
+    --brand: 222 89% 56%; /* azul profundo limpio */
+    --brand-foreground: 0 0% 100%;
+    --accent: 220 14% 96%;
+    --accent-foreground: 220 14% 12%;
+    --accent-warm: 25 95% 53%;
+    --accent-cool: 195 78% 46%;
+
+    /* Actions */
+    --primary: var(--brand);
+    --primary-foreground: var(--brand-foreground);
+    --secondary: 220 13% 94%;
+    --secondary-foreground: 220 14% 12%;
+    --muted: 220 12% 95%;
+    --muted-foreground: 220 9% 46%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-  }
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
+
+    /* Surfaces */
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
+    --ring: var(--brand);
+    --radius: 0.75rem;
+
+    /* Charts (opcional) */
+    --chart-1: 221 83% 53%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  .dark {
+    /* Base neutrals (Dark) */
+    --background: 220 14% 6%;
+    --foreground: 210 20% 96%;
+    --card: 220 14% 6%;
+    --card-foreground: 210 20% 96%;
+    --popover: 220 14% 6%;
+    --popover-foreground: 210 20% 96%;
+
+    /* Brand & accents */
+    --brand: 222 89% 62%;
+    --brand-foreground: 0 0% 100%;
+    --accent: 220 14% 12%;
+    --accent-foreground: 210 20% 96%;
+    --accent-warm: 25 95% 58%;
+    --accent-cool: 195 78% 54%;
+
+    /* Actions */
+    --primary: var(--brand);
+    --primary-foreground: var(--brand-foreground);
+    --secondary: 220 14% 14%;
+    --secondary-foreground: 210 20% 96%;
+    --muted: 220 14% 14%;
+    --muted-foreground: 215 14% 70%;
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Surfaces */
+    --border: 220 14% 16%;
+    --input: 220 14% 16%;
+    --ring: 222 89% 62%;
+  }
 }
 
+/* =========================
+   BASE: TIPOGRAFÍA, FONDO, FOCUS
+   ========================= */
 @layer base {
   * {
     @apply border-border;
   }
+
+  html {
+    @apply antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
     @apply bg-background text-foreground;
+    /* Fondo sutil con gradiente (light & dark) */
+    background-image: radial-gradient(
+        1200px 600px at 10% -10%,
+        hsl(var(--accent) / 0.5) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        1000px 500px at 120% 10%,
+        hsl(var(--accent-cool) / 0.12) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        900px 400px at -10% 120%,
+        hsl(var(--accent-warm) / 0.1) 0%,
+        transparent 50%
+      );
+    background-attachment: fixed;
+  }
+
+  /* Tipografía base agradable */
+  :root {
+    --text-tracking: 0.01em;
+    --text-leading: 1.6;
+  }
+  body,
+  p {
+    letter-spacing: var(--text-tracking);
+    line-height: var(--text-leading);
+  }
+
+  /* Headings más nítidos */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-tight;
+  }
+  h1 {
+    @apply text-4xl md:text-5xl;
+  }
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  /* Focus ring accesible y consistente */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px hsl(var(--background)), 0 0 0 6px hsl(var(--ring));
+    border-radius: calc(var(--radius) + 2px);
+    transition: box-shadow 120ms ease-out;
+  }
+
+  /* Selección de texto */
+  ::selection {
+    background: hsl(var(--brand) / 0.25);
+    color: hsl(var(--foreground));
+  }
+
+  /* Scrollbar discreto (webkit) */
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 999px;
+  }
+  .dark *::-webkit-scrollbar-thumb {
+    background: hsl(var(--accent));
+  }
+
+  /* Reduce motion por defecto y habilita transiciones si procede */
+  @media (prefers-reduced-motion: no-preference) {
+    * {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* =========================
+   COMPONENTS LIGEROS
+   ========================= */
+@layer components {
+  /* Contenedor fluido del sitio */
+  .container-app {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Secciones vertical rhythm */
+  .section {
+    @apply py-10 md:py-16;
+  }
+
+  /* Card neutra */
+  .card {
+    @apply rounded-2xl border bg-card text-card-foreground shadow-sm;
+  }
+
+  /* Glass suave (para widgets/overlays) */
+  .glass {
+    background: linear-gradient(
+      to bottom right,
+      hsl(var(--card) / 0.65),
+      hsl(var(--accent) / 0.5)
+    );
+    @apply backdrop-blur-md border;
+  }
+
+  /* Botón primario minimal si te hace falta en HTML plano */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium
+           bg-primary text-primary-foreground shadow-sm transition
+           hover:opacity-90 focus-visible:outline-none;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium
+           border bg-transparent text-foreground hover:bg-accent/60;
+  }
+}
+
+/* =========================
+   UTILITIES EXTRA
+   ========================= */
+@layer utilities {
+  .shadow-soft {
+    box-shadow: 0 10px 30px hsl(0 0% 0% / 0.12);
+  }
+  .ring-brand {
+    box-shadow: 0 0 0 3px hsl(var(--background)), 0 0 0 6px hsl(var(--brand));
+  }
+  .text-gradient {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--brand)) 0%,
+      hsl(var(--accent-cool)) 50%,
+      hsl(var(--accent-warm)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .surface {
+    @apply rounded-2xl border bg-card/80 backdrop-blur supports-[backdrop-filter]:bg-card/60;
   }
 }

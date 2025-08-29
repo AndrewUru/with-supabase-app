@@ -1,6 +1,6 @@
 // app/protected/layout.tsx
 import Link from "next/link";
-import { DeployButton } from "@/components/deploy-button";
+
 import { EnvVarWarning } from "@/components/env-var-warning";
 import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -33,7 +33,7 @@ export default function ProtectedLayout({ children }: Props) {
             {/* Brand + Deploy */}
             <div className="flex items-center gap-4">
               <Link
-                href="/protected"
+                href="/"
                 className="inline-flex items-center gap-2 font-semibold tracking-tight hover:opacity-90"
               >
                 {/* Si tienes logo, colócalo aquí */}
@@ -42,9 +42,7 @@ export default function ProtectedLayout({ children }: Props) {
                 </span>
                 <span className="hidden sm:inline">Panel</span>
               </Link>
-              <div className="hidden sm:flex items-center gap-2">
-                <DeployButton />
-              </div>
+              <div className="hidden sm:flex items-center gap-2"></div>
             </div>
 
             {/* Right: Env/Session + Theme */}
@@ -94,17 +92,16 @@ export default function ProtectedLayout({ children }: Props) {
               Hecho con ♥ para <span className="font-semibold">EDHUCO</span>.
               &nbsp;Powered by{" "}
               <a
-                href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
+                href="https://elsaltoweb.es"
                 target="_blank"
                 rel="noreferrer"
                 className="font-semibold hover:underline"
               >
-                Supabase
+                ElsaltoWeb.es
               </a>
               .
             </p>
             <div className="flex items-center gap-2">
-              <DeployButton />
               <ThemeSwitcher />
             </div>
           </div>
