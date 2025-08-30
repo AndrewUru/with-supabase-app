@@ -4,16 +4,18 @@ import Link from "next/link";
 import { EnvVarWarning } from "@/components/env-var-warning";
 import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { ProtectedSubNav } from "@/components/protected-sub-nav"; // Importa el nuevo componente
 import { hasEnvVars } from "@/lib/utils";
 
 type Props = { children: React.ReactNode };
 
-const navItems = [
-  { href: "/protected", label: "Resumen" },
-  { href: "/protected/notes", label: "Notas" },
-  { href: "/protected/events", label: "Agenda" },
-  { href: "/protected/bookings", label: "Reservas" },
-];
+// Los navItems ya no son necesarios aquí, se definen en ProtectedSubNav
+// const navItems = [
+//   { href: "/protected", label: "Resumen" },
+//   { href: "/protected/notes", label: "Notas" },
+//   { href: "/protected/events", label: "Agenda" },
+//   { href: "/protected/bookings", label: "Reservas" },
+// ];
 
 export default function ProtectedLayout({ children }: Props) {
   return (
@@ -53,28 +55,8 @@ export default function ProtectedLayout({ children }: Props) {
           </div>
         </div>
 
-        {/* Sub-nav de secciones */}
-        <nav className="border-t border-foreground/10">
-          <div className="mx-auto max-w-6xl px-2 sm:px-4">
-            <ul className="flex flex-wrap items-center gap-1 py-2">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="inline-flex items-center rounded-md px-3 py-1.5 text-sm hover:bg-foreground/5 focus:outline-none focus:ring-2 focus:ring-foreground/20 data-[active=true]:bg-foreground/10"
-                    data-active={
-                      typeof window !== "undefined"
-                        ? location.pathname === item.href
-                        : undefined
-                    }
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
+        {/* Sub-nav de secciones - Ahora un Client Component */}
+        <ProtectedSubNav />
       </header>
 
       {/* Contenido */}
@@ -102,6 +84,7 @@ export default function ProtectedLayout({ children }: Props) {
               .
             </p>
             <div className="flex items-center gap-2">
+              {/* Aquí podrías tener otro ThemeSwitcher si lo deseas, o ajustarlo */}
               <ThemeSwitcher />
             </div>
           </div>

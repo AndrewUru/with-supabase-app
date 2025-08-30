@@ -1,95 +1,91 @@
-// app/protected/layout.tsx
-import Link from "next/link";
+// app/layout.tsx
+import type { Metadata } from "next";
+import { Geist, Playfair_Display } from "next/font/google";
+import { ThemeProvider } from "next-themes";
+import "./globals.css";
 
-import { EnvVarWarning } from "@/components/env-var-warning";
-import { AuthButton } from "@/components/auth-button";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { ProtectedSubNav } from "@/components/protected-sub-nav"; // Importa el nuevo componente
-import { hasEnvVars } from "@/lib/utils";
+const defaultUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
-type Props = { children: React.ReactNode };
+export const metadata: Metadata = {
+  metadataBase: new URL(defaultUrl),
+  title: {
+    default: "EDHUCO – Reconexión Ancestral",
+    template: "%s | EDHUCO",
+  },
+  description:
+    "Plataforma EDHUCO: terapias, viajes chamánicos, formaciones y comunidad.",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+};
 
-// Los navItems ya no son necesarios aquí, se definen en ProtectedSubNav
-// const navItems = [
-//   { href: "/protected", label: "Resumen" },
-//   { href: "/protected/notes", label: "Notas" },
-//   { href: "/protected/events", label: "Agenda" },
-//   { href: "/protected/bookings", label: "Reservas" },
-// ];
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  display: "swap",
+  subsets: ["latin"],
+});
 
-export default function ProtectedLayout({ children }: Props) {
+const playfair = Playfair_Display({
+  variable: "--font-display",
+  display: "swap",
+  subsets: ["latin"],
+});
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      {/* Skip link para navegación por teclado */}
-      <a
-        href="#content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:px-3 focus:py-2 focus:bg-foreground focus:text-background"
+    <html lang="es" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col`}
       >
-        Ir al contenido
-      </a>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* Skip link accesibilidad */}
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 rounded bg-foreground px-3 py-2 text-background"
+          >
+            Ir al contenido
+          </a>
 
-      {/* Header fijo */}
-      <header className="sticky top-0 z-40 border-b border-foreground/10 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="flex h-16 items-center justify-between gap-3">
-            {/* Brand + Deploy */}
-            <div className="flex items-center gap-4">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 font-semibold tracking-tight hover:opacity-90"
-              >
-                {/* Si tienes logo, colócalo aquí */}
-                <span className="inline-block rounded-md bg-foreground/10 px-2 py-1 text-xs uppercase">
-                  EDHUCO
-                </span>
-                <span className="hidden sm:inline">Panel</span>
-              </Link>
-              <div className="hidden sm:flex items-center gap-2"></div>
-            </div>
+          {/* Contenido principal */}
+          <main id="main" className="flex-1">
+            {children}
+          </main>
 
-            {/* Right: Env/Session + Theme */}
-            <div className="flex items-center gap-3">
-              {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
-              <ThemeSwitcher />
-            </div>
-          </div>
-        </div>
-
-        {/* Sub-nav de secciones - Ahora un Client Component */}
-        <ProtectedSubNav />
-      </header>
-
-      {/* Contenido */}
-      <section id="content" className="mx-auto max-w-6xl px-4 py-8">
-        <div className="rounded-2xl border border-foreground/10 bg-card/60 p-5 shadow-sm">
-          {children}
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="mt-8 border-t border-foreground/10">
-        <div className="mx-auto max-w-6xl px-4 py-8 text-xs text-foreground/70">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {/* Footer global */}
+          <footer className="border-t text-center text-xs text-muted-foreground py-6">
             <p>
-              Hecho con ♥ para <span className="font-semibold">EDHUCO</span>.
-              &nbsp;Powered by{" "}
+              © {new Date().getFullYear()} EDHUCO · Construido con{" "}
               <a
-                href="https://elsaltoweb.es"
+                href="https://nextjs.org/"
                 target="_blank"
-                rel="noreferrer"
-                className="font-semibold hover:underline"
+                className="hover:underline"
               >
-                ElsaltoWeb.es
+                Next.js
+              </a>{" "}
+              &{" "}
+              <a
+                href="https://supabase.com/"
+                target="_blank"
+                className="hover:underline"
+              >
+                Supabase
               </a>
-              .
             </p>
-            <div className="flex items-center gap-2">
-              {/* Aquí podrías tener otro ThemeSwitcher si lo deseas, o ajustarlo */}
-              <ThemeSwitcher />
-            </div>
-          </div>
-        </div>
-      </footer>
-    </main>
+          </footer>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
