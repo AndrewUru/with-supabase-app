@@ -3,25 +3,42 @@ import { Button } from "./ui/button";
 import { createClient } from "@/lib/supabase/server";
 import { LogoutButton } from "./logout-button";
 
-export async function AuthButton() {
+type AuthButtonProps = {
+  className?: string;
+};
+
+export async function AuthButton({ className }: AuthButtonProps) {
   const supabase = await createClient();
 
-  // You can also use getUser() which will be slower.
+  // getClaims es más rápido que getUser, pero por si acaso, hacemos guardas
   const { data } = await supabase.auth.getClaims();
+  const claims = (data?.claims ?? {}) as { email?: string } | null;
+  const email = typeof claims?.email === "string" ? claims.email : undefined;
 
-  const user = data?.claims;
+  if (email) {
+    return (
+      <div
+        className={`flex items-center gap-3 min-w-0 ${className ?? ""}`}
+        aria-label={`Usuario ${email}`}
+      >
+        <span className="hidden sm:inline text-sm text-muted-foreground">
+          Hola,
+        </span>
+        {/* Truncar en móvil */}
+        <span className="truncate max-w-[160px] sm:max-w-none" title={email}>
+          {email}
+        </span>
+        <LogoutButton />
+      </div>
+    );
+  }
 
-  return user ? (
-    <div className="flex items-center gap-4">
-      Hey, {user.email}!
-      <LogoutButton />
-    </div>
-  ) : (
-    <div className="flex gap-2">
-      <Button asChild size="sm" variant={"outline"}>
+  return (
+    <div className={`flex gap-2 ${className ?? ""}`}>
+      <Button asChild size="sm" variant="outline">
         <Link href="/auth/login">Sign in</Link>
       </Button>
-      <Button asChild size="sm" variant={"default"}>
+      <Button asChild size="sm" variant="default">
         <Link href="/auth/sign-up">Sign up</Link>
       </Button>
     </div>

@@ -38,130 +38,120 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col bg-background text-foreground">
       {/* NAVBAR */}
+      {/* NAVBAR */}
       <header className="sticky top-0 z-40 border-b backdrop-blur supports-[backdrop-filter]:bg-background/70 bg-background/90">
-        <div className="mx-auto max-w-6xl flex items-center justify-between gap-3 p-3 sm:p-4">
+        <div className="mx-auto max-w-6xl grid grid-cols-[auto_1fr_auto] items-center gap-3 p-3 sm:p-4">
           {/* Logo */}
           <Link
             href="/"
-            className="font-extrabold text-lg tracking-tight hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-sm"
+            className="shrink-0 font-extrabold text-lg tracking-tight hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-sm"
             aria-label="Ir a inicio"
           >
             EDHUCO
           </Link>
 
-          {/* Nav desktop */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <Link
-              href="/#servicios"
-              className="relative px-1 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-sm"
-            >
-              <span className="after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-accent after:transition-all hover:after:w-full">
-                Servicios
-              </span>
-            </Link>
-            <Link
-              href="/#formaciones"
-              className="relative px-1 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-sm"
-            >
-              <span className="after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-accent after:transition-all hover:after:w-full">
-                Formaciones
-              </span>
-            </Link>
-            <Link
-              href="/#viajes"
-              className="relative px-1 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-sm"
-            >
-              <span className="after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-accent after:transition-all hover:after:w-full">
-                Viajes
-              </span>
-            </Link>
-            <Link
-              href="/#contacto"
-              className="relative px-1 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-sm"
-            >
-              <span className="after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-accent after:transition-all hover:after:w-full">
-                Contacto
-              </span>
-            </Link>
-          </nav>
-
-          {/* Acciones desktop */}
-          <div className="hidden md:flex items-center gap-2">
-            <Link
-              href="/protected"
-              className="inline-flex items-center rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
-            >
-              Área personal
-            </Link>
-            <AuthButton />
-            <ThemeSwitcher />
+          {/* Espacio central (para que los extremos no colapsen) */}
+          <div className="min-w-0">
+            {/* Nav desktop */}
+            <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+              {[
+                { href: "/#servicios", label: "Servicios" },
+                { href: "/#formaciones", label: "Formaciones" },
+                { href: "/#viajes", label: "Viajes" },
+                { href: "/#contacto", label: "Contacto" },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="relative px-1 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-sm"
+                >
+                  <span className="after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-accent after:transition-all hover:after:w-full">
+                    {item.label}
+                  </span>
+                </Link>
+              ))}
+            </nav>
           </div>
 
-          {/* Móvil: menú con <details> nativo accesible */}
-          <div className="md:hidden">
-            <details className="group relative">
-              <summary
-                className="list-none inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm hover:bg-muted cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
-                aria-label="Abrir menú"
+          {/* Acciones */}
+          <div className="flex items-center gap-2">
+            {/* Desktop: área personal + auth + tema */}
+            <div className="hidden md:flex items-center gap-2 min-w-0">
+              <Link
+                href="/protected"
+                className="inline-flex shrink-0 items-center rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
               >
-                <span className="i-lucide-menu block size-5" />
-                Menú
-              </summary>
+                Área personal
+              </Link>
 
-              {/* Panel */}
-              <div
-                className="absolute right-0 mt-2 w-[88vw] max-w-xs rounded-xl border bg-background/95 backdrop-blur p-4 shadow-xl"
-                role="menu"
-                aria-label="Navegación principal"
-              >
-                <nav className="flex flex-col gap-2 text-base">
+              {/* 👇 Trunca el email si el AuthButton lo muestra */}
+              <div className="min-w-0">
+                <AuthButton className="max-w-[220px] overflow-hidden text-ellipsis whitespace-nowrap" />
+              </div>
+
+              <ThemeSwitcher />
+            </div>
+
+            {/* Móvil: menú con <details> */}
+            <div className="md:hidden">
+              <details className="group relative">
+                <summary
+                  className="list-none inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm hover:bg-muted cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+                  aria-label="Abrir menú"
+                >
+                  <span className="i-lucide-menu block size-5" />
+                  Menú
+                </summary>
+
+                {/* Panel del menú */}
+                <div className="absolute right-0 mt-2 w-[88vw] max-w-[320px] rounded-xl border bg-popover p-2 text-sm shadow-lg">
                   <Link
                     href="/#servicios"
-                    className="rounded-md px-2 py-2 hover:bg-muted"
-                    role="menuitem"
+                    className="block rounded-lg px-3 py-2 hover:bg-muted"
                   >
                     Servicios
                   </Link>
                   <Link
                     href="/#formaciones"
-                    className="rounded-md px-2 py-2 hover:bg-muted"
-                    role="menuitem"
+                    className="block rounded-lg px-3 py-2 hover:bg-muted"
                   >
                     Formaciones
                   </Link>
                   <Link
                     href="/#viajes"
-                    className="rounded-md px-2 py-2 hover:bg-muted"
-                    role="menuitem"
+                    className="block rounded-lg px-3 py-2 hover:bg-muted"
                   >
                     Viajes
                   </Link>
                   <Link
                     href="/#contacto"
-                    className="rounded-md px-2 py-2 hover:bg-muted"
-                    role="menuitem"
+                    className="block rounded-lg px-3 py-2 hover:bg-muted"
                   >
                     Contacto
                   </Link>
-                </nav>
 
-                <div className="my-3 h-px bg-border" />
+                  <div className="my-2 h-px bg-border" />
 
-                <div className="flex flex-col gap-2">
+                  {/* Área personal + Auth en móvil */}
                   <Link
                     href="/protected"
-                    className="w-full rounded-xl border px-4 py-2 text-center text-sm font-semibold hover:bg-muted"
-                    role="menuitem"
+                    className="block rounded-lg px-3 py-2 hover:bg-muted"
                   >
                     Área personal
                   </Link>
-                  <AuthButton />
-                  <div className="flex justify-end">
+
+                  {/* 👇 En móvil mostramos AuthButton sin email (truncado por si acaso) */}
+                  <div className="mt-1">
+                    <AuthButton className="w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap" />
+                  </div>
+
+                  <div className="mt-2 flex items-center justify-between rounded-lg px-3 py-2">
+                    Tema
                     <ThemeSwitcher />
                   </div>
                 </div>
-              </div>
-            </details>
+              </details>
+            </div>
           </div>
         </div>
       </header>
