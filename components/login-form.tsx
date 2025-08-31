@@ -73,7 +73,7 @@ export function LoginForm({
                 href="/auth/sign-up"
                 className="underline underline-offset-4"
               >
-                Inscribirse
+                Registrarse
               </Link>
             </div>
           </form>

@@ -38,7 +38,6 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col bg-background text-foreground">
       {/* NAVBAR */}
-      {/* NAVBAR */}
       <header className="sticky top-0 z-40 border-b backdrop-blur supports-[backdrop-filter]:bg-background/70 bg-background/90">
         <div className="mx-auto max-w-6xl grid grid-cols-[auto_1fr_auto] items-center gap-3 p-3 sm:p-4">
           {/* Logo */}
@@ -187,7 +186,7 @@ export default function Home() {
           {/* pill superior */}
           <span className="inline-flex items-center gap-2 rounded-full border bg-card/60 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
             <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>Programa integral de bienestar</span>
+            <span>Desarrollo Humano Consciente</span>
           </span>
 
           {/* título */}

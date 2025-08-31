@@ -65,31 +65,6 @@ export default function ProtectedLayout({ children }: Props) {
           {children}
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="mt-8 border-t border-foreground/10">
-        <div className="mx-auto max-w-6xl px-4 py-8 text-xs text-foreground/70">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p>
-              Hecho con ♥ para <span className="font-semibold">EDHUCO</span>.
-              &nbsp;Powered by{" "}
-              <a
-                href="https://elsaltoweb.es"
-                target="_blank"
-                rel="noreferrer"
-                className="font-semibold hover:underline"
-              >
-                ElsaltoWeb.es
-              </a>
-              .
-            </p>
-            <div className="flex items-center gap-2">
-              {/* Aquí podrías tener otro ThemeSwitcher si lo deseas, o ajustarlo */}
-              <ThemeSwitcher />
-            </div>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
