@@ -1,127 +1,88 @@
-// app/protected/page.tsx
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  CalendarIcon,
-  NotebookIcon,
-  TicketIcon,
-  UsersIcon,
-  MapIcon,
-} from "lucide-react";
+import { redirect } from "next/navigation";
+import { LogoutButton } from "@/components/logout-button";
+
+export const metadata = {
+  robots: { index: false, follow: false },
+};
+
+export const dynamic = "force-dynamic";
+
+function maskEmail(email?: string | null) {
+  if (!email) return "usuario";
+  const [name, domain] = email.split("@");
+  const short = name.length > 3 ? name.slice(0, 3) + "•••" : name + "•";
+  return `${short}@${domain}`;
+}
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
 
-  const { data: userClaims, error } = await supabase.auth.getClaims();
-  if (error || !userClaims?.claims) {
-    redirect("/auth/login");
+  if (error || !data.user) {
+    redirect("/auth/login?next=/protected");
   }
 
-  // Traer algunos datos de ejemplo (counts)
-  const [{ count: servicesCount }, { count: eventsCount }] = await Promise.all([
-    supabase.from("services").select("*", { count: "exact", head: true }),
-    supabase.from("events").select("*", { count: "exact", head: true }),
-  ]);
+  const user = data.user;
 
   return (
-    <div className="flex flex-col gap-8">
-      <h1 className="text-2xl font-bold">Panel EDHUCO</h1>
+    <main className="mx-auto max-w-6xl p-4 md:p-6">
+      {/* HEADER */}
+      <header className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-xl md:text-2xl font-semibold tracking-tight">
+            Panel EDHUCO
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Hola, {user.user_metadata?.name ?? maskEmail(user.email)}
+          </p>
+        </div>
+        <LogoutButton />
+      </header>
 
-      {/* Tabs de navegación */}
-      <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="flex flex-wrap gap-2">
-          <TabsTrigger value="overview">Resumen</TabsTrigger>
-          <TabsTrigger value="services">
-            <NotebookIcon className="w-4 h-4 mr-1" />
-            Servicios
-          </TabsTrigger>
-          <TabsTrigger value="trainings">
-            <UsersIcon className="w-4 h-4 mr-1" />
-            Formaciones
-          </TabsTrigger>
-          <TabsTrigger value="trips">
-            <MapIcon className="w-4 h-4 mr-1" />
-            Viajes
-          </TabsTrigger>
-          <TabsTrigger value="events">
-            <CalendarIcon className="w-4 h-4 mr-1" />
-            Agenda
-          </TabsTrigger>
-          <TabsTrigger value="bookings">
-            <TicketIcon className="w-4 h-4 mr-1" />
+      {/* CONTENIDO */}
+      <section className="grid gap-4 md:grid-cols-3">
+        {/* Tarjetas de estado (placeholders) */}
+        <article className="rounded-xl border bg-card p-5 shadow-sm">
+          <h3 className="text-sm font-medium text-muted-foreground">
+            Servicios activos
+          </h3>
+          <p className="mt-2 text-3xl font-semibold">3</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Gestiona y publica tus servicios
+          </p>
+        </article>
+
+        <article className="rounded-xl border bg-card p-5 shadow-sm">
+          <h3 className="text-sm font-medium text-muted-foreground">
+            Eventos publicados
+          </h3>
+          <p className="mt-2 text-3xl font-semibold">3</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Añade fechas y plazas
+          </p>
+        </article>
+
+        <article className="rounded-xl border bg-card p-5 shadow-sm">
+          <h3 className="text-sm font-medium text-muted-foreground">
             Reservas
-          </TabsTrigger>
-        </TabsList>
+          </h3>
+          <p className="mt-2 text-3xl font-semibold">0</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Aún no hay reservas
+          </p>
+        </article>
+      </section>
 
-        {/* Overview */}
-        <TabsContent value="overview" className="mt-6">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-xl border bg-card p-5 shadow-sm">
-              <h3 className="text-sm font-medium text-foreground/70">
-                Servicios activos
-              </h3>
-              <p className="text-2xl font-bold">{servicesCount ?? 0}</p>
-            </div>
-            <div className="rounded-xl border bg-card p-5 shadow-sm">
-              <h3 className="text-sm font-medium text-foreground/70">
-                Eventos publicados
-              </h3>
-              <p className="text-2xl font-bold">{eventsCount ?? 0}</p>
-            </div>
-            <div className="rounded-xl border bg-card p-5 shadow-sm">
-              <h3 className="text-sm font-medium text-foreground/70">
-                Usuario logueado
-              </h3>
-              <pre className="text-xs font-mono mt-2 bg-muted/30 p-2 rounded">
-                {JSON.stringify(userClaims.claims, null, 2)}
-              </pre>
-            </div>
-          </div>
-        </TabsContent>
-
-        {/* Cada pestaña apunta a su ruta */}
-        <TabsContent value="services">
-          <p className="text-sm">
-            Ir a{" "}
-            <a href="/protected/services" className="underline">
-              /protected/services
-            </a>
-          </p>
-        </TabsContent>
-        <TabsContent value="trainings">
-          <p className="text-sm">
-            Ir a{" "}
-            <a href="/protected/trainings" className="underline">
-              /protected/trainings
-            </a>
-          </p>
-        </TabsContent>
-        <TabsContent value="trips">
-          <p className="text-sm">
-            Ir a{" "}
-            <a href="/protected/trips" className="underline">
-              /protected/trips
-            </a>
-          </p>
-        </TabsContent>
-        <TabsContent value="events">
-          <p className="text-sm">
-            Ir a{" "}
-            <a href="/protected/events" className="underline">
-              /protected/events
-            </a>
-          </p>
-        </TabsContent>
-        <TabsContent value="bookings">
-          <p className="text-sm">
-            Ir a{" "}
-            <a href="/protected/bookings" className="underline">
-              /protected/bookings
-            </a>
-          </p>
-        </TabsContent>
-      </Tabs>
-    </div>
+      {/* Tabs/recursos (sin datos sensibles) */}
+      <section className="mt-6 rounded-xl border bg-card p-5 shadow-sm">
+        <h2 className="text-base font-semibold">Recursos</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Aquí podrás gestionar tus contenidos. (Próximamente conectaremos con
+          tu base de datos).
+        </p>
+        {/* Pon aquí tus tabs/tabla real cuando toque */}
+      </section>
+    </main>
   );
 }

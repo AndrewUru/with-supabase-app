@@ -1,10 +1,21 @@
 export default function Loading() {
   return (
-    <div className="min-h-svh grid place-items-center p-6">
-      <div className="flex flex-col items-center gap-4">
-        <div className="size-10 animate-spin rounded-full border-2 border-muted-foreground/30 border-t-foreground" />
-        <p className="text-sm text-muted-foreground">Entrando a tu espacio…</p>
+    <main className="mx-auto max-w-6xl p-4 md:p-6 animate-pulse">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <div className="h-6 w-40 rounded bg-muted" />
+          <div className="mt-2 h-4 w-56 rounded bg-muted" />
+        </div>
+        <div className="h-9 w-24 rounded bg-muted" />
       </div>
-    </div>
+
+      <section className="grid gap-4 md:grid-cols-3">
+        <div className="h-32 rounded-xl border bg-muted" />
+        <div className="h-32 rounded-xl border bg-muted" />
+        <div className="h-32 rounded-xl border bg-muted" />
+      </section>
+
+      <section className="mt-6 h-40 rounded-xl border bg-muted" />
+    </main>
   );
 }
