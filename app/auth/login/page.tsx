@@ -1,27 +1,24 @@
-//C:\with-supabase-app\app\auth\login\page.tsx
+// app/auth/login/page.tsx
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { LoginForm } from "@/components/login-form";
 
+// En Next 15, searchParams puede ser Promise<>
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[]>>;
 }) {
+  const sp = (await searchParams) ?? {};
+
+  const next = (Array.isArray(sp.next) ? sp.next[0] : sp.next) || "/protected";
+
+  const error = (Array.isArray(sp.error) ? sp.error[0] : sp.error) || "";
+
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  const next =
-    (Array.isArray(searchParams?.next)
-      ? searchParams?.next[0]
-      : searchParams?.next) || "/protected";
-
-  const error =
-    (Array.isArray(searchParams?.error)
-      ? searchParams?.error[0]
-      : searchParams?.error) || "";
 
   if (user) redirect(next);
 
