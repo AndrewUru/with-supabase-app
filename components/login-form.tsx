@@ -48,12 +48,12 @@ export function LoginForm({
 
             <div className="grid gap-2">
               <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Contraseña</Label>
                 <Link
                   href="/auth/forgot-password"
                   className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                 >
-                  Forgot your password?
+                  ¿Olvidaste tu contraseña?
                 </Link>
               </div>
               <Input id="password" name="password" type="password" required />
@@ -64,7 +64,7 @@ export function LoginForm({
             )}
 
             <Button type="submit" className="w-full">
-              Login
+              Acceso
             </Button>
 
             <div className="mt-2 text-center text-sm">
@@ -73,7 +73,7 @@ export function LoginForm({
                 href="/auth/sign-up"
                 className="underline underline-offset-4"
               >
-                Sign up
+                Inscribirse
               </Link>
             </div>
           </form>
