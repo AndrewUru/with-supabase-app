@@ -1,16 +1,8 @@
 // app/protected/layout.tsx
 import { EnvVarWarning } from "@/components/env-var-warning";
-import { ProtectedSubNav } from "@/components/protected-sub-nav"; // Importa el nuevo componente
 import { hasEnvVars } from "@/lib/utils";
-type Props = { children: React.ReactNode };
 
-// Los navItems ya no son necesarios aquí, se definen en ProtectedSubNav
-// const navItems = [
-//   { href: "/protected", label: "Resumen" },
-//   { href: "/protected/notes", label: "Notas" },
-//   { href: "/protected/events", label: "Agenda" },
-//   { href: "/protected/bookings", label: "Reservas" },
-// ];
+type Props = { children: React.ReactNode };
 
 export default function ProtectedLayout({ children }: Props) {
   return (
@@ -23,27 +15,54 @@ export default function ProtectedLayout({ children }: Props) {
         Ir al contenido
       </a>
 
-      {/* Header fijo */}
-      <header className="border-b border-foreground/10 backdrop-blur supports-[backdrop-filter]:bg-background/70">
+      {/* Header fijo de toda la anchura */}
+      <header
+        className="
+          sticky top-0 z-40 border-b border-foreground/10
+          backdrop-blur supports-[backdrop-filter]:bg-background/70 bg-background/85
+        "
+        role="banner"
+      >
         <div className="mx-auto max-w-6xl px-4">
           <div className="flex h-16 items-center justify-between gap-3">
-            {/* Right: Env/Session + Theme */}
+            {/* Izquierda: espacio para marca/breadcrumb si lo necesitas */}
+            <div className="flex items-center gap-3">
+              {/* Placeholder para Brand o breadcrumb */}
+            </div>
+
+            {/* Derecha: avisos/env/theme/etc. */}
             <div className="flex items-center gap-3">
               {!hasEnvVars ? <EnvVarWarning /> : null}
             </div>
           </div>
         </div>
 
-        {/* Sub-nav de secciones - Ahora un Client Component */}
-        <ProtectedSubNav />
+        {/* Sub-nav de secciones (Client Component) */}
       </header>
 
       {/* Contenido */}
-      <section id="content" className="mx-auto max-w-6xl px-4 py-8">
-        <div className="rounded-2xl border border-foreground/10 bg-card/60 p-5 shadow-sm">
+      <section
+        id="content"
+        className="
+          mx-auto max-w-6xl px-4 py-8
+          /* Hace que los anclajes no queden ocultos bajo el header */
+          [scroll-margin-top:7rem]
+          sm:[scroll-margin-top:8rem]
+        "
+      >
+        <div
+          className="
+            rounded-2xl border border-foreground/10 bg-card/60 p-5 shadow-sm
+          "
+        >
           {children}
         </div>
       </section>
+
+      {/* Opcional: pie del área privada */}
+      {/* <footer className="mx-auto max-w-6xl px-4 py-8 text-xs text-muted-foreground">
+        © EDHUCO
+      </footer> */}
     </main>
   );
 }

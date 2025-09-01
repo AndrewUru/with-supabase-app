@@ -40,7 +40,8 @@ export default function Home() {
     <main className="min-h-screen flex flex-col bg-background text-foreground">
       {/* HERO */}
       <Hero />
-      <AboutEdhuco />;{/* BENEFICIOS */}
+      <AboutEdhuco />
+      {/* BENEFICIOS */}
       <section
         id="servicios"
         className="mx-auto max-w-6xl py-20 px-6 text-center"
