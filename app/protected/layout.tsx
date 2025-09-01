@@ -2,7 +2,6 @@
 import Link from "next/link";
 
 import { EnvVarWarning } from "@/components/env-var-warning";
-import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { ProtectedSubNav } from "@/components/protected-sub-nav"; // Importa el nuevo componente
 import { hasEnvVars } from "@/lib/utils";
@@ -49,7 +48,7 @@ export default function ProtectedLayout({ children }: Props) {
 
             {/* Right: Env/Session + Theme */}
             <div className="flex items-center gap-3">
-              {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
+              {!hasEnvVars ? <EnvVarWarning /> : null}
               <ThemeSwitcher />
             </div>
           </div>

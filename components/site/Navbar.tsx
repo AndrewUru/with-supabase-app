@@ -1,13 +1,9 @@
 // components/site/Navbar.tsx
-"use client";
-
 import Link from "next/link";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { AuthButton } from "@/components/auth-button";
+import { ThemeSwitcher } from "@/components/theme-switcher"; // client child OK
+import { AuthButton } from "@/components/auth-button"; // server OK
 
-type NavbarProps = {
-  brand?: string;
-};
+type NavbarProps = { brand?: string };
 
 export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
   return (
@@ -60,7 +56,7 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
             <ThemeSwitcher />
           </div>
 
-          {/* Móvil */}
+          {/* Móvil (nativo, sin JS) */}
           <div className="md:hidden">
             <details className="group relative">
               <summary
