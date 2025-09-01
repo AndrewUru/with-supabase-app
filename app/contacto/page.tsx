@@ -1,59 +1,12 @@
 // app/contacto/page.tsx
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { submitContact } from "./actions";
+
 export const metadata = {
   title: "Contacto | EDHUCO",
   description:
     "Escríbenos para reservas, terapias, formaciones y sesiones de sonido. Presencial en Valencia y online.",
 };
-
-// ---- Server Action: guarda mensaje y redirige con estado ----
-export async function submitContact(formData: FormData) {
-  "use server";
-
-  const name = String(formData.get("name") || "").trim();
-  const email = String(formData.get("email") || "").trim();
-  const phone = String(formData.get("phone") || "").trim();
-  const topic = String(formData.get("topic") || "").trim();
-  const message = String(formData.get("message") || "").trim();
-  const consent = formData.get("consent") === "on";
-
-  if (!name || !email || !message || !consent) {
-    redirect("/contacto?error=campos");
-  }
-
-  try {
-    const supabase = await createClient();
-
-    // Asegúrate de tener la tabla 'contact_messages' en tu Supabase:
-    // create table contact_messages (
-    //   id uuid primary key default gen_random_uuid(),
-    //   name text not null,
-    //   email text not null,
-    //   phone text,
-    //   topic text,
-    //   message text not null,
-    //   created_at timestamp with time zone default now()
-    // );
-    const { error } = await supabase.from("contact_messages").insert({
-      name,
-      email,
-      phone,
-      topic,
-      message,
-    });
-
-    if (error) {
-      // Si falla (tabla no existe o sin permisos), redirige con error
-      redirect("/contacto?error=server");
-    }
-
-    redirect("/contacto?ok=1");
-  } catch {
-    redirect("/contacto?error=server");
-  }
-}
 
 export default async function ContactoPage({
   searchParams,
@@ -133,19 +86,19 @@ export default async function ContactoPage({
             <CardAction
               title="WhatsApp"
               desc="Escríbeme directamente para dudas rápidas o reservas."
-              href="https://wa.me/34644674392" // cambia al número correcto
+              href="https://wa.me/34644674392"
               label="Abrir WhatsApp"
             />
             <CardAction
               title="Email"
               desc="Comparte tu consulta o propuesta con detalle."
-              href="mailto:hola@edhuco.com" // cambia al correo real
+              href="mailto:hola@edhuco.com"
               label="Enviar email"
             />
             <CardAction
               title="Instagram"
               desc="Sígueme y envía un DM para coordinar."
-              href="https://www.instagram.com/sonidosancestrales8/" // cambia si hace falta
+              href="https://www.instagram.com/sonidosancestrales8/"
               label="Abrir Instagram"
             />
           </div>
