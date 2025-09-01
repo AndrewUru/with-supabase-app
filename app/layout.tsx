@@ -43,11 +43,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" className="h-full" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col overflow-x-hidden`}
+        className={`${geistSans.variable} ${playfair.variable} font-sans antialiased min-h-dvh w-full overflow-x-clip flex flex-col`}
       >
-        <Navbar />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -62,13 +61,14 @@ export default function RootLayout({
             Ir al contenido
           </a>
 
+          <Navbar />
+
           {/* Contenido principal */}
           <main id="main" className="flex-1">
             {children}
           </main>
 
           {/* Footer global */}
-          {/* Footer global mejorado */}
           <footer className="relative border-t bg-card/30 backdrop-blur-sm">
             {/* Gradiente sutil superior */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/20 to-transparent" />
@@ -86,16 +86,14 @@ export default function RootLayout({
                   <div className="flex items-center gap-4">
                     <Link
                       href="/#contacto"
-                      className="inline-flex items-center gap-2 text-sm text-brand hover:text-accent-cool 
-                     transition-colors duration-200 hover:underline underline-offset-4"
+                      className="inline-flex items-center gap-2 text-sm text-brand hover:text-accent-cool transition-colors duration-200 hover:underline underline-offset-4"
                     >
                       <span className="text-xs">📧</span>
                       Contactar
                     </Link>
                     <Link
                       href="/protected"
-                      className="inline-flex items-center gap-2 text-sm text-brand hover:text-accent-cool 
-                     transition-colors duration-200 hover:underline underline-offset-4"
+                      className="inline-flex items-center gap-2 text-sm text-brand hover:text-accent-cool transition-colors duration-200 hover:underline underline-offset-4"
                     >
                       <span className="text-xs">👤</span>
                       Área personal
@@ -122,9 +120,7 @@ export default function RootLayout({
                       <Link
                         key={item.href}
                         href={item.href}
-                        className="group flex items-center gap-2 text-sm text-muted-foreground 
-                       hover:text-foreground transition-colors duration-200 rounded-lg px-2 py-1
-                       hover:bg-accent/40"
+                        className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-lg px-2 py-1 hover:bg-accent/40"
                       >
                         <span className="text-xs opacity-60 group-hover:opacity-100 transition-opacity">
                           {item.icon}
@@ -179,7 +175,7 @@ export default function RootLayout({
                 </div>
               </div>
 
-              {/* Copyright mejorado */}
+              {/* Copyright */}
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
                 <p className="flex items-center gap-2">
                   <span>© {new Date().getFullYear()} EDHUCO</span>
