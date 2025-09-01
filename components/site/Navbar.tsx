@@ -14,8 +14,10 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
           href="/"
           className="group shrink-0 font-extrabold text-xl tracking-tight transition-all duration-200 
                    hover:scale-105 focus-visible:outline-none focus-visible:ring-brand rounded-lg px-2 py-1
-                   bg-gradient-to-r from-brand to-accent-cool bg-clip-text text-transparent
-                   hover:from-accent-cool hover:to-accent-warm"
+                   text-foreground hover:text-brand supports-[background-clip:text]:bg-gradient-to-r 
+                   supports-[background-clip:text]:from-brand supports-[background-clip:text]:to-accent-cool 
+                   supports-[background-clip:text]:bg-clip-text supports-[background-clip:text]:text-transparent
+                   supports-[background-clip:text]:hover:from-accent-cool supports-[background-clip:text]:hover:to-accent-warm"
           aria-label="Ir a inicio"
         >
           <span className="drop-shadow-sm">{brand}</span>
@@ -25,10 +27,10 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
         <div className="min-w-0">
           <nav className="hidden md:flex items-center justify-center gap-1">
             {[
-              { href: "/#servicios", label: "Servicios", icon: "🎯" },
-              { href: "/#formaciones", label: "Formaciones", icon: "📚" },
-              { href: "/#viajes", label: "Viajes", icon: "✈️" },
-              { href: "/#contacto", label: "Contacto", icon: "💬" },
+              { href: "/#servicios", label: "Servicios" },
+              { href: "/#formaciones", label: "Formaciones" },
+              { href: "/#viajes", label: "Viajes" },
+              { href: "/#contacto", label: "Contacto" },
             ].map((item) => (
               <Link
                 key={item.href}
@@ -38,9 +40,7 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                          focus-visible:outline-none focus-visible:ring-brand"
               >
                 <span className="flex items-center gap-2">
-                  <span className="text-xs opacity-60 group-hover:opacity-100 transition-opacity">
-                    {item.icon}
-                  </span>
+                  <span className="text-xs opacity-60 group-hover:opacity-100 transition-opacity"></span>
                   {item.label}
                 </span>
 
@@ -106,17 +106,17 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
 
               {/* Panel mejorado */}
               <div
-                className="absolute right-0 mt-3 w-[90vw] max-w-[340px] rounded-2xl border border-border/50
+                className="absolute right-0 mt-3 w-[90vw] max-w-[340px] rounded-2xl z-50 border border-border/50
                             bg-popover/95 backdrop-blur-xl p-3 shadow-soft
                             animate-in slide-in-from-top-2 fade-in-0 duration-200"
               >
                 {/* Navegación móvil */}
                 <div className="space-y-1">
                   {[
-                    { href: "/#servicios", label: "Servicios", icon: "🎯" },
-                    { href: "/#formaciones", label: "Formaciones", icon: "📚" },
-                    { href: "/#viajes", label: "Viajes", icon: "✈️" },
-                    { href: "/#contacto", label: "Contacto", icon: "💬" },
+                    { href: "/#servicios", label: "Servicios" },
+                    { href: "/#formaciones", label: "Formaciones" },
+                    { href: "/#viajes", label: "Viajes" },
+                    { href: "/#contacto", label: "Contacto" },
                   ].map((item) => (
                     <Link
                       key={item.href}
@@ -125,7 +125,7 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                                transition-all duration-200 hover:bg-accent/60 hover:scale-105"
                     >
                       <span className="text-base opacity-70 group-hover:opacity-100 transition-opacity">
-                        {item.icon}
+                        {item.label}
                       </span>
                       {item.label}
                       <span className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-xs">
