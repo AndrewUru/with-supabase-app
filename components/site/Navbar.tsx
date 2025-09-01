@@ -299,7 +299,10 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                 Área personal
               </Link>
               <div className="surface px-1 py-1">
-                <AuthButton className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-200 hover:scale-105" />
+                <AuthButton
+                  variant="avatar"
+                  className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-200 hover:scale-105"
+                />
               </div>
               <div className="glass rounded-xl p-2">
                 <ThemeSwitcher />
@@ -366,7 +369,10 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                   </Link>
 
                   <div className="mt-3 surface p-2">
-                    <AuthButton className="w-full justify-center overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-200 hover:scale-105" />
+                    <AuthButton
+                      variant="avatar"
+                      className="w-full justify-center overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-200 hover:scale-105"
+                    />
                   </div>
 
                   <div className="mt-4 flex items-center justify-between rounded-xl px-4 py-3 bg-accent/30">

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { submitContact } from "./actions"; // 👈 importar aquí
 
 export const metadata = {
   title: "Contacto | EDHUCO",
@@ -59,10 +60,11 @@ export async function submitContact(formData: FormData) {
 export default async function ContactoPage({
   searchParams,
 }: {
-  searchParams?: { ok?: string; error?: string };
+  searchParams: Promise<{ ok?: string; error?: string }>;
 }) {
-  const ok = searchParams?.ok === "1";
-  const error = searchParams?.error;
+  const sp = await searchParams;
+  const ok = sp?.ok === "1";
+  const error = sp?.error;
 
   return (
     <main className="min-h-screen">
