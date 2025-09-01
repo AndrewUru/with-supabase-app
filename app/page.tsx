@@ -37,10 +37,11 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col bg-background text-foreground">
+    <main className="min-h-screen flex flex-col bg-background text-foreground overflow-x-clip">
       {/* HERO */}
       <Hero />
       <AboutEdhuco />
+
       {/* BENEFICIOS */}
       <section
         id="servicios"
@@ -76,11 +77,12 @@ export default function Home() {
           ))}
         </div>
       </section>
+
       {/* SOMRIU – NUEVO PROYECTO */}
       <section
         id="somriu"
         aria-labelledby="somriu-title"
-        className="relative isolate py-20"
+        className="relative isolate py-20 overflow-x-clip"
       >
         {/* fondo suave */}
         <div
@@ -94,7 +96,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             {/* Texto */}
-            <div>
+            <div className="min-w-0">
               <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium">
                 <Sparkles className="w-3.5 h-3.5" />
                 Nuevo proyecto EDHUCO
@@ -150,14 +152,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Tarjeta visual (sin imágenes externas; segura de usar tal cual) */}
+            {/* Tarjeta visual */}
             <div className="relative">
               <div className="rounded-2xl border bg-card p-6 shadow-sm">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-full bg-accent/20 grid place-items-center">
                     <Sparkles className="w-5 h-5" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm font-medium">SOMRIU Kit</p>
                     <p className="text-xs text-muted-foreground">
                       Guía de sesión + playlist + dinámicas
@@ -229,6 +231,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* TESTIMONIOS */}
       <section className="bg-muted/30 py-20 px-6">
         <div className="mx-auto max-w-5xl text-center">
@@ -256,6 +259,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* CTA FINAL */}
       <section
         id="contacto"
