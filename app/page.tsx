@@ -8,8 +8,6 @@ import {
   Mountain,
   GraduationCap,
 } from "lucide-react";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { AuthButton } from "@/components/auth-button";
 
 export const metadata = {
   title: "EDHUCO – Terapias, Viajes Chamánicos y Formaciones",
@@ -37,124 +35,6 @@ export const metadata = {
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col bg-background text-foreground">
-      {/* NAVBAR */}
-      <header className="sticky top-0 z-40 border-b backdrop-blur supports-[backdrop-filter]:bg-background/70 bg-background/90">
-        <div className="mx-auto max-w-6xl grid grid-cols-[auto_1fr_auto] items-center gap-3 p-3 sm:p-4">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="shrink-0 font-extrabold text-lg tracking-tight hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-sm"
-            aria-label="Ir a inicio"
-          >
-            EDHUCO
-          </Link>
-
-          {/* Espacio central (para que los extremos no colapsen) */}
-          <div className="min-w-0">
-            {/* Nav desktop */}
-            <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-              {[
-                { href: "/#servicios", label: "Servicios" },
-                { href: "/#formaciones", label: "Formaciones" },
-                { href: "/#viajes", label: "Viajes" },
-                { href: "/#contacto", label: "Contacto" },
-              ].map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="relative px-1 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-sm"
-                >
-                  <span className="after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-accent after:transition-all hover:after:w-full">
-                    {item.label}
-                  </span>
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          {/* Acciones */}
-          <div className="flex items-center gap-2">
-            {/* Desktop: área personal + auth + tema */}
-            <div className="hidden md:flex items-center gap-2 min-w-0">
-              <Link
-                href="/protected"
-                className="inline-flex shrink-0 items-center rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
-              >
-                Área personal
-              </Link>
-
-              {/* 👇 Trunca el email si el AuthButton lo muestra */}
-              <div className="min-w-0">
-                <AuthButton className="max-w-[220px] overflow-hidden text-ellipsis whitespace-nowrap" />
-              </div>
-
-              <ThemeSwitcher />
-            </div>
-
-            {/* Móvil: menú con <details> */}
-            <div className="md:hidden">
-              <details className="group relative">
-                <summary
-                  className="list-none inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm hover:bg-muted cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
-                  aria-label="Abrir menú"
-                >
-                  <span className="i-lucide-menu block size-5" />
-                  Menú
-                </summary>
-
-                {/* Panel del menú */}
-                <div className="absolute right-0 mt-2 w-[88vw] max-w-[320px] rounded-xl border bg-popover p-2 text-sm shadow-lg">
-                  <Link
-                    href="/#servicios"
-                    className="block rounded-lg px-3 py-2 hover:bg-muted"
-                  >
-                    Servicios
-                  </Link>
-                  <Link
-                    href="/#formaciones"
-                    className="block rounded-lg px-3 py-2 hover:bg-muted"
-                  >
-                    Formaciones
-                  </Link>
-                  <Link
-                    href="/#viajes"
-                    className="block rounded-lg px-3 py-2 hover:bg-muted"
-                  >
-                    Viajes
-                  </Link>
-                  <Link
-                    href="/#contacto"
-                    className="block rounded-lg px-3 py-2 hover:bg-muted"
-                  >
-                    Contacto
-                  </Link>
-
-                  <div className="my-2 h-px bg-border" />
-
-                  {/* Área personal + Auth en móvil */}
-                  <Link
-                    href="/protected"
-                    className="block rounded-lg px-3 py-2 hover:bg-muted"
-                  >
-                    Área personal
-                  </Link>
-
-                  {/* 👇 En móvil mostramos AuthButton sin email (truncado por si acaso) */}
-                  <div className="mt-1">
-                    <AuthButton className="w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap" />
-                  </div>
-
-                  <div className="mt-2 flex items-center justify-between rounded-lg px-3 py-2">
-                    Tema
-                    <ThemeSwitcher />
-                  </div>
-                </div>
-              </details>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* HERO */}
       <section
         id="hero"

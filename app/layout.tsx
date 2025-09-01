@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
+import Navbar from "@/components/site/Navbar";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -60,6 +61,7 @@ export default function RootLayout({
 
           {/* Contenido principal */}
           <main id="main" className="flex-1">
+            <Navbar />
             {children}
           </main>
 
