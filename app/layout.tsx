@@ -45,8 +45,9 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col overflow-x-hidden`}
       >
+        <Navbar />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -63,7 +64,6 @@ export default function RootLayout({
 
           {/* Contenido principal */}
           <main id="main" className="flex-1">
-            <Navbar />
             {children}
           </main>
 
