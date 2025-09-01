@@ -12,15 +12,25 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
         {/* Logo con efecto de marca */}
         <Link
           href="/"
-          className="group shrink-0 font-extrabold text-xl tracking-tight transition-all duration-200 
-                   hover:scale-105 focus-visible:outline-none focus-visible:ring-brand rounded-lg px-2 py-1
-                   text-foreground hover:text-brand supports-[background-clip:text]:bg-gradient-to-r 
-                   supports-[background-clip:text]:from-brand supports-[background-clip:text]:to-accent-cool 
-                   supports-[background-clip:text]:bg-clip-text supports-[background-clip:text]:text-transparent
-                   supports-[background-clip:text]:hover:from-accent-cool supports-[background-clip:text]:hover:to-accent-warm"
           aria-label="Ir a inicio"
+          className="group shrink-0 px-2 py-1 rounded-lg focus-visible:outline-none focus-visible:ring-brand"
         >
-          <span className="drop-shadow-sm">{brand}</span>
+          {/* Fallback sólido + degradado opcional */}
+          <span
+            className="
+      relative z-10 font-extrabold text-xl tracking-tight
+      text-foreground
+      isolate
+      md:bg-clip-text md:text-transparent
+      md:bg-[linear-gradient(90deg,var(--grad-from),var(--grad-to))]
+      md:[--grad-from:theme(colors.indigo.500)]
+      md:[--grad-to:theme(colors.cyan.400)]
+      md:hover:[--grad-from:theme(colors.cyan.400)]
+      md:hover:[--grad-to:theme(colors.amber.400)]
+    "
+          >
+            {brand}
+          </span>
         </Link>
 
         {/* Navegación desktop mejorada */}
