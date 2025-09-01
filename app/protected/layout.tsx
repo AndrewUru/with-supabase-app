@@ -16,29 +16,20 @@ export default function ProtectedLayout({ children }: Props) {
       </a>
 
       {/* Header fijo de toda la anchura */}
-      <header
-        className="
-          sticky top-0 z-40 border-b border-foreground/10
-          backdrop-blur supports-[backdrop-filter]:bg-background/70 bg-background/85
-        "
-        role="banner"
-      >
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="flex h-16 items-center justify-between gap-3">
-            {/* Izquierda: espacio para marca/breadcrumb si lo necesitas */}
-            <div className="flex items-center gap-3">
-              {/* Placeholder para Brand o breadcrumb */}
-            </div>
 
-            {/* Derecha: avisos/env/theme/etc. */}
-            <div className="flex items-center gap-3">
-              {!hasEnvVars ? <EnvVarWarning /> : null}
-            </div>
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="flex h-16 items-center justify-between gap-3">
+          {/* Izquierda: espacio para marca/breadcrumb si lo necesitas */}
+          <div className="flex items-center gap-3">
+            {/* Placeholder para Brand o breadcrumb */}
+          </div>
+
+          {/* Derecha: avisos/env/theme/etc. */}
+          <div className="flex items-center gap-3">
+            {!hasEnvVars ? <EnvVarWarning /> : null}
           </div>
         </div>
-
-        {/* Sub-nav de secciones (Client Component) */}
-      </header>
+      </div>
 
       {/* Contenido */}
       <section
@@ -58,11 +49,6 @@ export default function ProtectedLayout({ children }: Props) {
           {children}
         </div>
       </section>
-
-      {/* Opcional: pie del área privada */}
-      {/* <footer className="mx-auto max-w-6xl px-4 py-8 text-xs text-muted-foreground">
-        © EDHUCO
-      </footer> */}
     </main>
   );
 }

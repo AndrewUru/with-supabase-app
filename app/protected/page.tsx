@@ -1,44 +1,12 @@
 // app/protected/page.tsx
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { updateProfileAction } from "./actions";
 
 export const metadata = { robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
-// --- SERVER ACTION: actualizar perfil ---
-export async function updateProfileAction(formData: FormData) {
-  "use server";
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/auth/login?next=/protected");
-
-  const full_name = String(formData.get("full_name") || "").trim();
-  const phone = String(formData.get("phone") || "").trim();
-  const avatar_url = String(formData.get("avatar_url") || "").trim();
-
-  // upsert del perfil (crea si no existe)
-  const { error } = await supabase
-    .from("profiles")
-    .upsert(
-      { id: user.id, full_name, phone, avatar_url },
-      { onConflict: "id" }
-    );
-  if (error) {
-    console.error("Error updating profile:", error);
-  }
-
-  // Opcional: podrías loguear error en Sentry/Logs si existe
-  // if (error) { ... }
-
-  // refresca datos y redirige con flag
-  revalidatePath("/protected");
-  redirect("/protected?updated=1");
-}
-
-// -------------------- Tipados (igual que antes) --------------------
+// -------------------- Tipados --------------------
 type EventWithBookings = {
   id: string;
   title: string;
@@ -73,6 +41,7 @@ type MediaAsset = {
   plan_required: "free" | "basic" | "pro" | "vip";
 };
 
+// -------------------- Helpers --------------------
 const fmtDateTime = (iso?: string | null) =>
   iso
     ? new Date(iso).toLocaleString("es-ES", {
@@ -96,7 +65,7 @@ const fmtBytes = (n?: number | null) => {
   return `${gb.toFixed(2)} GB`;
 };
 
-// ⚠️ Nota: firma con searchParams como Promise y await, para evitar el warning de Next.
+// ⚠️ searchParams como Promise + await (Next 15)
 export default async function ProtectedPage({
   searchParams,
 }: {
@@ -114,15 +83,8 @@ export default async function ProtectedPage({
 
   const nowIso = new Date().toISOString();
 
-  // Carga paralela de todo lo necesario
-  const [
-    profileRes,
-    subsRes,
-    // KPIs y eventos
-
-    upcomingEventsRes,
-    // Biblioteca según plan del usuario (resuelta abajo cuando sepamos el plan)
-  ] = await Promise.all([
+  // Carga paralela mínima necesaria
+  const [profileRes, subsRes, upcomingEventsRes] = await Promise.all([
     supabase
       .from("profiles")
       .select("id,full_name,avatar_url,phone")
@@ -139,20 +101,6 @@ export default async function ProtectedPage({
       .limit(1)
       .maybeSingle(),
     supabase
-      .from("services")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "published"),
-    supabase
-      .from("events")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "published")
-      .gte("starts_at", nowIso),
-    supabase
-      .from("bookings")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "pendiente")
-      .eq("user_id", user.id), // reservas pendientes SOLO del usuario
-    supabase
       .from("events")
       .select("id,title,starts_at,location_name,capacity,bookings(count)")
       .eq("status", "published")
@@ -165,9 +113,7 @@ export default async function ProtectedPage({
   const subscription = (subsRes.data as Subscription | null) ?? null;
   const activePlan: Subscription["plan"] = subscription?.plan ?? "free";
 
-  // Biblioteca: traemos TODO y marcamos allowed en SQL o resolvemos con lógica
-  // Opción A (recomendada): una VIEW que ya devuelva allowed=true si plan >= requerido
-  // Aquí implemento Opción B sencilla: consulto todo y filtro en servidor.
+  // Biblioteca (filtrado por plan en servidor)
   const mediaRes = await supabase
     .from("media_assets")
     .select(
@@ -184,11 +130,10 @@ export default async function ProtectedPage({
     allowed: planOrder.indexOf(m.plan_required) <= userLevel,
   }));
 
-  // KPIs y eventos
   const upcoming: EventWithBookings[] =
     (upcomingEventsRes.data as EventWithBookings[]) ?? [];
 
-  // helpers de UI
+  // helpers UI locales
   const Tag = ({ children }: { children: React.ReactNode }) => (
     <span className="inline-flex items-center rounded-full border px-2 py-0.5 text-xs text-muted-foreground">
       {children}
@@ -220,6 +165,7 @@ export default async function ProtectedPage({
           Perfil actualizado correctamente.
         </div>
       )}
+
       {/* Header */}
       <header className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
@@ -278,7 +224,7 @@ export default async function ProtectedPage({
           </p>
         </div>
 
-        {/* Formulario SSR que llama a la Server Action */}
+        {/* Formulario SSR que llama a la Server Action (desde ./actions) */}
         <form
           action={updateProfileAction}
           className="grid gap-4 sm:grid-cols-2"
@@ -345,8 +291,8 @@ export default async function ProtectedPage({
         </form>
 
         <div className="mt-4 text-xs text-muted-foreground">
-          Tu email de acceso: <strong>{/* user.email */}</strong> (se edita
-          desde autenticación).
+          Tu email de acceso: <strong>{maskEmail(user.email)}</strong> (se
+          gestiona desde autenticación).
         </div>
       </section>
 
@@ -368,7 +314,7 @@ export default async function ProtectedPage({
         </div>
 
         <div className="mt-4 flex flex-wrap gap-3">
-          {/* Sugerencia: crea un endpoint /api/stripe/portal para generar portalUrl y redirigir */}
+          {/* Sugerencia: endpoint /api/stripe/portal para portal de facturación */}
           <a
             href="/api/stripe/portal"
             className="inline-flex items-center rounded-lg border px-3 py-2 text-sm hover:bg-muted/40"
@@ -386,7 +332,7 @@ export default async function ProtectedPage({
         <p className="mt-4 text-sm text-muted-foreground">
           ¿Qué incluye tu plan?
           <br />
-          <strong>FREE:</strong> algunos audios introductorios y PDFs básicos.{" "}
+          <strong>FREE:</strong> audios introductorios y PDFs básicos.{" "}
           <strong>BASIC:</strong> biblioteca esencial. <strong>PRO:</strong>{" "}
           todo el contenido en audio y PDF + parte de los vídeos.{" "}
           <strong>VIP:</strong> acceso completo (audios, vídeos, PDFs y bonus).
@@ -457,8 +403,8 @@ export default async function ProtectedPage({
         <div className="mt-4 rounded-lg border p-3 text-xs text-muted-foreground">
           Sugerencia técnica: crea la ruta <code>/app/media/[id]/route.ts</code>{" "}
           que, con RLS, genere un <em>signed URL</em> temporal desde Storage y{" "}
-          <strong>registre</strong> la descarga/reproducción en una tabla{" "}
-          <code>media_events</code> (para métricas y reanudación).
+          <strong>registre</strong> la descarga/reproducción en{" "}
+          <code>media_events</code>.
         </div>
       </SectionCard>
 
