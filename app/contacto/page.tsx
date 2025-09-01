@@ -2,8 +2,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { submitContact } from "./actions"; // 👈 importar aquí
-
 export const metadata = {
   title: "Contacto | EDHUCO",
   description:
