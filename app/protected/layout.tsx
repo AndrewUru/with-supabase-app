@@ -1,11 +1,7 @@
 // app/protected/layout.tsx
-import Link from "next/link";
-
 import { EnvVarWarning } from "@/components/env-var-warning";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 import { ProtectedSubNav } from "@/components/protected-sub-nav"; // Importa el nuevo componente
 import { hasEnvVars } from "@/lib/utils";
-
 type Props = { children: React.ReactNode };
 
 // Los navItems ya no son necesarios aquí, se definen en ProtectedSubNav
@@ -28,28 +24,12 @@ export default function ProtectedLayout({ children }: Props) {
       </a>
 
       {/* Header fijo */}
-      <header className="sticky top-0 z-40 border-b border-foreground/10 backdrop-blur supports-[backdrop-filter]:bg-background/70">
+      <header className="border-b border-foreground/10 backdrop-blur supports-[backdrop-filter]:bg-background/70">
         <div className="mx-auto max-w-6xl px-4">
           <div className="flex h-16 items-center justify-between gap-3">
-            {/* Brand + Deploy */}
-            <div className="flex items-center gap-4">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 font-semibold tracking-tight hover:opacity-90"
-              >
-                {/* Si tienes logo, colócalo aquí */}
-                <span className="inline-block rounded-md bg-foreground/10 px-2 py-1 text-xs uppercase">
-                  EDHUCO
-                </span>
-                <span className="hidden sm:inline">Panel</span>
-              </Link>
-              <div className="hidden sm:flex items-center gap-2"></div>
-            </div>
-
             {/* Right: Env/Session + Theme */}
             <div className="flex items-center gap-3">
               {!hasEnvVars ? <EnvVarWarning /> : null}
-              <ThemeSwitcher />
             </div>
           </div>
         </div>

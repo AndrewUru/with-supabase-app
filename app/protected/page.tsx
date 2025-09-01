@@ -1,7 +1,6 @@
 // app/protected/page.tsx
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { LogoutButton } from "@/components/logout-button";
 
 export const metadata = {
   robots: { index: false, follow: false },
@@ -75,14 +74,10 @@ export default async function ProtectedPage() {
     <main className="mx-auto max-w-6xl p-4 md:p-6">
       <header className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-xl md:text-2xl font-semibold tracking-tight">
-            Panel EDHUCO
-          </h1>
           <p className="text-sm text-muted-foreground">
             Hola, {user.email?.replace(/(^.{3}).+@/, "$1•••@")}
           </p>
         </div>
-        <LogoutButton />
       </header>
 
       {/* KPI CARDS */}
