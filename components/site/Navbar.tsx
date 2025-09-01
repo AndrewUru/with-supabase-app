@@ -542,25 +542,27 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
     const summary = menu.querySelector("summary");
     const closeMenu = () => {
       menu.removeAttribute("open");
+      // Evita que el foco en el summary lo vuelva a abrir
       if (summary && typeof summary.blur === "function") summary.blur();
     };
 
-        menu.addEventListener("click", function (e) {
+    // 1) Cierra al tocar/clicar cualquier enlace dentro del menú (captura también toques en móvil)
+    menu.addEventListener("click", function (e) {
       const target = e.target;
       const link = target && (target.closest ? target.closest("a") : null);
       if (link) closeMenu();
     }, true);
 
-    
+    // 2) Cierra al enviar el formulario de logout (si existe)
     menu.addEventListener("submit", function () { closeMenu(); });
 
-    
+    // 3) Cierra si se hace click/tap fuera del contenedor mientras está abierto
     document.addEventListener("click", function (e) {
       if (!menu.open) return;
       if (!menu.contains(e.target)) closeMenu();
     }, true);
 
-   
+    // 4) Cierra con tecla Escape
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && menu.open) closeMenu();
     });
