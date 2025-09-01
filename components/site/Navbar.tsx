@@ -3,6 +3,8 @@ import Link from "next/link";
 import Script from "next/script";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { AuthButton } from "@/components/auth-button";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 type NavbarProps = { brand?: string };
 
@@ -182,6 +184,14 @@ const TERAPIAS_COLS: MegaColumn[] = [
   },
 ];
 
+// -------- Server Action: cerrar sesión --------
+export async function signOut() {
+  "use server";
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/");
+}
+
 function MegaMenuTrigger({ label, href }: { label: string; href?: string }) {
   return (
     <div className="relative group focus-within:outline-none">
@@ -255,7 +265,13 @@ function MegaPanel({
   );
 }
 
-export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
+// ------- Navbar (Server Component) -------
+export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <header className="sticky top-0 z-40 w-full border-b backdrop-blur-lg supports-[backdrop-filter]:bg-background/80 bg-background/95 transition-all duration-300">
       <div className="container-app">
@@ -283,7 +299,7 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
           </Link>
 
           {/* Espacio central vacío */}
-          <div className="min-w-0"></div>
+          <div className="min-w-0" />
 
           {/* Acciones */}
           <div className="flex items-center gap-3">
@@ -298,12 +314,28 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                 </span>
                 Área personal
               </Link>
+
               <div className="surface px-1 py-1">
                 <AuthButton
                   variant="avatar"
                   className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-200 hover:scale-105"
                 />
               </div>
+
+              {/* Botón Cerrar sesión visible cuando hay usuario */}
+              {user && (
+                <form action={signOut}>
+                  <button
+                    type="submit"
+                    className="inline-flex items-center gap-2 rounded-xl border border-border/50 px-4 py-2.5 text-sm font-medium bg-card/70 hover:bg-destructive/80 hover:text-destructive-foreground transition-all duration-200 focus-visible:outline-none focus-visible:ring-brand"
+                    aria-label="Cerrar sesión"
+                    title="Cerrar sesión"
+                  >
+                    ⎋ Cerrar sesión
+                  </button>
+                </form>
+              )}
+
               <div className="glass rounded-xl p-2">
                 <ThemeSwitcher />
               </div>
@@ -375,6 +407,24 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                     />
                   </div>
 
+                  {/* Botón Cerrar sesión en móvil */}
+                  {user && (
+                    <form
+                      action={signOut}
+                      data-close-menu-on-submit
+                      className="mt-2"
+                    >
+                      <button
+                        type="submit"
+                        className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-border/50 px-4 py-3 text-sm font-medium bg-card/70 hover:bg-destructive/80 hover:text-destructive-foreground transition-all duration-200"
+                        aria-label="Cerrar sesión"
+                        title="Cerrar sesión"
+                      >
+                        ⎋ Cerrar sesión
+                      </button>
+                    </form>
+                  )}
+
                   <div className="mt-4 flex items-center justify-between rounded-xl px-4 py-3 bg-accent/30">
                     <span className="flex items-center gap-2 text-sm font-medium">
                       <span className="text-base">🎨</span>
@@ -393,21 +443,17 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
         {/* Segunda fila: Navegación principal */}
         <div className="py-2">
           <nav className="hidden md:flex items-center justify-center gap-1">
-            {/* Primera línea de navegación */}
             <div className="flex items-center gap-1">
-              {/* Chamanismo (mega) */}
               <div className="relative group">
                 <MegaMenuTrigger label="Chamanismo" />
                 <MegaPanel columns={CHAMANISMO_COLS} />
               </div>
 
-              {/* Sonidos Ancestrales (mega) */}
               <div className="relative group">
                 <MegaMenuTrigger label="Sonidos Ancestrales" />
                 <MegaPanel columns={SONIDOS_COLS} />
               </div>
 
-              {/* Guitarra Consciente (link directo) */}
               <Link
                 href="/guitarra-consciente"
                 className="group relative px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:bg-accent/60 hover:scale-105 focus-visible:outline-none focus-visible:ring-brand"
@@ -418,10 +464,8 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                 <span className="absolute left-1/2 -bottom-1 h-0.5 w-0 bg-gradient-to-r from-brand to-accent-cool rounded-full transition-all duration-300 group-hover:w-3/4 group-hover:-translate-x-1/2" />
               </Link>
 
-              {/* Separador visual */}
-              <div className="h-6 w-px bg-border/50 mx-2"></div>
+              <div className="h-6 w-px bg-border/50 mx-2" />
 
-              {/* Meditación y Gestión Emocional (mega pequeño) */}
               <div className="relative group">
                 <MegaMenuTrigger label="Meditación" />
                 <MegaPanel
@@ -471,13 +515,11 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                 />
               </div>
 
-              {/* Terapias (mega) */}
               <div className="relative group">
                 <MegaMenuTrigger label="Terapias" />
                 <MegaPanel columns={TERAPIAS_COLS} />
               </div>
 
-              {/* Contacto (link directo) */}
               <Link
                 href="/contacto"
                 className="group relative px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:bg-accent/60 hover:scale-105 focus-visible:outline-none focus-visible:ring-brand"
@@ -490,19 +532,40 @@ export default function Navbar({ brand = "EDHUCO" }: NavbarProps) {
         </div>
       </div>
 
-      {/* Cerrar menú móvil al hacer click en un enlace */}
+      {/* Cerrar menú móvil al hacer click en un enlace o al enviar el logout */}
       <Script id="close-mobile-menu" strategy="afterInteractive">
         {`
-          document.addEventListener("DOMContentLoaded", () => {
-            const menu = document.getElementById("mobile-menu");
-            if (!menu) return;
-            menu.querySelectorAll("a").forEach(link => {
-              link.addEventListener("click", () => {
-                menu.removeAttribute("open");
-              });
-            });
-          });
-        `}
+  (function () {
+    const menu = document.getElementById("mobile-menu");
+    if (!menu) return;
+
+    const summary = menu.querySelector("summary");
+    const closeMenu = () => {
+      menu.removeAttribute("open");
+      if (summary && typeof summary.blur === "function") summary.blur();
+    };
+
+        menu.addEventListener("click", function (e) {
+      const target = e.target;
+      const link = target && (target.closest ? target.closest("a") : null);
+      if (link) closeMenu();
+    }, true);
+
+    
+    menu.addEventListener("submit", function () { closeMenu(); });
+
+    
+    document.addEventListener("click", function (e) {
+      if (!menu.open) return;
+      if (!menu.contains(e.target)) closeMenu();
+    }, true);
+
+   
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && menu.open) closeMenu();
+    });
+  })();
+`}
       </Script>
     </header>
   );
