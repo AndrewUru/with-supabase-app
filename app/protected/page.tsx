@@ -53,8 +53,6 @@ const fmtDate = (iso?: string | null) =>
   iso
     ? new Date(iso).toLocaleDateString("es-ES", { dateStyle: "medium" })
     : "—";
-const maskEmail = (email?: string | null) =>
-  email ? email.replace(/(^.{3}).+@/, "$1•••@") : "—";
 const fmtBytes = (n?: number | null) => {
   if (!n || n <= 0) return "—";
   const kb = n / 1024;
@@ -169,9 +167,7 @@ export default async function ProtectedPage({
       {/* Header */}
       <header className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm text-muted-foreground">
-            Hola, {maskEmail(user.email)}
-          </p>
+          <p className="text-sm text-muted-foreground">Hola, {user.email}</p>
           <h1 className="text-2xl font-semibold">Tu área personal</h1>
         </div>
         <nav className="text-sm">
@@ -224,7 +220,6 @@ export default async function ProtectedPage({
           </p>
         </div>
 
-        {/* Formulario SSR que llama a la Server Action (desde ./actions) */}
         <form
           action={updateProfileAction}
           className="grid gap-4 sm:grid-cols-2"
@@ -291,8 +286,8 @@ export default async function ProtectedPage({
         </form>
 
         <div className="mt-4 text-xs text-muted-foreground">
-          Tu email de acceso: <strong>{maskEmail(user.email)}</strong> (se
-          gestiona desde autenticación).
+          Tu email de acceso: <strong>{user.email}</strong> (se gestiona desde
+          autenticación).
         </div>
       </section>
 
