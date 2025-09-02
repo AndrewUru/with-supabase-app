@@ -1,4 +1,3 @@
-// app/recursos/page.tsx
 import Link from "next/link";
 import { Metadata } from "next";
 import {
@@ -14,6 +13,7 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
+// ——— metadata
 export const metadata: Metadata = {
   title: "Recursos | EDHUCO",
   description:
@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   },
 };
 
+// ——— tipos + datos (deja tu catálogo y helpers tal como los tienes)
 type Resource = {
   id: string;
   title: string;
@@ -39,76 +40,16 @@ type Resource = {
     | "Lecturas";
   type: "audio" | "video" | "pdf";
   premium: boolean;
-  href: string; // URL de reproducción o descarga
+  href: string;
 };
 
-// ————————————————————————————————————————————————————————————
-// CATÁLOGO (puedes sustituir por datos desde BD cuando lo tengas)
 const CATALOG: Resource[] = [
-  // Gratis
-  {
-    id: "medit-001",
-    title: "Respiración consciente (5 min)",
-    desc: "Práctica breve para centrarte y regular el día.",
-    category: "Meditaciones",
-    type: "audio",
-    premium: false,
-    href: "/assets/recursos/respiracion-consciente.mp3",
-  },
-  {
-    id: "read-001",
-    title: "Fundamentos de presencia",
-    desc: "PDF con pautas simples para integrar presencia en lo cotidiano.",
-    category: "Lecturas",
-    type: "pdf",
-    premium: false,
-    href: "/assets/recursos/fundamentos-presencia.pdf",
-  },
-  // Premium
-  {
-    id: "viaje-001",
-    title: "Viaje chamánico al animal de poder",
-    desc: "Audio guiado con maraca y tambor para conectar con tu arquetipo guía.",
-    category: "Viajes Chamánicos",
-    type: "audio",
-    premium: true,
-    href: "/assets/recursos/viaje-animal-poder.mp3",
-  },
-  {
-    id: "form-001",
-    title: "Mini-curso: Autocuidado energético",
-    desc: "Video de 25 min + hoja de ruta descargable.",
-    category: "Formaciones",
-    type: "video",
-    premium: true,
-    href: "/assets/recursos/autocuidado-energetico.mp4",
-  },
-  {
-    id: "mus-001",
-    title: "Pulsos de Tierra – Pista 1",
-    desc: "Pieza musical para meditar o acompañar tu práctica.",
-    category: "Música",
-    type: "audio",
-    premium: true,
-    href: "/assets/recursos/pulsos-de-tierra-1.mp3",
-  },
-  {
-    id: "read-002",
-    title: "Bitácora de integración",
-    desc: "PDF imprimible para integrar sesiones, viajes y formaciones.",
-    category: "Lecturas",
-    type: "pdf",
-    premium: true,
-    href: "/assets/recursos/bitacora-integracion.pdf",
-  },
+  /* ...tus recursos... */
 ];
-
 const PRICE_EUR = "3,99 € / mes";
 const SUBSCRIBE_PATH = "/suscripcion";
 const LOGIN_PATH = "/auth/login";
 
-// ————————————————————————————————————————————————————————————
-// Utilidad para agrupar por categoría
 function groupByCategory(items: Resource[]) {
   return items.reduce<Record<string, Resource[]>>((acc, item) => {
     acc[item.category] ??= [];
@@ -117,7 +58,6 @@ function groupByCategory(items: Resource[]) {
   }, {});
 }
 
-// Icono por tipo
 function TypeIcon({
   type,
   className,
@@ -130,22 +70,22 @@ function TypeIcon({
   return <FileText className={className} aria-hidden />;
 }
 
-// Comprueba si el usuario está suscrito (única suscripción)
-// Intenta primero en profiles.is_subscribed y si no, busca en subscriptions con status 'active'
-async function getIsSubscribed() {
+// Tipamos el retorno explícitamente y NO usamos "as const"
+async function getIsSubscribed(): Promise<{
+  isLoggedIn: boolean;
+  isSubscribed: boolean;
+  email: string | null;
+}> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user)
-    return {
-      isLoggedIn: false,
-      isSubscribed: false,
-      email: null as string | null,
-    };
+  if (!user) {
+    return { isLoggedIn: false, isSubscribed: false, email: null };
+  }
 
-  // 1) Intento con profiles.is_subscribed
+  // 1) profiles.is_subscribed
   const { data: profile } = await supabase
     .from("profiles")
     .select("is_subscribed, email")
@@ -160,7 +100,7 @@ async function getIsSubscribed() {
     };
   }
 
-  // 2) Fallback con subscriptions (depende de tu esquema)
+  // 2) subscriptions.status === 'active'
   const { data: sub } = await supabase
     .from("subscriptions")
     .select("status")
@@ -170,26 +110,28 @@ async function getIsSubscribed() {
     .maybeSingle();
 
   const active = sub?.status === "active";
-  return { isLoggedIn: true, isSubscribed: active, email: user.email ?? null };
+
+  return {
+    isLoggedIn: true,
+    isSubscribed: !!active,
+    email: user.email ?? null,
+  };
 }
 
-// Filtros por querystring (servidor, sin client state)
 function filterCatalog(params: URLSearchParams) {
-  const categoria = params.get("categoria"); // nombre exacto de categoría
-  const acceso = params.get("acceso"); // "gratis" | "premium" | null
-  const tipo = params.get("tipo"); // "audio" | "video" | "pdf" | null
+  const categoria = params.get("categoria");
+  const acceso = params.get("acceso");
+  const tipo = params.get("tipo");
   const q = (params.get("q") ?? "").toLowerCase().trim();
 
   let items = CATALOG.slice();
 
-  if (categoria && categoria !== "todas") {
+  if (categoria && categoria !== "todas")
     items = items.filter((r) => r.category === categoria);
-  }
   if (acceso === "gratis") items = items.filter((r) => !r.premium);
   if (acceso === "premium") items = items.filter((r) => r.premium);
-  if (tipo === "audio" || tipo === "video" || tipo === "pdf") {
+  if (tipo === "audio" || tipo === "video" || tipo === "pdf")
     items = items.filter((r) => r.type === tipo);
-  }
   if (q) {
     items = items.filter(
       (r) =>
@@ -201,14 +143,20 @@ function filterCatalog(params: URLSearchParams) {
   return items;
 }
 
+// ——— FIX: Next 15 exige Promise en searchParams y await antes de usarlo
 export default async function RecursosPage({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  const sp = await searchParams;
   const params = new URLSearchParams(
-    Object.entries(searchParams ?? {}).flatMap(([k, v]) =>
-      typeof v === "string" ? [[k, v]] : v ? v.map((vv) => [k, vv]) : []
+    Object.entries(sp).flatMap(([k, v]) =>
+      typeof v === "string"
+        ? [[k, v]]
+        : Array.isArray(v)
+        ? v.map((vv) => [k, vv])
+        : []
     )
   );
 
@@ -217,7 +165,6 @@ export default async function RecursosPage({
   const filtered = filterCatalog(params);
   const grouped = groupByCategory(filtered);
 
-  // Listas para chips de filtro
   const allCategories = Array.from(
     new Set(CATALOG.map((r) => r.category))
   ).sort();
@@ -226,15 +173,12 @@ export default async function RecursosPage({
   const selectedTipo = params.get("tipo") ?? "todos";
   const q = params.get("q") ?? "";
 
-  // ayudante para construir URLs de filtro
   const withParam = (key: string, value: string) => {
     const p = new URLSearchParams(params);
     if (value === "todas" || value === "todos") p.delete(key);
     else p.set(key, value);
-    // al cambiar filtro, volvemos a la página base /recursos
     return `/recursos?${p.toString()}`;
   };
-
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Breadcrumb */}
