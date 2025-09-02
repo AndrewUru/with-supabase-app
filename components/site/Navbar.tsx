@@ -48,31 +48,6 @@ const CHAMANISMO_COLS: MegaColumn[] = [
       },
     ],
   },
-  {
-    title: "Recursos",
-    links: [
-      {
-        label: "Biblioteca completa",
-        href: "/recursos",
-        desc: "Gratis y Premium",
-      },
-      {
-        label: "Podcast / Audio",
-        href: "/recursos?tipo=audio",
-        desc: "Prácticas guiadas",
-      },
-      {
-        label: "Artículos",
-        href: "/blog?tag=chamanismo",
-        desc: "Lecturas y notas",
-      },
-      {
-        label: "Meditaciones",
-        href: "/recursos?categoria=Meditaciones",
-        desc: "Atención y presencia",
-      },
-    ],
-  },
 ];
 
 const SONIDOS_COLS: MegaColumn[] = [

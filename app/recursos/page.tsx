@@ -1,3 +1,4 @@
+// app/recursos/page.tsx
 import Link from "next/link";
 import { Metadata } from "next";
 import {
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
   },
 };
 
-// ——— tipos + datos (deja tu catálogo y helpers tal como los tienes)
+// ——— tipos + datos
 type Resource = {
   id: string;
   title: string;
@@ -43,13 +44,69 @@ type Resource = {
   href: string;
 };
 
+// CATALOGO DE PRUEBA (puedes borrar esto cuando conectes DB)
 const CATALOG: Resource[] = [
-  /* ...tus recursos... */
+  {
+    id: "medit-001",
+    title: "Respiración consciente (5 min)",
+    desc: "Práctica breve para centrarte y regular el día.",
+    category: "Meditaciones",
+    type: "audio",
+    premium: false,
+    href: "/assets/recursos/respiracion-consciente.mp3",
+  },
+  {
+    id: "read-001",
+    title: "Fundamentos de presencia",
+    desc: "PDF con pautas simples para integrar presencia en lo cotidiano.",
+    category: "Lecturas",
+    type: "pdf",
+    premium: false,
+    href: "/assets/recursos/fundamentos-presencia.pdf",
+  },
+  {
+    id: "viaje-001",
+    title: "Viaje chamánico al animal de poder",
+    desc: "Audio guiado con maraca y tambor para conectar con tu arquetipo guía.",
+    category: "Viajes Chamánicos",
+    type: "audio",
+    premium: true,
+    href: "/assets/recursos/viaje-animal-poder.mp3",
+  },
+  {
+    id: "form-001",
+    title: "Mini-curso: Autocuidado energético",
+    desc: "Video de 25 min + hoja de ruta descargable.",
+    category: "Formaciones",
+    type: "video",
+    premium: true,
+    href: "/assets/recursos/autocuidado-energetico.mp4",
+  },
+  {
+    id: "mus-001",
+    title: "Pulsos de Tierra – Pista 1",
+    desc: "Pieza musical para meditar o acompañar tu práctica.",
+    category: "Música",
+    type: "audio",
+    premium: true,
+    href: "/assets/recursos/pulsos-de-tierra-1.mp3",
+  },
+  {
+    id: "read-002",
+    title: "Bitácora de integración",
+    desc: "PDF imprimible para integrar sesiones, viajes y formaciones.",
+    category: "Lecturas",
+    type: "pdf",
+    premium: true,
+    href: "/assets/recursos/bitacora-integracion.pdf",
+  },
 ];
+
 const PRICE_EUR = "3,99 € / mes";
 const SUBSCRIBE_PATH = "/suscripcion";
 const LOGIN_PATH = "/auth/login";
 
+// Agrupa por categoría
 function groupByCategory(items: Resource[]) {
   return items.reduce<Record<string, Resource[]>>((acc, item) => {
     acc[item.category] ??= [];
@@ -58,6 +115,7 @@ function groupByCategory(items: Resource[]) {
   }, {});
 }
 
+// Icono por tipo
 function TypeIcon({
   type,
   className,
@@ -70,7 +128,7 @@ function TypeIcon({
   return <FileText className={className} aria-hidden />;
 }
 
-// Tipamos el retorno explícitamente y NO usamos "as const"
+// ¿Usuario con suscripción activa?
 async function getIsSubscribed(): Promise<{
   isLoggedIn: boolean;
   isSubscribed: boolean;
@@ -81,35 +139,22 @@ async function getIsSubscribed(): Promise<{
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    return { isLoggedIn: false, isSubscribed: false, email: null };
-  }
+  if (!user) return { isLoggedIn: false, isSubscribed: false, email: null };
 
-  // 1) profiles.is_subscribed
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("is_subscribed, email")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (profile?.is_subscribed === true) {
-    return {
-      isLoggedIn: true,
-      isSubscribed: true,
-      email: profile.email ?? user.email ?? null,
-    };
-  }
-
-  // 2) subscriptions.status === 'active'
+  // Solo miramos subscriptions (tu esquema real)
   const { data: sub } = await supabase
     .from("subscriptions")
-    .select("status")
+    .select("status, current_period_end")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
-  const active = sub?.status === "active";
+  const active =
+    sub?.status === "active" &&
+    // si usas current_period_end, valida que siga vigente o sea null (manual)
+    (sub.current_period_end === null ||
+      new Date(sub.current_period_end) > new Date());
 
   return {
     isLoggedIn: true,
@@ -118,38 +163,41 @@ async function getIsSubscribed(): Promise<{
   };
 }
 
-function filterCatalog(params: URLSearchParams) {
+// Filtra catálogo según searchParams
+function filterCatalog(params: URLSearchParams, items: Resource[]) {
   const categoria = params.get("categoria");
   const acceso = params.get("acceso");
   const tipo = params.get("tipo");
   const q = (params.get("q") ?? "").toLowerCase().trim();
 
-  let items = CATALOG.slice();
+  let out = items.slice();
 
   if (categoria && categoria !== "todas")
-    items = items.filter((r) => r.category === categoria);
-  if (acceso === "gratis") items = items.filter((r) => !r.premium);
-  if (acceso === "premium") items = items.filter((r) => r.premium);
+    out = out.filter((r) => r.category === (categoria as Resource["category"]));
+  if (acceso === "gratis") out = out.filter((r) => !r.premium);
+  if (acceso === "premium") out = out.filter((r) => r.premium);
   if (tipo === "audio" || tipo === "video" || tipo === "pdf")
-    items = items.filter((r) => r.type === tipo);
+    out = out.filter((r) => r.type === tipo);
   if (q) {
-    items = items.filter(
+    out = out.filter(
       (r) =>
         r.title.toLowerCase().includes(q) ||
         r.desc.toLowerCase().includes(q) ||
         r.category.toLowerCase().includes(q)
     );
   }
-  return items;
+  return out;
 }
 
-// ——— FIX: Next 15 exige Promise en searchParams y await antes de usarlo
+// ——— Next 15: searchParams es Promise y debe awaited
 export default async function RecursosPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const sp = await searchParams;
+
+  // Convierte objeto en URLSearchParams (soporta arrays)
   const params = new URLSearchParams(
     Object.entries(sp).flatMap(([k, v]) =>
       typeof v === "string"
@@ -162,23 +210,27 @@ export default async function RecursosPage({
 
   const { isLoggedIn, isSubscribed } = await getIsSubscribed();
 
-  const filtered = filterCatalog(params);
-  const grouped = groupByCategory(filtered);
-
+  // Usa el catálogo local (visible al instante)
   const allCategories = Array.from(
     new Set(CATALOG.map((r) => r.category))
   ).sort();
+
   const selectedCategoria = params.get("categoria") ?? "todas";
   const selectedAcceso = params.get("acceso") ?? "todos";
   const selectedTipo = params.get("tipo") ?? "todos";
   const q = params.get("q") ?? "";
 
+  const filtered = filterCatalog(params, CATALOG);
+  const grouped = groupByCategory(filtered);
+
+  // Helper URLs de chips
   const withParam = (key: string, value: string) => {
     const p = new URLSearchParams(params);
     if (value === "todas" || value === "todos") p.delete(key);
     else p.set(key, value);
     return `/recursos?${p.toString()}`;
   };
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Breadcrumb */}
@@ -201,9 +253,8 @@ export default async function RecursosPage({
             </h1>
             <p className="mt-2 max-w-2xl text-muted-foreground">
               Audios, videos y materiales descargables, organizados por
-              categorías. Algunos son
-              <strong> Gratis</strong> y otros son <strong>Premium</strong> con
-              una única suscripción de {PRICE_EUR}.
+              categorías. Algunos son <strong>Gratis</strong> y otros son{" "}
+              <strong>Premium</strong> con una única suscripción de {PRICE_EUR}.
             </p>
             {!isSubscribed && (
               <div className="mt-3 inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm">
@@ -221,7 +272,7 @@ export default async function RecursosPage({
             )}
           </div>
 
-          {/* Buscador simple (server: via searchParams) */}
+          {/* Buscador (server, vía searchParams) */}
           <form
             action="/recursos"
             className="w-full sm:w-auto"
@@ -243,7 +294,7 @@ export default async function RecursosPage({
                 <Filter className="pointer-events-none absolute right-3 top-2.5 h-4 w-4 opacity-60" />
               </div>
 
-              {/* Preservamos filtros activos */}
+              {/* Preserva filtros activos */}
               {selectedCategoria !== "todas" && (
                 <input
                   type="hidden"
@@ -267,7 +318,7 @@ export default async function RecursosPage({
           </form>
         </div>
 
-        {/* Filtros por chips (enlaces server) */}
+        {/* Filtros por chips */}
         <div className="mt-6 flex flex-wrap items-center gap-2">
           <span className="text-xs uppercase tracking-wider opacity-70">
             Categorías:
@@ -413,9 +464,9 @@ export default async function RecursosPage({
                               className="inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm hover:bg-muted"
                               prefetch={false}
                             >
-                              {r.type === "pdf" || r.type === "audio"
-                                ? "Descargar / Abrir"
-                                : "Reproducir"}
+                              {r.type === "video"
+                                ? "Reproducir"
+                                : "Descargar / Abrir"}
                               {r.type === "video" ? (
                                 <PlayCircle className="h-4 w-4" />
                               ) : (
