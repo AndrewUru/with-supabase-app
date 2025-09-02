@@ -52,19 +52,24 @@ const CHAMANISMO_COLS: MegaColumn[] = [
     title: "Recursos",
     links: [
       {
+        label: "Biblioteca completa",
+        href: "/recursos",
+        desc: "Gratis y Premium",
+      },
+      {
+        label: "Podcast / Audio",
+        href: "/recursos?tipo=audio",
+        desc: "Prácticas guiadas",
+      },
+      {
         label: "Artículos",
         href: "/blog?tag=chamanismo",
         desc: "Lecturas y notas",
       },
       {
-        label: "Podcast / Audio",
-        href: "/recursos#audio",
-        desc: "Prácticas guiadas",
-      },
-      {
-        label: "Preguntas frecuentes",
-        href: "/chamanismo#faq",
-        desc: "Resuelve tus dudas",
+        label: "Meditaciones",
+        href: "/recursos?categoria=Meditaciones",
+        desc: "Atención y presencia",
       },
     ],
   },
@@ -105,9 +110,14 @@ const SONIDOS_COLS: MegaColumn[] = [
         desc: "Crear desde la presencia",
       },
       {
-        label: "Recursos gratuitos",
-        href: "/recursos#sonidos",
+        label: "Recursos (audio gratis)",
+        href: "/recursos?acceso=gratis&tipo=audio",
         desc: "Audios y guías",
+      },
+      {
+        label: "Música de práctica",
+        href: "/recursos?categoria=Música",
+        desc: "Pistas y ambientes",
       },
     ],
   },
@@ -167,19 +177,23 @@ const TERAPIAS_COLS: MegaColumn[] = [
     ],
   },
   {
-    title: "Soporte",
+    title: "Recursos",
     links: [
       {
-        label: "Preguntas frecuentes",
-        href: "/terapias#faq",
-        desc: "Respondemos tus dudas",
+        label: "Biblioteca de recursos",
+        href: "/recursos",
+        desc: "Gratis y Premium",
       },
       {
-        label: "Testimonios",
-        href: "/terapias#testimonios",
-        desc: "Casos y relatos",
+        label: "Meditaciones",
+        href: "/recursos?categoria=Meditaciones",
+        desc: "Regulación y calma",
       },
-      { label: "Contacto", href: "/contacto", desc: "Escríbenos" },
+      {
+        label: "Lecturas (guías PDF)",
+        href: "/recursos?categoria=Lecturas",
+        desc: "Material imprimible",
+      },
     ],
   },
 ];
@@ -369,6 +383,7 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                       },
                       { href: "/terapias", label: "Terapias" },
                       { href: "/contacto", label: "Contacto" },
+                      { href: "/recursos", label: "Recursos" },
                     ].map((item) => (
                       <Link
                         key={item.href}
