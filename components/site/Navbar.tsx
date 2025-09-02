@@ -176,23 +176,41 @@ const TERAPIAS_COLS: MegaColumn[] = [
       },
     ],
   },
+];
+
+const RECURSOS_COLS: MegaColumn[] = [
   {
     title: "Recursos",
     links: [
       {
-        label: "Biblioteca de recursos",
+        label: "Biblioteca completa",
         href: "/recursos",
-        desc: "Gratis y Premium",
+        desc: "Todos los materiales gratis y premium",
       },
       {
-        label: "Meditaciones",
-        href: "/recursos?categoria=Meditaciones",
-        desc: "Regulación y calma",
+        label: "Audios",
+        href: "/recursos?tipo=audio",
+        desc: "Meditaciones y prácticas sonoras",
       },
       {
-        label: "Lecturas (guías PDF)",
-        href: "/recursos?categoria=Lecturas",
-        desc: "Material imprimible",
+        label: "Videos",
+        href: "/recursos?tipo=video",
+        desc: "Mini-cursos y formaciones",
+      },
+      {
+        label: "PDFs / Lecturas",
+        href: "/recursos?tipo=pdf",
+        desc: "Guías y cuadernos de trabajo",
+      },
+      {
+        label: "Gratis",
+        href: "/recursos?acceso=gratis",
+        desc: "Acceso abierto para todos",
+      },
+      {
+        label: "Premium",
+        href: "/recursos?acceso=premium",
+        desc: "Incluido en la suscripción",
       },
     ],
   },
@@ -382,8 +400,8 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                         label: "Meditación y Gestión Emocional",
                       },
                       { href: "/terapias", label: "Terapias" },
-                      { href: "/contacto", label: "Contacto" },
                       { href: "/recursos", label: "Recursos" },
+                      { href: "/contacto", label: "Contacto" },
                     ].map((item) => (
                       <Link
                         key={item.href}
@@ -462,6 +480,11 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
               <div className="relative group">
                 <MegaMenuTrigger label="Chamanismo" />
                 <MegaPanel columns={CHAMANISMO_COLS} />
+              </div>
+
+              <div className="relative group">
+                <MegaMenuTrigger label="Recursos" />
+                <MegaPanel columns={RECURSOS_COLS} />
               </div>
 
               <div className="relative group">
