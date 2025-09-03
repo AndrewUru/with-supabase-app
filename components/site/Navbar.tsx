@@ -5,6 +5,7 @@ import { ThemeSwitcher } from "@/components/theme-switcher";
 import { AuthButton } from "@/components/auth-button";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { User, Palette } from "lucide-react";
 
 type NavbarProps = { brand?: string };
 
@@ -341,9 +342,7 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                 href="/protected"
                 className="group inline-flex shrink-0 items-center gap-2 rounded-xl border border-border/50 px-4 py-2.5 text-sm font-semibold bg-card/50 backdrop-blur-sm transition-all duration-200 hover:bg-accent/80 hover:border-border hover:shadow-soft hover:scale-105 focus-visible:outline-none focus-visible:ring-brand"
               >
-                <span className="text-xs opacity-70 group-hover:opacity-100 transition-opacity">
-                  👤
-                </span>
+                <User className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
                 Área personal
               </Link>
 
@@ -424,9 +423,7 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                     href="/protected"
                     className="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 hover:bg-accent/60 hover:scale-105"
                   >
-                    <span className="text-base opacity-70 group-hover:opacity-100 transition-opacity">
-                      👤
-                    </span>
+                    <User className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
                     Área personal
                     <span className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-xs">
                       →
@@ -460,8 +457,10 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
 
                   <div className="mt-4 flex items-center justify-between rounded-xl px-4 py-3 bg-accent/30">
                     <span className="flex items-center gap-2 text-sm font-medium">
-                      <span className="text-base">🎨</span>
-                      Tema
+                      <span>
+                        <Palette className="w-4 h-4" />
+                        Tema
+                      </span>
                     </span>
                     <ThemeSwitcher />
                   </div>
