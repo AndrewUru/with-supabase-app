@@ -42,7 +42,7 @@ export function LoginForm({
                 name="email"
                 type="email"
                 required
-                placeholder="m@example.com"
+                placeholder="m@ejemplo.com"
               />
             </div>
 
