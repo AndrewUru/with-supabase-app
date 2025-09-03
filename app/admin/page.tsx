@@ -246,7 +246,6 @@ export default async function AdminMVP() {
                   className="rounded-md border bg-background px-3 py-2"
                 >
                   <option value="free">free</option>
-                  <option value="basic">basic</option>
                   <option value="pro">pro</option>
                 </select>
               </label>
