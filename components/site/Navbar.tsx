@@ -155,13 +155,28 @@ const TERAPIAS_COLS: MegaColumn[] = [
 
 const RECURSOS_COLS: MegaColumn[] = [
   {
-    title: "Recursos",
+    title: "Explorar",
     links: [
       {
         label: "Biblioteca completa",
         href: "/recursos",
         desc: "Todos los materiales gratis y premium",
       },
+      {
+        label: "Gratis",
+        href: "/recursos?acceso=gratis",
+        desc: "Acceso abierto para todos",
+      },
+      {
+        label: "Premium",
+        href: "/recursos?acceso=premium",
+        desc: "Incluido en la suscripción mensual",
+      },
+    ],
+  },
+  {
+    title: "Formatos",
+    links: [
       {
         label: "Audios",
         href: "/recursos?tipo=audio",
@@ -177,15 +192,25 @@ const RECURSOS_COLS: MegaColumn[] = [
         href: "/recursos?tipo=pdf",
         desc: "Guías y cuadernos de trabajo",
       },
+    ],
+  },
+  {
+    title: "Destacados",
+    links: [
       {
-        label: "Gratis",
-        href: "/recursos?acceso=gratis",
-        desc: "Acceso abierto para todos",
+        label: "Lo más reciente",
+        href: "/recursos?orden=nuevo",
+        desc: "Nuevos materiales cada mes",
       },
       {
-        label: "Premium",
-        href: "/recursos?acceso=premium",
-        desc: "Incluido en la suscripción",
+        label: "Recomendados",
+        href: "/recursos?orden=destacado",
+        desc: "Selección especial de EDHUCO",
+      },
+      {
+        label: "Favoritos de la comunidad",
+        href: "/recursos?orden=populares",
+        desc: "Los más usados por los miembros",
       },
     ],
   },
