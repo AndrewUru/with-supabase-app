@@ -28,29 +28,40 @@ export const metadata: Metadata = {
   },
 };
 
-// ——— tipos DB (ajusta si tu esquema difiere)
+// —— Tipos canónicos que usa la UI
+type Category =
+  | "Meditaciones"
+  | "Viajes Chamánicos"
+  | "Formaciones"
+  | "Música"
+  | "Lecturas";
+
 type ResourceRow = {
   id: string;
   title: string;
   desc: string | null;
-  category:
-    | "Meditaciones"
-    | "Viajes Chamánicos"
-    | "Formaciones"
-    | "Música"
-    | "Lecturas";
+  category: Category;
   type: "audio" | "video" | "pdf";
-  premium: boolean;
+  premium: boolean; // free/premium lo resolvemos con este boolean
   status: "draft" | "published";
-  public_url: string | null; // archivos gratis públicos
-  file_path: string | null; // ruta en Storage (privado) para premium
+  public_url: string | null; // archivos públicos
+  file_path: string | null; // ruta en Storage privado (si aplica)
   created_at: string;
 };
 
+type Plan = "free" | "premium";
+
+// Si usas `profiles.plan` para guardar el plan actual del usuario
+type ProfilePlanRow = {
+  plan: Plan | null;
+};
+
+// Si además mantienes un histórico en `subscriptions`
 type SubscriptionRow = {
   user_id: string;
+  plan: Plan | null; // <- NUEVO: plan explícito
   status: "active" | "past_due" | "canceled" | "incomplete" | "trialing";
-  current_period_end: string | null; // ISO
+  current_period_end: string | null;
   created_at: string;
 };
 
@@ -71,7 +82,50 @@ function TypeIcon({
   return <FileText className={className} aria-hidden />;
 }
 
-// ¿Usuario con suscripción activa?
+// ——— Helpers de normalización (evitan `any`)
+const asString = (v: unknown, fallback = ""): string =>
+  typeof v === "string" ? v : fallback;
+
+const asBool = (v: unknown, fallback = false): boolean =>
+  typeof v === "boolean" ? v : fallback;
+
+const guessTypeFromUrl = (url: string | null): ResourceRow["type"] => {
+  if (!url) return "pdf";
+  const u = url.toLowerCase();
+  if (u.endsWith(".mp3") || u.includes("/audio")) return "audio";
+  if (u.endsWith(".mp4") || u.includes("/video")) return "video";
+  return "pdf";
+};
+
+const normStatus = (s: string): "draft" | "published" =>
+  /^publi/i.test(s)
+    ? "published"
+    : /^draft|borrador/i.test(s)
+    ? "draft"
+    : "published";
+
+const normCategory = (c: string): ResourceRow["category"] => {
+  const m = c.toLowerCase();
+  if (m.startsWith("medit")) return "Meditaciones";
+  if (m.startsWith("viaje")) return "Viajes Chamánicos";
+  if (m.startsWith("forma")) return "Formaciones";
+  if (m.startsWith("mús") || m.startsWith("mus")) return "Música";
+  return "Lecturas";
+};
+
+const normType = (
+  t: string | null,
+  url: string | null
+): ResourceRow["type"] => {
+  const tt = (t ?? "").toLowerCase();
+  if (tt === "audio" || tt === "video" || tt === "pdf") return tt;
+  return guessTypeFromUrl(url);
+};
+
+const isSubStatusActive = (status: SubscriptionRow["status"]): boolean =>
+  status === "active" || status === "trialing";
+
+// ¿Usuario con suscripción premium activa?
 async function getIsSubscribed(): Promise<{
   isLoggedIn: boolean;
   isSubscribed: boolean;
@@ -84,79 +138,152 @@ async function getIsSubscribed(): Promise<{
 
   if (!user) return { isLoggedIn: false, isSubscribed: false, email: null };
 
-  const { data: subRaw, error } = await supabase
+  // 1) Fuente primaria: profiles.plan
+  const { data: profile, error: profErr } = await supabase
+    .from("profiles")
+    .select("plan")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (profErr) {
+    console.error("Supabase profiles error:", profErr);
+  }
+
+  const planFromProfile = (profile?.plan ?? null) as ProfilePlanRow["plan"];
+  if (planFromProfile === "premium") {
+    return { isLoggedIn: true, isSubscribed: true, email: user.email ?? null };
+  }
+
+  // 2) Respaldo: subscriptions (plan='premium' y vigente)
+  const { data: subRaw, error: subErr } = await supabase
     .from("subscriptions")
-    .select("status,current_period_end")
+    .select("plan,status,current_period_end,created_at")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
-  // Tipado seguro del resultado
-  type SubPick = Pick<SubscriptionRow, "status" | "current_period_end">;
-  const sub = (subRaw ?? null) as SubPick | null;
-
-  if (error) {
-    // En producción podrías loguear el error
+  if (subErr) {
+    console.error("Supabase subscriptions error:", subErr);
   }
 
-  const active =
-    sub?.status === "active" &&
-    (sub.current_period_end === null ||
-      new Date(sub.current_period_end) > new Date());
+  const now = new Date();
+  const sub = (subRaw ?? null) as Pick<
+    SubscriptionRow,
+    "plan" | "status" | "current_period_end"
+  > | null;
+
+  const withinPeriod =
+    sub?.current_period_end == null || new Date(sub.current_period_end) > now;
+
+  const activePremium =
+    (sub?.plan ?? null) === "premium" &&
+    !!sub?.status &&
+    isSubStatusActive(sub.status) &&
+    withinPeriod;
 
   return {
     isLoggedIn: true,
-    isSubscribed: !!active,
+    isSubscribed: activePremium,
     email: user.email ?? null,
   };
 }
 
-// Lee recursos desde Supabase aplicando filtros de la UI
+// Lee TODO y normaliza nombres/valores. Luego filtra en memoria.
 async function fetchResources(params: URLSearchParams): Promise<ResourceRow[]> {
   const supabase = await createClient();
 
-  // Base: solo publicados
-  let query = supabase
-    .from("resources")
-    .select(
-      "id,title,desc,category,type,premium,status,public_url,file_path,created_at"
-    )
-    .eq("status", "published");
+  const { data, error } = await supabase.from("resources").select("*");
+  if (error) {
+    console.error("Supabase resources error:", error);
+    return [];
+  }
 
+  // Normaliza cada fila soportando múltiples convenciones de nombres
+  const normalized: ResourceRow[] = (data ?? []).map(
+    (r: Record<string, unknown>) => {
+      const id = asString(r.id);
+      const title = asString(r.title) || asString(r.titulo) || "Sin título";
+      const desc =
+        asString(r.desc) ||
+        asString(r.descripcion) ||
+        asString(r.excerpt) ||
+        null;
+
+      const rawCategory =
+        asString(r.category) || asString(r.categoria) || "Lecturas";
+      const category = normCategory(rawCategory);
+
+      const public_url =
+        (r.public_url as string | null) ??
+        (r.url_publica as string | null) ??
+        null;
+      const type = normType(
+        asString(r.type) || asString(r.tipo) || null,
+        public_url
+      );
+
+      // premium/free
+      const premium =
+        asBool(r.premium) ||
+        asBool((r as Record<string, unknown>).es_premium) ||
+        false;
+
+      const rawStatus = asString(r.status) || asString(r.estado) || "published";
+      const status = normStatus(rawStatus);
+
+      const file_path =
+        (r.file_path as string | null) ??
+        (r.ruta_archivo as string | null) ??
+        null;
+      const created_at =
+        asString(r.created_at) ||
+        asString(
+          (r as Record<string, unknown>).inserted_at as string | undefined
+        ) ||
+        new Date().toISOString();
+
+      return {
+        id,
+        title,
+        desc,
+        category,
+        type,
+        premium,
+        status,
+        public_url,
+        file_path,
+        created_at,
+      };
+    }
+  );
+
+  // Aplica filtros de la UI en memoria
   const categoria = params.get("categoria");
   const acceso = params.get("acceso");
   const tipo = params.get("tipo");
-  const q = (params.get("q") ?? "").trim();
+  const q = (params.get("q") ?? "").trim().toLowerCase();
 
-  if (categoria && categoria !== "todas") {
-    query = query.eq("category", categoria);
-  }
-  if (acceso === "gratis") {
-    query = query.eq("premium", false);
-  } else if (acceso === "premium") {
-    query = query.eq("premium", true);
-  }
-  if (tipo === "audio" || tipo === "video" || tipo === "pdf") {
-    query = query.eq("type", tipo);
-  }
-  if (q.length > 0) {
-    // Búsqueda simple: título/desc/categoría con OR
-    const escaped = q.replace(/[%_]/g, "\\$&");
-    query = query.or(
-      `title.ilike.*${escaped}*,desc.ilike.*${escaped}*,category.ilike.*${escaped}*`
+  let out = normalized.filter((r) => r.status === "published");
+
+  if (categoria && categoria !== "todas")
+    out = out.filter((r) => r.category === categoria);
+  if (acceso === "gratis") out = out.filter((r) => !r.premium);
+  if (acceso === "premium") out = out.filter((r) => r.premium);
+  if (tipo === "audio" || tipo === "video" || tipo === "pdf")
+    out = out.filter((r) => r.type === tipo);
+  if (q) {
+    out = out.filter(
+      (r) =>
+        r.title.toLowerCase().includes(q) ||
+        (r.desc ?? "").toLowerCase().includes(q) ||
+        r.category.toLowerCase().includes(q)
     );
   }
 
-  // Orden: recientes primero
-  query = query.order("created_at", { ascending: false });
-
-  const { data, error } = await query;
-  if (error) {
-    // En producción podrías loguear el error
-    return [];
-  }
-  return (data ?? []) as ResourceRow[];
+  // Ordena por created_at descendente
+  out.sort((a, b) => (a.created_at > b.created_at ? -1 : 1));
+  return out;
 }
 
 // Agrupa por categoría
@@ -189,10 +316,10 @@ export default async function RecursosPage({
 
   const { isLoggedIn, isSubscribed } = await getIsSubscribed();
 
-  // Carga desde DB
+  // Carga desde DB (normalizado + filtrado en memoria)
   const rows = await fetchResources(params);
 
-  // Listado de categorías para chips (a partir de resultados)
+  // Categorías para chips
   const allCategories = Array.from(new Set(rows.map((r) => r.category))).sort();
 
   const selectedCategoria = params.get("categoria") ?? "todas";
@@ -287,6 +414,7 @@ export default async function RecursosPage({
               {selectedTipo !== "todos" && (
                 <input type="hidden" name="tipo" value={selectedTipo} />
               )}
+
               <button
                 type="submit"
                 className="rounded-lg border bg-primary/90 px-3 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary"
@@ -390,10 +518,6 @@ export default async function RecursosPage({
                 <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {items.map((r) => {
                     const locked = r.premium && !isSubscribed;
-
-                    // Enlace de acción:
-                    // - Gratis: si hay public_url, úsala directamente.
-                    // - Premium (suscriptor): ruta que genera signed URL (implémentala).
                     const canAccess = !locked;
                     const actionHref =
                       canAccess && r.public_url

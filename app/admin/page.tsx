@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 type Role = "member" | "editor" | "admin";
-type MinPlan = "free" | "paid" | "pro";
+type MinPlan = "free" | "premium";
 type ResourceStatus = "draft" | "published" | "archived";
 
 interface UserRow {
@@ -25,6 +25,9 @@ interface ResourceRow {
   title: string;
   min_plan: MinPlan;
   status: ResourceStatus;
+  // opcionales si quieres mostrarlos en la tabla
+  // public_url?: string | null;
+  // file_path?: string | null;
 }
 
 export default async function AdminMVP() {
@@ -32,11 +35,14 @@ export default async function AdminMVP() {
 
   const [{ data: users, error: usersErr }, { data: resources, error: resErr }] =
     await Promise.all([
-      supabase.from("profiles").select<"user_id, email, role", UserRow>(),
-
+      supabase
+        .from("profiles")
+        .select("user_id,email,role")
+        .returns<UserRow[]>(),
       supabase
         .from("resources")
-        .select<"id, slug, title, min_plan, status", ResourceRow>(),
+        .select("id,slug,title,min_plan,status")
+        .returns<ResourceRow[]>(),
     ]);
 
   if (usersErr) console.error(usersErr);
@@ -49,7 +55,6 @@ export default async function AdminMVP() {
       {/* ---- Gestión de roles ---- */}
       <section className="space-y-4">
         <h2 className="text-xl font-semibold">Asignar rol</h2>
-
         <form action={setRole} className="flex flex-wrap gap-3 items-end">
           <div className="flex flex-col">
             <label className="text-sm">Usuario</label>
@@ -100,6 +105,8 @@ export default async function AdminMVP() {
         <form
           action={createResource}
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          // NECESARIO para subir archivos:
+          encType="multipart/form-data"
         >
           <div className="flex flex-col">
             <label className="text-sm">Slug</label>
@@ -139,10 +146,10 @@ export default async function AdminMVP() {
               name="min_plan"
               className="border rounded px-3 py-2"
               defaultValue="free"
+              required
             >
               <option value="free">free</option>
-              <option value="paid">paid</option>
-              <option value="pro">pro</option>
+              <option value="premium">premium</option>
             </select>
           </div>
 
@@ -152,11 +159,45 @@ export default async function AdminMVP() {
               name="status"
               className="border rounded px-3 py-2"
               defaultValue="published"
+              required
             >
               <option value="draft">draft</option>
               <option value="published">published</option>
               <option value="archived">archived</option>
             </select>
+          </div>
+
+          {/* NUEVO: archivo */}
+          <div className="flex flex-col">
+            <label className="text-sm">Archivo (PDF / Audio / Video)</label>
+            <input
+              type="file"
+              name="asset"
+              className="border rounded px-3 py-2"
+              accept=".pdf,audio/*,video/*"
+              required
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Se guardará en el bucket <code>resources</code>.
+            </p>
+          </div>
+
+          {/* NUEVO: visibilidad */}
+          <div className="flex flex-col">
+            <label className="text-sm">Visibilidad del archivo</label>
+            <select
+              name="visibility"
+              className="border rounded px-3 py-2"
+              defaultValue="private"
+              required
+            >
+              <option value="private">Privado (recomendado)</option>
+              <option value="public">Público</option>
+            </select>
+            <p className="text-xs text-muted-foreground mt-1">
+              Privado: genera URL firmada al descargar. Público: usa URL pública
+              directa.
+            </p>
           </div>
 
           <div className="md:col-span-2">
