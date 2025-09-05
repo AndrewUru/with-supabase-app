@@ -28,11 +28,11 @@ export const metadata: Metadata = {
   },
 };
 
-// ——— tipos + datos
-type Resource = {
+// ——— tipos DB (ajusta si tu esquema difiere)
+type ResourceRow = {
   id: string;
   title: string;
-  desc: string;
+  desc: string | null;
   category:
     | "Meditaciones"
     | "Viajes Chamánicos"
@@ -41,86 +41,29 @@ type Resource = {
     | "Lecturas";
   type: "audio" | "video" | "pdf";
   premium: boolean;
-  href: string;
+  status: "draft" | "published";
+  public_url: string | null; // archivos gratis públicos
+  file_path: string | null; // ruta en Storage (privado) para premium
+  created_at: string;
 };
 
-// CATALOGO DE PRUEBA (puedes borrar esto cuando conectes DB)
-const CATALOG: Resource[] = [
-  {
-    id: "medit-001",
-    title: "Respiración consciente (5 min)",
-    desc: "Práctica breve para centrarte y regular el día.",
-    category: "Meditaciones",
-    type: "audio",
-    premium: false,
-    href: "/assets/recursos/respiracion-consciente.mp3",
-  },
-  {
-    id: "read-001",
-    title: "Fundamentos de presencia",
-    desc: "PDF con pautas simples para integrar presencia en lo cotidiano.",
-    category: "Lecturas",
-    type: "pdf",
-    premium: false,
-    href: "/assets/recursos/fundamentos-presencia.pdf",
-  },
-  {
-    id: "viaje-001",
-    title: "Viaje chamánico al animal de poder",
-    desc: "Audio guiado con maraca y tambor para conectar con tu arquetipo guía.",
-    category: "Viajes Chamánicos",
-    type: "audio",
-    premium: true,
-    href: "/assets/recursos/viaje-animal-poder.mp3",
-  },
-  {
-    id: "form-001",
-    title: "Mini-curso: Autocuidado energético",
-    desc: "Video de 25 min + hoja de ruta descargable.",
-    category: "Formaciones",
-    type: "video",
-    premium: true,
-    href: "/assets/recursos/autocuidado-energetico.mp4",
-  },
-  {
-    id: "mus-001",
-    title: "Pulsos de Tierra – Pista 1",
-    desc: "Pieza musical para meditar o acompañar tu práctica.",
-    category: "Música",
-    type: "audio",
-    premium: true,
-    href: "/assets/recursos/pulsos-de-tierra-1.mp3",
-  },
-  {
-    id: "read-002",
-    title: "Bitácora de integración",
-    desc: "PDF imprimible para integrar sesiones, viajes y formaciones.",
-    category: "Lecturas",
-    type: "pdf",
-    premium: true,
-    href: "/assets/recursos/bitacora-integracion.pdf",
-  },
-];
+type SubscriptionRow = {
+  user_id: string;
+  status: "active" | "past_due" | "canceled" | "incomplete" | "trialing";
+  current_period_end: string | null; // ISO
+  created_at: string;
+};
 
 const PRICE_EUR = "3,99 € / mes";
 const SUBSCRIBE_PATH = "/suscripcion";
 const LOGIN_PATH = "/auth/login";
-
-// Agrupa por categoría
-function groupByCategory(items: Resource[]) {
-  return items.reduce<Record<string, Resource[]>>((acc, item) => {
-    acc[item.category] ??= [];
-    acc[item.category].push(item);
-    return acc;
-  }, {});
-}
 
 // Icono por tipo
 function TypeIcon({
   type,
   className,
 }: {
-  type: Resource["type"];
+  type: ResourceRow["type"];
   className?: string;
 }) {
   if (type === "audio") return <Music2 className={className} aria-hidden />;
@@ -141,18 +84,24 @@ async function getIsSubscribed(): Promise<{
 
   if (!user) return { isLoggedIn: false, isSubscribed: false, email: null };
 
-  // Solo miramos subscriptions (tu esquema real)
-  const { data: sub } = await supabase
+  const { data: subRaw, error } = await supabase
     .from("subscriptions")
-    .select("status, current_period_end")
+    .select("status,current_period_end")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
+  // Tipado seguro del resultado
+  type SubPick = Pick<SubscriptionRow, "status" | "current_period_end">;
+  const sub = (subRaw ?? null) as SubPick | null;
+
+  if (error) {
+    // En producción podrías loguear el error
+  }
+
   const active =
     sub?.status === "active" &&
-    // si usas current_period_end, valida que siga vigente o sea null (manual)
     (sub.current_period_end === null ||
       new Date(sub.current_period_end) > new Date());
 
@@ -163,30 +112,60 @@ async function getIsSubscribed(): Promise<{
   };
 }
 
-// Filtra catálogo según searchParams
-function filterCatalog(params: URLSearchParams, items: Resource[]) {
+// Lee recursos desde Supabase aplicando filtros de la UI
+async function fetchResources(params: URLSearchParams): Promise<ResourceRow[]> {
+  const supabase = await createClient();
+
+  // Base: solo publicados
+  let query = supabase
+    .from("resources")
+    .select(
+      "id,title,desc,category,type,premium,status,public_url,file_path,created_at"
+    )
+    .eq("status", "published");
+
   const categoria = params.get("categoria");
   const acceso = params.get("acceso");
   const tipo = params.get("tipo");
-  const q = (params.get("q") ?? "").toLowerCase().trim();
+  const q = (params.get("q") ?? "").trim();
 
-  let out = items.slice();
-
-  if (categoria && categoria !== "todas")
-    out = out.filter((r) => r.category === (categoria as Resource["category"]));
-  if (acceso === "gratis") out = out.filter((r) => !r.premium);
-  if (acceso === "premium") out = out.filter((r) => r.premium);
-  if (tipo === "audio" || tipo === "video" || tipo === "pdf")
-    out = out.filter((r) => r.type === tipo);
-  if (q) {
-    out = out.filter(
-      (r) =>
-        r.title.toLowerCase().includes(q) ||
-        r.desc.toLowerCase().includes(q) ||
-        r.category.toLowerCase().includes(q)
+  if (categoria && categoria !== "todas") {
+    query = query.eq("category", categoria);
+  }
+  if (acceso === "gratis") {
+    query = query.eq("premium", false);
+  } else if (acceso === "premium") {
+    query = query.eq("premium", true);
+  }
+  if (tipo === "audio" || tipo === "video" || tipo === "pdf") {
+    query = query.eq("type", tipo);
+  }
+  if (q.length > 0) {
+    // Búsqueda simple: título/desc/categoría con OR
+    const escaped = q.replace(/[%_]/g, "\\$&");
+    query = query.or(
+      `title.ilike.*${escaped}*,desc.ilike.*${escaped}*,category.ilike.*${escaped}*`
     );
   }
-  return out;
+
+  // Orden: recientes primero
+  query = query.order("created_at", { ascending: false });
+
+  const { data, error } = await query;
+  if (error) {
+    // En producción podrías loguear el error
+    return [];
+  }
+  return (data ?? []) as ResourceRow[];
+}
+
+// Agrupa por categoría
+function groupByCategory(items: ResourceRow[]) {
+  return items.reduce<Record<string, ResourceRow[]>>((acc, item) => {
+    acc[item.category] ??= [];
+    acc[item.category].push(item);
+    return acc;
+  }, {});
 }
 
 // ——— Next 15: searchParams es Promise y debe awaited
@@ -210,18 +189,18 @@ export default async function RecursosPage({
 
   const { isLoggedIn, isSubscribed } = await getIsSubscribed();
 
-  // Usa el catálogo local (visible al instante)
-  const allCategories = Array.from(
-    new Set(CATALOG.map((r) => r.category))
-  ).sort();
+  // Carga desde DB
+  const rows = await fetchResources(params);
+
+  // Listado de categorías para chips (a partir de resultados)
+  const allCategories = Array.from(new Set(rows.map((r) => r.category))).sort();
 
   const selectedCategoria = params.get("categoria") ?? "todas";
   const selectedAcceso = params.get("acceso") ?? "todos";
   const selectedTipo = params.get("tipo") ?? "todos";
   const q = params.get("q") ?? "";
 
-  const filtered = filterCatalog(params, CATALOG);
-  const grouped = groupByCategory(filtered);
+  const grouped = groupByCategory(rows);
 
   // Helper URLs de chips
   const withParam = (key: string, value: string) => {
@@ -272,7 +251,7 @@ export default async function RecursosPage({
             )}
           </div>
 
-          {/* Buscador (server, vía searchParams) */}
+          {/* Buscador */}
           <form
             action="/recursos"
             className="w-full sm:w-auto"
@@ -411,6 +390,20 @@ export default async function RecursosPage({
                 <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {items.map((r) => {
                     const locked = r.premium && !isSubscribed;
+
+                    // Enlace de acción:
+                    // - Gratis: si hay public_url, úsala directamente.
+                    // - Premium (suscriptor): ruta que genera signed URL (implémentala).
+                    const canAccess = !locked;
+                    const actionHref =
+                      canAccess && r.public_url
+                        ? r.public_url
+                        : canAccess
+                        ? `/api/recursos/signed-url?id=${r.id}` // Implementa esta API para Storage privado
+                        : isLoggedIn
+                        ? SUBSCRIBE_PATH
+                        : LOGIN_PATH;
+
                     return (
                       <article
                         key={r.id}
@@ -446,13 +439,13 @@ export default async function RecursosPage({
                           {r.title}
                         </h3>
                         <p className="mt-1 line-clamp-3 text-sm text-muted-foreground">
-                          {r.desc}
+                          {r.desc ?? ""}
                         </p>
 
                         <div className="mt-4 flex items-center justify-between">
                           {locked ? (
                             <Link
-                              href={isLoggedIn ? SUBSCRIBE_PATH : LOGIN_PATH}
+                              href={actionHref}
                               className="inline-flex items-center gap-2 rounded-lg border bg-primary/90 px-3 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary"
                             >
                               {isLoggedIn ? "Suscribirme" : "Iniciar sesión"}
@@ -460,7 +453,7 @@ export default async function RecursosPage({
                             </Link>
                           ) : (
                             <Link
-                              href={r.href}
+                              href={actionHref}
                               className="inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm hover:bg-muted"
                               prefetch={false}
                             >
