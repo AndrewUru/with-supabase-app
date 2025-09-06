@@ -37,7 +37,7 @@ export default function AboutEdhuco() {
           <strong className="text-brand">PDFs</strong> descargables para tu
           práctica diaria. Puedes empezar gratis y, si quieres todo el contenido
           y funciones extra, suscríbete por solo
-          <strong className="text-accent-warm"> 3,99 €/mes</strong>.
+          <strong className="text-accent-warm"> 22 €/mes</strong>.
         </p>
       </div>
 
@@ -153,7 +153,7 @@ export default function AboutEdhuco() {
             <div className="text-right">
               <div className="flex items-center gap-1">
                 <Euro className="w-5 h-5 text-accent-warm" />
-                <p className="text-2xl font-bold text-brand">3,99</p>
+                <p className="text-2xl font-bold text-brand">22</p>
               </div>
               <p className="text-xs text-muted-foreground">
                 por mes - cancela cuando quieras

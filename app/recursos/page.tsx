@@ -11,6 +11,9 @@ import {
   Sparkles,
   CheckCircle2,
   Filter,
+  ArrowRight,
+  Search,
+  Star,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
@@ -42,34 +45,32 @@ type ResourceRow = {
   desc: string | null;
   category: Category;
   type: "audio" | "video" | "pdf";
-  premium: boolean; // free/premium lo resolvemos con este boolean
+  premium: boolean;
   status: "draft" | "published";
-  public_url: string | null; // archivos públicos
-  file_path: string | null; // ruta en Storage privado (si aplica)
+  public_url: string | null;
+  file_path: string | null;
   created_at: string;
 };
 
 type Plan = "free" | "premium";
 
-// Si usas `profiles.plan` para guardar el plan actual del usuario
 type ProfilePlanRow = {
   plan: Plan | null;
 };
 
-// Si además mantienes un histórico en `subscriptions`
 type SubscriptionRow = {
   user_id: string;
-  plan: Plan | null; // <- NUEVO: plan explícito
+  plan: Plan | null;
   status: "active" | "past_due" | "canceled" | "incomplete" | "trialing";
   current_period_end: string | null;
   created_at: string;
 };
 
-const PRICE_EUR = "3,99 € / mes";
+const PRICE_EUR = "22 € / mes";
 const SUBSCRIBE_PATH = "/suscripcion";
 const LOGIN_PATH = "/auth/login";
 
-// Icono por tipo
+// —— Iconos y etiquetas con Design System
 function TypeIcon({
   type,
   className,
@@ -81,6 +82,14 @@ function TypeIcon({
   if (type === "video") return <PlayCircle className={className} aria-hidden />;
   return <FileText className={className} aria-hidden />;
 }
+
+const CATEGORY_EMOJI: Record<Category, string> = {
+  Meditaciones: "🧘",
+  "Viajes Chamánicos": "🌿",
+  Formaciones: "📚",
+  Música: "🎵",
+  Lecturas: "📖",
+};
 
 // ——— Helpers de normalización (evitan `any`)
 const asString = (v: unknown, fallback = ""): string =>
@@ -138,34 +147,26 @@ async function getIsSubscribed(): Promise<{
 
   if (!user) return { isLoggedIn: false, isSubscribed: false, email: null };
 
-  // 1) Fuente primaria: profiles.plan
-  const { data: profile, error: profErr } = await supabase
+  // 1) profiles.plan
+  const { data: profile } = await (await createClient())
     .from("profiles")
     .select("plan")
     .eq("user_id", user.id)
     .maybeSingle();
-
-  if (profErr) {
-    console.error("Supabase profiles error:", profErr);
-  }
 
   const planFromProfile = (profile?.plan ?? null) as ProfilePlanRow["plan"];
   if (planFromProfile === "premium") {
     return { isLoggedIn: true, isSubscribed: true, email: user.email ?? null };
   }
 
-  // 2) Respaldo: subscriptions (plan='premium' y vigente)
-  const { data: subRaw, error: subErr } = await supabase
+  // 2) subscriptions (vigente)
+  const { data: subRaw } = await (await createClient())
     .from("subscriptions")
     .select("plan,status,current_period_end,created_at")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
-
-  if (subErr) {
-    console.error("Supabase subscriptions error:", subErr);
-  }
 
   const now = new Date();
   const sub = (subRaw ?? null) as Pick<
@@ -199,7 +200,6 @@ async function fetchResources(params: URLSearchParams): Promise<ResourceRow[]> {
     return [];
   }
 
-  // Normaliza cada fila soportando múltiples convenciones de nombres
   const normalized: ResourceRow[] = (data ?? []).map(
     (r: Record<string, unknown>) => {
       const id = asString(r.id);
@@ -218,12 +218,12 @@ async function fetchResources(params: URLSearchParams): Promise<ResourceRow[]> {
         (r.public_url as string | null) ??
         (r.url_publica as string | null) ??
         null;
+
       const type = normType(
         asString(r.type) || asString(r.tipo) || null,
         public_url
       );
 
-      // premium/free
       const premium =
         asBool(r.premium) ||
         asBool((r as Record<string, unknown>).es_premium) ||
@@ -236,6 +236,7 @@ async function fetchResources(params: URLSearchParams): Promise<ResourceRow[]> {
         (r.file_path as string | null) ??
         (r.ruta_archivo as string | null) ??
         null;
+
       const created_at =
         asString(r.created_at) ||
         asString(
@@ -258,7 +259,7 @@ async function fetchResources(params: URLSearchParams): Promise<ResourceRow[]> {
     }
   );
 
-  // Aplica filtros de la UI en memoria
+  // Filtros UI en memoria
   const categoria = params.get("categoria");
   const acceso = params.get("acceso");
   const tipo = params.get("tipo");
@@ -281,7 +282,7 @@ async function fetchResources(params: URLSearchParams): Promise<ResourceRow[]> {
     );
   }
 
-  // Ordena por created_at descendente
+  // Orden por fecha desc
   out.sort((a, b) => (a.created_at > b.created_at ? -1 : 1));
   return out;
 }
@@ -295,7 +296,27 @@ function groupByCategory(items: ResourceRow[]) {
   }, {});
 }
 
-// ——— Next 15: searchParams es Promise y debe awaited
+// Contadores para chips
+function buildCounts(rows: ResourceRow[]) {
+  const total = rows.length;
+  const premium = rows.filter((r) => r.premium).length;
+  const gratis = total - premium;
+
+  const byType = {
+    audio: rows.filter((r) => r.type === "audio").length,
+    video: rows.filter((r) => r.type === "video").length,
+    pdf: rows.filter((r) => r.type === "pdf").length,
+  };
+
+  const byCategory = rows.reduce<Record<string, number>>((acc, r) => {
+    acc[r.category] = (acc[r.category] ?? 0) + 1;
+    return acc;
+  }, {});
+
+  return { total, premium, gratis, byType, byCategory };
+}
+
+// ——— Next 15: searchParams es Promise
 export default async function RecursosPage({
   searchParams,
 }: {
@@ -303,7 +324,7 @@ export default async function RecursosPage({
 }) {
   const sp = await searchParams;
 
-  // Convierte objeto en URLSearchParams (soporta arrays)
+  // Convierte objeto en URLSearchParams
   const params = new URLSearchParams(
     Object.entries(sp).flatMap(([k, v]) =>
       typeof v === "string"
@@ -316,18 +337,18 @@ export default async function RecursosPage({
 
   const { isLoggedIn, isSubscribed } = await getIsSubscribed();
 
-  // Carga desde DB (normalizado + filtrado en memoria)
+  // Carga desde DB
   const rows = await fetchResources(params);
+  const grouped = groupByCategory(rows);
+  const counts = buildCounts(rows);
 
   // Categorías para chips
-  const allCategories = Array.from(new Set(rows.map((r) => r.category))).sort();
+  const allCategories = Object.keys(grouped).sort() as Category[];
 
   const selectedCategoria = params.get("categoria") ?? "todas";
   const selectedAcceso = params.get("acceso") ?? "todos";
   const selectedTipo = params.get("tipo") ?? "todos";
   const q = params.get("q") ?? "";
-
-  const grouped = groupByCategory(rows);
 
   // Helper URLs de chips
   const withParam = (key: string, value: string) => {
@@ -337,9 +358,10 @@ export default async function RecursosPage({
     return `/recursos?${p.toString()}`;
   };
 
+  // ——— UI
   return (
     <main className="min-h-screen bg-background text-foreground">
-      {/* Breadcrumb */}
+      {/* Breadcrumb minimal */}
       <nav aria-label="breadcrumb" className="border-b">
         <div className="container-app mx-auto flex items-center gap-2 px-4 py-3 text-sm">
           <Link href="/" className="hover:underline opacity-80">
@@ -350,264 +372,403 @@ export default async function RecursosPage({
         </div>
       </nav>
 
-      {/* Header */}
-      <section className="container-app mx-auto px-4 py-8 sm:py-10">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-              Biblioteca de recursos
-            </h1>
-            <p className="mt-2 max-w-2xl text-muted-foreground">
-              Audios, videos y materiales descargables, organizados por
-              categorías. Algunos son <strong>Gratis</strong> y otros son{" "}
-              <strong>Premium</strong> con una única suscripción de {PRICE_EUR}.
-            </p>
-            {!isSubscribed && (
-              <div className="mt-3 inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm">
-                <Sparkles className="h-4 w-4" />
-                <span>
-                  Accede a todo con la suscripción:{" "}
+      {/* HERO */}
+      <section className="container-app mx-auto px-4 pt-8 sm:pt-10">
+        <div className="relative overflow-hidden rounded-2xl border bg-gradient-to-br from-muted/40 to-transparent p-6 sm:p-8">
+          {!isSubscribed && (
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-xs">
+              <Star className="h-3.5 w-3.5" />
+              Acceso total con {PRICE_EUR}
+            </div>
+          )}
+
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            Biblioteca de recursos
+          </h1>
+          <p className="mt-2 max-w-2xl text-muted-foreground">
+            Audios, videos y materiales descargables, organizados por
+            categorías. Descubre contenido <strong>Gratis</strong> y desbloquea
+            todo con <strong>Premium</strong>.
+          </p>
+
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            {!isSubscribed ? (
+              <>
+                <Link
+                  href={SUBSCRIBE_PATH}
+                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90"
+                >
+                  Suscribirme por {PRICE_EUR} <ArrowRight className="h-4 w-4" />
+                </Link>
+                {!isLoggedIn && (
                   <Link
-                    href={SUBSCRIBE_PATH}
-                    className="font-semibold underline underline-offset-4"
+                    href={LOGIN_PATH}
+                    className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm hover:bg-muted"
                   >
-                    {PRICE_EUR}
+                    Iniciar sesión
                   </Link>
-                </span>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  Cancela cuando quieras. Sin permanencia.
+                </p>
+              </>
+            ) : (
+              <div className="inline-flex items-center gap-2 rounded-lg border bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-900 dark:bg-emerald-900/20 dark:text-emerald-100">
+                <CheckCircle2 className="h-4 w-4" />
+                Tienes acceso premium a todos los recursos
               </div>
             )}
           </div>
+        </div>
+      </section>
 
-          {/* Buscador */}
+      {/* Barra de búsqueda + filtros (sticky) */}
+      <section className="sticky top-0 z-10 border-b backdrop-blur supports-[backdrop-filter]:bg-background/70">
+        <div className="container-app mx-auto px-4 py-3">
           <form
             action="/recursos"
-            className="w-full sm:w-auto"
+            className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:gap-2"
             role="search"
             aria-label="Buscar recursos"
           >
-            <div className="flex items-stretch gap-2">
+            {/* Search */}
+            <div className="relative flex-1">
               <label htmlFor="q" className="sr-only">
                 Buscar
               </label>
-              <div className="relative flex-1 sm:w-80">
-                <input
-                  id="q"
-                  name="q"
-                  defaultValue={q}
-                  placeholder="Buscar por título, descripción..."
-                  className="w-full rounded-lg border bg-background px-3 py-2 text-sm outline-none ring-0 focus-visible:ring-2 focus-visible:ring-brand"
-                />
-                <Filter className="pointer-events-none absolute right-3 top-2.5 h-4 w-4 opacity-60" />
-              </div>
-
-              {/* Preserva filtros activos */}
-              {selectedCategoria !== "todas" && (
-                <input
-                  type="hidden"
-                  name="categoria"
-                  value={selectedCategoria}
-                />
-              )}
-              {selectedAcceso !== "todos" && (
-                <input type="hidden" name="acceso" value={selectedAcceso} />
-              )}
-              {selectedTipo !== "todos" && (
-                <input type="hidden" name="tipo" value={selectedTipo} />
-              )}
-
-              <button
-                type="submit"
-                className="rounded-lg border bg-primary/90 px-3 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary"
-              >
-                Buscar
-              </button>
+              <input
+                id="q"
+                name="q"
+                defaultValue={q}
+                placeholder="Buscar por título, descripción o categoría…"
+                className="w-full rounded-lg border bg-background px-3 py-2 text-sm outline-none ring-0 focus-visible:ring-2 focus-visible:ring-brand"
+              />
+              <Search className="pointer-events-none absolute right-3 top-2.5 h-4 w-4 opacity-60" />
             </div>
+
+            {/* Preserva filtros activos */}
+            {selectedCategoria !== "todas" && (
+              <input type="hidden" name="categoria" value={selectedCategoria} />
+            )}
+            {selectedAcceso !== "todos" && (
+              <input type="hidden" name="acceso" value={selectedAcceso} />
+            )}
+            {selectedTipo !== "todos" && (
+              <input type="hidden" name="tipo" value={selectedTipo} />
+            )}
+
+            <button
+              type="submit"
+              className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+            >
+              Buscar
+            </button>
           </form>
-        </div>
 
-        {/* Filtros por chips */}
-        <div className="mt-6 flex flex-wrap items-center gap-2">
-          <span className="text-xs uppercase tracking-wider opacity-70">
-            Categorías:
-          </span>
-          <Link
-            href={withParam("categoria", "todas")}
-            className={`rounded-full border px-3 py-1.5 text-sm ${
-              selectedCategoria === "todas"
-                ? "bg-foreground text-background"
-                : "hover:bg-muted"
-            }`}
-          >
-            Todas
-          </Link>
-          {allCategories.map((c) => (
-            <Link
-              key={c}
-              href={withParam("categoria", c)}
-              className={`rounded-full border px-3 py-1.5 text-sm ${
-                selectedCategoria === c
-                  ? "bg-foreground text-background"
-                  : "hover:bg-muted"
-              }`}
-            >
-              {c}
-            </Link>
-          ))}
-        </div>
+          {/* Chips con contadores */}
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="text-[11px] uppercase tracking-wider opacity-70">
+              Categorías:
+            </span>
+            <Chip
+              href={withParam("categoria", "todas")}
+              active={selectedCategoria === "todas"}
+              label={`Todas (${counts.total})`}
+            />
+            {allCategories.map((c) => (
+              <Chip
+                key={c}
+                href={withParam("categoria", c)}
+                active={selectedCategoria === c}
+                label={`${c} (${counts.byCategory[c] ?? 0})`}
+              />
+            ))}
+          </div>
 
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          <span className="text-xs uppercase tracking-wider opacity-70">
-            Acceso:
-          </span>
-          {["todos", "gratis", "premium"].map((a) => (
-            <Link
-              key={a}
-              href={withParam("acceso", a)}
-              className={`rounded-full border px-3 py-1.5 text-sm capitalize ${
-                selectedAcceso === a
-                  ? "bg-foreground text-background"
-                  : "hover:bg-muted"
-              }`}
-            >
-              {a}
-            </Link>
-          ))}
-          <span className="ml-4 text-xs uppercase tracking-wider opacity-70">
-            Tipo:
-          </span>
-          {["todos", "audio", "video", "pdf"].map((t) => (
-            <Link
-              key={t}
-              href={withParam("tipo", t)}
-              className={`rounded-full border px-3 py-1.5 text-sm uppercase ${
-                selectedTipo === t
-                  ? "bg-foreground text-background"
-                  : "hover:bg-muted"
-              }`}
-            >
-              {t}
-            </Link>
-          ))}
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <span className="text-[11px] uppercase tracking-wider opacity-70">
+              Acceso:
+            </span>
+            <Chip
+              href={withParam("acceso", "todos")}
+              active={selectedAcceso === "todos"}
+              label="Todos"
+            />
+            <Chip
+              href={withParam("acceso", "gratis")}
+              active={selectedAcceso === "gratis"}
+              label={`Gratis (${counts.gratis})`}
+            />
+            <Chip
+              href={withParam("acceso", "premium")}
+              active={selectedAcceso === "premium"}
+              label={`Premium (${counts.premium})`}
+            />
+
+            <span className="ml-4 text-[11px] uppercase tracking-wider opacity-70">
+              Tipo:
+            </span>
+            <Chip
+              href={withParam("tipo", "todos")}
+              active={selectedTipo === "todos"}
+              label="Todos"
+              uppercase
+            />
+            <Chip
+              href={withParam("tipo", "audio")}
+              active={selectedTipo === "audio"}
+              label={`Audio (${counts.byType.audio})`}
+              uppercase
+            />
+            <Chip
+              href={withParam("tipo", "video")}
+              active={selectedTipo === "video"}
+              label={`Video (${counts.byType.video})`}
+              uppercase
+            />
+            <Chip
+              href={withParam("tipo", "pdf")}
+              active={selectedTipo === "pdf"}
+              label={`PDF (${counts.byType.pdf})`}
+              uppercase
+            />
+          </div>
         </div>
       </section>
 
-      {/* Contenido */}
-      <section className="container-app mx-auto px-4 pb-12">
-        {Object.keys(grouped).length === 0 ? (
-          <div className="rounded-xl border p-8 text-center">
-            <p className="text-lg font-semibold">
-              No encontramos recursos con esos filtros.
-            </p>
-            <p className="mt-1 text-muted-foreground">
-              Ajusta la búsqueda o limpia los filtros para ver más resultados.
-            </p>
-            <div className="mt-4">
-              <Link
-                href="/recursos"
-                className="inline-flex rounded-lg border px-3 py-2 text-sm hover:bg-muted"
-              >
-                Limpiar filtros
-              </Link>
-            </div>
-          </div>
+      {/* CONTENIDO */}
+      <section className="container-app mx-auto px-4 py-8">
+        {rows.length === 0 ? (
+          <EmptyState />
         ) : (
           <div className="space-y-10">
-            {Object.entries(grouped).map(([category, items]) => (
-              <div key={category}>
-                <h2 className="text-xl font-bold">{category}</h2>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {items.map((r) => {
-                    const locked = r.premium && !isSubscribed;
-                    const canAccess = !locked;
-                    const actionHref =
-                      canAccess && r.public_url
-                        ? r.public_url
-                        : canAccess
-                        ? `/api/recursos/signed-url?id=${r.id}` // Implementa esta API para Storage privado
-                        : isLoggedIn
-                        ? SUBSCRIBE_PATH
-                        : LOGIN_PATH;
+            {Object.entries(grouped).map(([category, items]) => {
+              const [featured, ...rest] = items;
+              return (
+                <div key={category}>
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h2 className="text-xl font-bold">
+                      <span className="mr-1" aria-hidden>
+                        {CATEGORY_EMOJI[category as Category] ?? "📁"}
+                      </span>
+                      {category}
+                    </h2>
+                    <span className="text-xs text-muted-foreground">
+                      {items.length} recurso{items.length > 1 ? "s" : ""}
+                    </span>
+                  </div>
 
-                    return (
-                      <article
+                  {/* Grid con destacado */}
+                  <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {featured && (
+                      <ResourceCard
+                        r={featured}
+                        isLoggedIn={isLoggedIn}
+                        isSubscribed={isSubscribed}
+                        highlight
+                      />
+                    )}
+                    {rest.map((r) => (
+                      <ResourceCard
                         key={r.id}
-                        className="group relative overflow-hidden rounded-2xl border bg-card p-4 transition-shadow hover:shadow-md"
-                      >
-                        {/* Etiquetas */}
-                        <div className="mb-3 flex items-center gap-2">
-                          <span
-                            className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
-                              r.premium
-                                ? "bg-amber-100 text-amber-900 dark:bg-amber-900/20 dark:text-amber-200"
-                                : "bg-emerald-100 text-emerald-900 dark:bg-emerald-900/20 dark:text-emerald-200"
-                            }`}
-                          >
-                            {r.premium ? (
-                              <>
-                                <Lock className="h-3.5 w-3.5" /> Premium
-                              </>
-                            ) : (
-                              <>
-                                <Unlock className="h-3.5 w-3.5" /> Gratis
-                              </>
-                            )}
-                          </span>
-
-                          <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-xs">
-                            <TypeIcon type={r.type} className="h-3.5 w-3.5" />
-                            {r.type.toUpperCase()}
-                          </span>
-                        </div>
-
-                        <h3 className="text-base font-semibold leading-tight">
-                          {r.title}
-                        </h3>
-                        <p className="mt-1 line-clamp-3 text-sm text-muted-foreground">
-                          {r.desc ?? ""}
-                        </p>
-
-                        <div className="mt-4 flex items-center justify-between">
-                          {locked ? (
-                            <Link
-                              href={actionHref}
-                              className="inline-flex items-center gap-2 rounded-lg border bg-primary/90 px-3 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary"
-                            >
-                              {isLoggedIn ? "Suscribirme" : "Iniciar sesión"}
-                              <Sparkles className="h-4 w-4" />
-                            </Link>
-                          ) : (
-                            <Link
-                              href={actionHref}
-                              className="inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm hover:bg-muted"
-                              prefetch={false}
-                            >
-                              {r.type === "video"
-                                ? "Reproducir"
-                                : "Descargar / Abrir"}
-                              {r.type === "video" ? (
-                                <PlayCircle className="h-4 w-4" />
-                              ) : (
-                                <Download className="h-4 w-4" />
-                              )}
-                            </Link>
-                          )}
-
-                          {!locked && r.premium && (
-                            <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
-                              <CheckCircle2 className="h-4 w-4" />
-                              Incluido en tu suscripción
-                            </span>
-                          )}
-                        </div>
-                      </article>
-                    );
-                  })}
+                        r={r}
+                        isLoggedIn={isLoggedIn}
+                        isSubscribed={isSubscribed}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>
+
+      {/* CTA de cierre (solo si no está suscrito) */}
+      {!isSubscribed && (
+        <section className="border-t bg-muted/30">
+          <div className="container-app mx-auto flex flex-col items-center gap-4 px-4 py-10 text-center">
+            <h3 className="text-lg sm:text-xl font-semibold">
+              Desbloquea toda la biblioteca EDHUCO
+            </h3>
+            <p className="max-w-2xl text-sm text-muted-foreground">
+              Acceso a meditaciones, viajes chamánicos, formaciones y material
+              premium por solo {PRICE_EUR}. Nuevos recursos cada mes.
+            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                href={SUBSCRIBE_PATH}
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90"
+              >
+                Suscribirme ahora <Sparkles className="h-4 w-4" />
+              </Link>
+              {!isLoggedIn && (
+                <Link
+                  href={LOGIN_PATH}
+                  className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm hover:bg-muted"
+                >
+                  Iniciar sesión
+                </Link>
+              )}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Puedes cancelar cuando quieras.
+            </p>
+          </div>
+        </section>
+      )}
     </main>
+  );
+}
+
+/* ———————————————————————— */
+/* Componentes de UI internos */
+/* ———————————————————————— */
+
+function Chip({
+  href,
+  active,
+  label,
+  uppercase = false,
+}: {
+  href: string;
+  active: boolean;
+  label: string;
+  uppercase?: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className={[
+        "rounded-full border px-3 py-1.5 text-sm transition-colors",
+        active ? "bg-foreground text-background" : "hover:bg-muted",
+        uppercase ? "uppercase" : "",
+      ].join(" ")}
+      aria-current={active ? "true" : undefined}
+    >
+      {label}
+    </Link>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="rounded-2xl border bg-card p-8 text-center shadow-xs">
+      <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+        <Filter className="h-5 w-5 opacity-70" />
+      </div>
+      <p className="text-lg font-semibold">No encontramos recursos</p>
+      <p className="mt-1 text-muted-foreground">
+        Ajusta la búsqueda o limpia los filtros para ver más resultados.
+      </p>
+      <div className="mt-4">
+        <Link
+          href="/recursos"
+          className="inline-flex rounded-lg border px-3 py-2 text-sm hover:bg-muted"
+        >
+          Limpiar filtros
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function ResourceCard({
+  r,
+  isLoggedIn,
+  isSubscribed,
+  highlight = false,
+}: {
+  r: ResourceRow;
+  isLoggedIn: boolean;
+  isSubscribed: boolean;
+  highlight?: boolean;
+}) {
+  const locked = r.premium && !isSubscribed;
+  const canAccess = !locked;
+  const actionHref =
+    canAccess && r.public_url
+      ? r.public_url
+      : canAccess
+      ? `/api/recursos/signed-url?id=${r.id}`
+      : isLoggedIn
+      ? SUBSCRIBE_PATH
+      : LOGIN_PATH;
+
+  return (
+    <article
+      className={[
+        "group relative overflow-hidden rounded-2xl border bg-card p-4 transition-shadow hover:shadow-md",
+        highlight ? "lg:col-span-2" : "",
+      ].join(" ")}
+    >
+      {/* Etiquetas */}
+      <div className="mb-3 flex items-center gap-2">
+        <span
+          className={[
+            "inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium",
+            r.premium
+              ? "bg-amber-100 text-amber-900 dark:bg-amber-900/20 dark:text-amber-200"
+              : "bg-emerald-100 text-emerald-900 dark:bg-emerald-900/20 dark:text-emerald-200",
+          ].join(" ")}
+        >
+          {r.premium ? (
+            <>
+              <Lock className="h-3.5 w-3.5" /> Premium
+            </>
+          ) : (
+            <>
+              <Unlock className="h-3.5 w-3.5" /> Gratis
+            </>
+          )}
+        </span>
+
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-[11px] uppercase tracking-wide">
+          <TypeIcon type={r.type} className="h-3.5 w-3.5" />
+          {r.type}
+        </span>
+
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-[11px]">
+          {CATEGORY_EMOJI[r.category]} {r.category}
+        </span>
+      </div>
+
+      <h3 className="text-base font-semibold leading-tight">{r.title}</h3>
+      <p className="mt-1 line-clamp-3 text-sm text-muted-foreground">
+        {r.desc ?? ""}
+      </p>
+
+      <div className="mt-4 flex items-center justify-between">
+        {locked ? (
+          <Link
+            href={actionHref}
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+          >
+            {isLoggedIn ? "Suscribirme" : "Iniciar sesión"}
+            <Sparkles className="h-4 w-4" />
+          </Link>
+        ) : (
+          <Link
+            href={actionHref}
+            className="inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm hover:bg-muted"
+            prefetch={false}
+          >
+            {r.type === "video" ? "Reproducir" : "Descargar / Abrir"}
+            {r.type === "video" ? (
+              <PlayCircle className="h-4 w-4" />
+            ) : (
+              <Download className="h-4 w-4" />
+            )}
+          </Link>
+        )}
+
+        {!locked && r.premium && (
+          <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+            <CheckCircle2 className="h-4 w-4" />
+            Incluido en tu suscripción
+          </span>
+        )}
+      </div>
+    </article>
   );
 }

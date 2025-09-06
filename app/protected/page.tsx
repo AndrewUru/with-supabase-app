@@ -1,7 +1,6 @@
 // app/protected/page.tsx
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { updateProfileAction } from "./actions";
 
 export const metadata = { robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
@@ -69,8 +68,7 @@ export default async function ProtectedPage({
 }: {
   searchParams: Promise<{ updated?: string }>;
 }) {
-  const params = await searchParams;
-  const justUpdated = params?.updated === "1";
+  await searchParams; // ya no mostramos banner de "actualizado" en modo solo lectura
 
   const supabase = await createClient();
   const {
@@ -158,12 +156,6 @@ export default async function ProtectedPage({
 
   return (
     <main className="mx-auto max-w-6xl p-4 md:p-6">
-      {justUpdated && (
-        <div className="mb-4 rounded-lg border bg-green-50 p-3 text-sm text-green-800 dark:bg-green-900/30 dark:text-green-200">
-          Perfil actualizado correctamente.
-        </div>
-      )}
-
       {/* Header */}
       <header className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
@@ -208,22 +200,22 @@ export default async function ProtectedPage({
         </nav>
       </header>
 
-      {/* ===== PERFIL ===== */}
+      {/* ===== PERFIL (SOLO LECTURA) ===== */}
       <section
         id="perfil"
         className="mt-6 rounded-xl border bg-card p-5 shadow-sm"
       >
-        <div className="mb-3">
-          <h2 className="text-base font-semibold">Tu perfil</h2>
-          <p className="text-sm text-muted-foreground">
-            Gestiona tu información personal.
-          </p>
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <h2 className="text-base font-semibold">Tu perfil</h2>
+            <p className="text-sm text-muted-foreground">
+              Consulta tu información personal <strong>(solo lectura)</strong>.
+            </p>
+          </div>
+          <Tag>Solo lectura</Tag>
         </div>
 
-        <form
-          action={updateProfileAction}
-          className="grid gap-4 sm:grid-cols-2"
-        >
+        <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1">
             <label
               htmlFor="full_name"
@@ -233,11 +225,12 @@ export default async function ProtectedPage({
             </label>
             <input
               id="full_name"
-              name="full_name"
               defaultValue={profile?.full_name ?? ""}
-              placeholder="Tu nombre completo"
-              className="w-full rounded-md border bg-background px-3 py-2 text-sm"
-              autoComplete="name"
+              className="w-full rounded-md border bg-muted/30 px-3 py-2 text-sm opacity-80"
+              readOnly
+              disabled
+              aria-readonly="true"
+              tabIndex={-1}
             />
           </div>
 
@@ -247,11 +240,12 @@ export default async function ProtectedPage({
             </label>
             <input
               id="phone"
-              name="phone"
               defaultValue={profile?.phone ?? ""}
-              placeholder="+34 600 000 000"
-              className="w-full rounded-md border bg-background px-3 py-2 text-sm"
-              autoComplete="tel"
+              className="w-full rounded-md border bg-muted/30 px-3 py-2 text-sm opacity-80"
+              readOnly
+              disabled
+              aria-readonly="true"
+              tabIndex={-1}
             />
           </div>
 
@@ -264,26 +258,15 @@ export default async function ProtectedPage({
             </label>
             <input
               id="avatar_url"
-              name="avatar_url"
               defaultValue={profile?.avatar_url ?? ""}
-              placeholder="https://… (o usa Storage)"
-              className="w-full rounded-md border bg-background px-3 py-2 text-sm"
-              autoComplete="off"
+              className="w-full rounded-md border bg-muted/30 px-3 py-2 text-sm opacity-80"
+              readOnly
+              disabled
+              aria-readonly="true"
+              tabIndex={-1}
             />
-            <p className="mt-1 text-xs text-muted-foreground">
-              Recomendado: subir a Supabase Storage y guardar aquí el path/URL.
-            </p>
           </div>
-
-          <div className="sm:col-span-2">
-            <button
-              type="submit"
-              className="inline-flex items-center rounded-lg border px-4 py-2 text-sm font-medium hover:bg-muted/40"
-            >
-              Guardar cambios
-            </button>
-          </div>
-        </form>
+        </div>
 
         <div className="mt-4 text-xs text-muted-foreground">
           Tu email de acceso: <strong>{user.email}</strong> (se gestiona desde
@@ -309,7 +292,6 @@ export default async function ProtectedPage({
         </div>
 
         <div className="mt-4 flex flex-wrap gap-3">
-          {/* Sugerencia: endpoint /api/stripe/portal para portal de facturación */}
           <a
             href="/api/stripe/portal"
             className="inline-flex items-center rounded-lg border px-3 py-2 text-sm hover:bg-muted/40"
@@ -328,9 +310,8 @@ export default async function ProtectedPage({
           ¿Qué incluye tu plan?
           <br />
           <strong>FREE:</strong> audios introductorios y PDFs básicos.{" "}
-          <strong>BASIC:</strong> biblioteca esencial. <strong>PRO:</strong>{" "}
-          todo el contenido en audio y PDF + parte de los vídeos.{" "}
-          <strong>VIP:</strong> acceso completo (audios, vídeos, PDFs y bonus).
+          <strong>PREMIUM:</strong> todo el contenido en audio y PDF + parte de
+          los vídeos.{" "}
         </p>
       </SectionCard>
 
@@ -365,7 +346,6 @@ export default async function ProtectedPage({
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   {a.allowed ? (
                     <>
-                      {/* Recomendado: servir con URL firmada vía una Server Action dedicada */}
                       <a
                         href={`/media/${a.id}`}
                         className="rounded-lg border px-3 py-1.5 text-sm hover:bg-muted/40"

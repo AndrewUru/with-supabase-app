@@ -30,7 +30,7 @@ export default function BeneficiosSection() {
           Nuestra misión es ofrecer recursos y experiencias de alta calidad en
           terapias, formaciones y viajes. Gracias a tu apoyo, con una
           suscripción mensual de solo{" "}
-          <strong className="text-foreground">3,99 €</strong>, mantenemos esta
+          <strong className="text-foreground">22 €</strong>, mantenemos esta
           plataforma accesible y en crecimiento.
         </p>
 

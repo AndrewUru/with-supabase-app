@@ -1,3 +1,4 @@
+// components/sign-up-form.tsx
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -20,98 +21,164 @@ export function SignUpForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const supabase = createClient();
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+
+  // NUEVOS (opcionales)
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const supabase = createClient();
-    setIsLoading(true);
     setError(null);
 
+    if (!email || !password) {
+      setError("Email y contraseña son obligatorios.");
+      return;
+    }
     if (password !== repeatPassword) {
-      setError("Passwords do not match");
-      setIsLoading(false);
+      setError("Las contraseñas no coinciden.");
       return;
     }
 
+    setIsLoading(true);
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error: signUpErr } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/protected`,
+          data: {
+            full_name: fullName || null,
+            phone: phone || null,
+          },
+          emailRedirectTo:
+            typeof window !== "undefined"
+              ? `${window.location.origin}/auth/callback`
+              : undefined,
         },
       });
-      if (error) throw error;
-      router.push("/auth/sign-up-success");
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
+      if (signUpErr) throw signUpErr;
+
+      const session = (await supabase.auth.getSession()).data.session;
+      const userId = data.user?.id;
+
+      if (session && userId) {
+        const { error: upsertErr } = await supabase.from("profiles").upsert(
+          {
+            id: userId,
+            full_name: fullName || null,
+            phone: phone || null,
+          },
+          { onConflict: "id" }
+        );
+        if (upsertErr) {
+          console.warn("No se pudo upsert en profiles:", upsertErr.message);
+        }
+      }
+
+      router.push("/auth/verify-email?sent=1");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Ocurrió un error al registrarte.");
+      }
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("mx-auto w-full max-w-md", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Registrate</CardTitle>
-          <CardDescription>Crea una nueva cuenta</CardDescription>
+          <CardTitle>Crea tu cuenta</CardTitle>
+          <CardDescription>
+            Regístrate para acceder a tu área personal.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSignUp}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@ejemplo.com"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Contraseña</Label>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="repeat-password">Repetir Contraseña</Label>
-                </div>
-                <Input
-                  id="repeat-password"
-                  type="password"
-                  required
-                  value={repeatPassword}
-                  onChange={(e) => setRepeatPassword(e.target.value)}
-                />
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Creating an account..." : "Sign up"}
-              </Button>
+          <form className="grid gap-4" onSubmit={handleSubmit}>
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email*</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                autoComplete="email"
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="tucorreo@ejemplo.com"
+                required
+              />
             </div>
-            <div className="mt-4 text-center text-sm">
-              Ya tienes una cuenta?{" "}
-              <Link href="/auth/login" className="underline underline-offset-4">
-                Iniciar sesión
+
+            <div className="grid gap-2">
+              <Label htmlFor="password">Contraseña*</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                autoComplete="new-password"
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="repeat">Repite la contraseña*</Label>
+              <Input
+                id="repeat"
+                type="password"
+                value={repeatPassword}
+                autoComplete="new-password"
+                onChange={(e) => setRepeatPassword(e.target.value)}
+                required
+                minLength={6}
+              />
+            </div>
+
+            {/* OPCIONALES */}
+            <div className="grid gap-2">
+              <Label htmlFor="full_name">Nombre (opcional)</Label>
+              <Input
+                id="full_name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Tu nombre completo"
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="phone">Teléfono (opcional)</Label>
+              <Input
+                id="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="+34 600 000 000"
+                autoComplete="tel"
+              />
+            </div>
+
+            {error ? <p className="text-sm text-red-600">{error}</p> : null}
+
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Creando cuenta..." : "Crear cuenta"}
+            </Button>
+
+            <p className="text-sm text-muted-foreground">
+              ¿Ya tienes cuenta?{" "}
+              <Link className="underline" href="/auth/login">
+                Inicia sesión
               </Link>
-            </div>
+            </p>
           </form>
         </CardContent>
       </Card>
