@@ -2,261 +2,304 @@
 @tailwind components;
 @tailwind utilities;
 
-/* =========================
+/* =====================================================
    THEME TOKENS (HSL)
-   ========================= */
+   ===================================================== */
 @layer base {
   :root {
-    /* Base neutrals (Light) */
+    /* Neutral palette - light */
     --background: 0 0% 100%;
-    --foreground: 220 14.3% 4.1%;
+    --foreground: 220 14% 6%;
     --card: 0 0% 100%;
-    --card-foreground: 220 14.3% 4.1%;
+    --card-foreground: 220 14% 8%;
     --popover: 0 0% 100%;
-    --popover-foreground: 220 14.3% 4.1%;
+    --popover-foreground: 220 14% 6%;
 
-    /* Brand & accents */
-    --brand: 222 89% 56%; /* azul profundo limpio */
+    /* Brand and supporting accents */
+    --brand: 222 89% 56%;
     --brand-foreground: 0 0% 100%;
     --accent: 220 14% 96%;
-    --accent-foreground: 220 14% 12%;
-    --accent-warm: 25 95% 53%;
-    --accent-cool: 195 78% 46%;
+    --accent-foreground: 222 14% 20%;
+    --accent-warm: 27 94% 54%;
+    --accent-cool: 195 82% 46%;
 
-    /* Actions */
+    /* Action colors */
     --primary: var(--brand);
     --primary-foreground: var(--brand-foreground);
     --secondary: 220 13% 94%;
-    --secondary-foreground: 220 14% 12%;
+    --secondary-foreground: 222 14% 18%;
     --muted: 220 12% 95%;
-    --muted-foreground: 220 9% 46%;
+    --muted-foreground: 222 10% 45%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    /* Surfaces */
+    /* Structural surfaces */
     --border: 220 13% 90%;
     --input: 220 13% 90%;
     --ring: var(--brand);
     --radius: 0.75rem;
 
-    /* Charts (opcional) */
-    --chart-1: 221 83% 53%;
+    /* Optional charts */
+    --chart-1: 222 83% 53%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --chart-5: 335 74% 55%;
   }
 
   .dark {
-    /* Base neutrals (Dark) */
-    --background: 220 14% 6%;
-    --foreground: 210 20% 96%;
-    --card: 220 14% 6%;
-    --card-foreground: 210 20% 96%;
-    --popover: 220 14% 6%;
-    --popover-foreground: 210 20% 96%;
+    /* Neutral palette - dark */
+    --background: 220 17% 7%;
+    --foreground: 210 18% 96%;
+    --card: 220 18% 9%;
+    --card-foreground: 210 18% 96%;
+    --popover: 220 18% 8%;
+    --popover-foreground: 210 18% 96%;
 
-    /* Brand & accents */
-    --brand: 222 89% 62%;
+    /* Brand and supporting accents */
+    --brand: 222 89% 64%;
     --brand-foreground: 0 0% 100%;
-    --accent: 220 14% 12%;
-    --accent-foreground: 210 20% 96%;
-    --accent-warm: 25 95% 58%;
-    --accent-cool: 195 78% 54%;
+    --accent: 220 18% 14%;
+    --accent-foreground: 210 18% 96%;
+    --accent-warm: 27 94% 60%;
+    --accent-cool: 195 82% 53%;
 
-    /* Actions */
+    /* Action colors */
     --primary: var(--brand);
     --primary-foreground: var(--brand-foreground);
-    --secondary: 220 14% 14%;
-    --secondary-foreground: 210 20% 96%;
-    --muted: 220 14% 14%;
-    --muted-foreground: 215 14% 70%;
-    --destructive: 0 62% 40%;
+    --secondary: 220 18% 18%;
+    --secondary-foreground: 210 18% 92%;
+    --muted: 220 18% 18%;
+    --muted-foreground: 215 14% 68%;
+    --destructive: 0 70% 45%;
     --destructive-foreground: 0 0% 98%;
 
-    /* Surfaces */
-    --border: 220 14% 16%;
-    --input: 220 14% 16%;
-    --ring: 222 89% 62%;
+    /* Structural surfaces */
+    --border: 220 18% 22%;
+    --input: 220 18% 22%;
+    --ring: 222 89% 64%;
   }
 }
 
-/* =========================
-   BASE: TIPOGRAFÍA, FONDO, FOCUS
-   ========================= */
+/* =====================================================
+   BASE: TYPOGRAPHY, FOCUS, BACKGROUND
+   ===================================================== */
 @layer base {
-  * {
+  *,
+  *::before,
+  *::after {
     @apply border-border;
+    box-sizing: border-box;
   }
 
   html {
     @apply antialiased;
     text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
   }
 
   body {
-    @apply bg-background text-foreground;
-    /* Fondo sutil con gradiente (light & dark) */
-    background-image: radial-gradient(
-        1200px 600px at 10% -10%,
-        hsl(var(--accent) / 0.5) 0%,
-        transparent 60%
-      ),
-      radial-gradient(
-        1000px 500px at 120% 10%,
-        hsl(var(--accent-cool) / 0.12) 0%,
-        transparent 55%
-      ),
-      radial-gradient(
-        900px 400px at -10% 120%,
-        hsl(var(--accent-warm) / 0.1) 0%,
-        transparent 50%
-      );
-    background-attachment: fixed;
+    @apply bg-background text-foreground min-h-screen;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+    background: radial-gradient(1200px 600px at 10% -10%, hsl(var(--accent) / 0.45), transparent 65%),
+      radial-gradient(900px 480px at 115% 0%, hsl(var(--accent-cool) / 0.12), transparent 55%),
+      radial-gradient(980px 560px at -15% 130%, hsl(var(--accent-warm) / 0.1), transparent 55%);
   }
 
-  /* Tipografía base agradable */
-  :root {
-    --text-tracking: 0.01em;
-    --text-leading: 1.6;
-  }
-  body,
-  p {
-    letter-spacing: var(--text-tracking);
-    line-height: var(--text-leading);
-  }
-
-  /* Headings más nítidos */
-  h1,
-  h2,
-  h3,
-  h4 {
-    @apply font-semibold tracking-tight;
-  }
-  h1 {
-    @apply text-4xl md:text-5xl;
-  }
-  h2 {
-    @apply text-3xl md:text-4xl;
-  }
-  h3 {
-    @apply text-2xl md:text-3xl;
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, hsl(var(--background) / 0.85), transparent 30%),
+      linear-gradient(to top, hsl(var(--background) / 0.65), transparent 25%);
+    z-index: -1;
   }
 
-  /* Focus ring accesible y consistente */
-  :focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px hsl(var(--background)), 0 0 0 6px hsl(var(--ring));
-    border-radius: calc(var(--radius) + 2px);
-    transition: box-shadow 120ms ease-out;
-  }
-
-  /* Selección de texto */
   ::selection {
-    background: hsl(var(--brand) / 0.25);
-    color: hsl(var(--foreground));
+    background: hsl(var(--brand) / 0.2);
+    color: hsl(var(--brand));
+  }
+  ::-moz-selection {
+    background: hsl(var(--brand) / 0.2);
+    color: hsl(var(--brand));
   }
 
-  /* Scrollbar discreto (webkit) */
-  *::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+  a {
+    @apply text-foreground transition;
   }
-  *::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  *::-webkit-scrollbar-thumb {
-    background: hsl(var(--border));
-    border-radius: 999px;
-  }
-  .dark *::-webkit-scrollbar-thumb {
-    background: hsl(var(--accent));
+  a:hover {
+    color: hsl(var(--brand));
   }
 
-  /* Reduce motion por defecto y habilita transiciones si procede */
-  @media (prefers-reduced-motion: no-preference) {
-    * {
-      scroll-behavior: smooth;
-    }
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  :where(button, [role="button"], input, textarea, select):focus-visible {
+    @apply ring-2 ring-offset-2 ring-offset-background;
+    --tw-ring-color: hsl(var(--ring));
+  }
+
+  img,
+  video {
+    @apply rounded-lg;
   }
 }
 
-/* =========================
-   COMPONENTS LIGEROS
-   ========================= */
+/* =====================================================
+   BASE: TYPOGRAPHY SCALE
+   ===================================================== */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold text-foreground tracking-tight;
+    line-height: 1.25;
+  }
+
+  h1 {
+    font-size: clamp(2.1rem, 2.8vw + 1rem, 3.2rem);
+  }
+  h2 {
+    font-size: clamp(1.8rem, 2.1vw + 0.8rem, 2.4rem);
+  }
+  h3 {
+    font-size: clamp(1.45rem, 1.6vw + 0.6rem, 1.8rem);
+  }
+  h4 {
+    font-size: clamp(1.2rem, 1.2vw + 0.5rem, 1.4rem);
+  }
+}
+
+/* =====================================================
+   COMPONENT HELPERS
+   ===================================================== */
 @layer components {
-  /* Contenedor fluido del sitio */
   .container-app {
     @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
   }
 
-  /* Secciones vertical rhythm */
+  .container-app-narrow {
+    @apply mx-auto w-full max-w-4xl px-4 sm:px-6;
+  }
+
   .section {
     @apply py-10 md:py-16;
   }
 
-  /* Card neutra */
   .card {
     @apply rounded-2xl border bg-card text-card-foreground shadow-sm;
   }
 
-  /* Glass suave (para widgets/overlays) */
-  .glass {
-    background: linear-gradient(
-      to bottom right,
-      hsl(var(--card) / 0.65),
-      hsl(var(--accent) / 0.5)
-    );
-    @apply backdrop-blur-md border;
+  .surface {
+    @apply rounded-2xl border border-border/80 bg-card/85 backdrop-blur-lg shadow-soft;
   }
 
-  /* Botón primario minimal si te hace falta en HTML plano */
+  .surface-soft {
+    @apply rounded-3xl border border-border/70 bg-card/80 backdrop-blur;
+    box-shadow: 0 18px 40px -24px hsl(var(--foreground) / 0.18);
+  }
+
+  .glass {
+    background: linear-gradient(to bottom right, hsl(var(--card) / 0.65), hsl(var(--accent) / 0.45));
+    @apply border border-white/30 backdrop-blur-md;
+  }
+
   .btn {
     @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium
-           bg-primary text-primary-foreground shadow-sm transition
-           hover:opacity-90 focus-visible:outline-none;
+      bg-primary text-primary-foreground shadow-sm transition hover:opacity-90 focus-visible:outline-none;
   }
+
   .btn-outline {
     @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium
-           border bg-transparent text-foreground hover:bg-accent/60;
+      border bg-transparent text-foreground transition hover:bg-accent/70;
+  }
+
+  .prose-muted {
+    @apply text-sm text-muted-foreground leading-relaxed;
   }
 }
 
-/* =========================
-   UTILITIES EXTRA
-   ========================= */
+/* =====================================================
+   UTILITIES
+   ===================================================== */
 @layer utilities {
   .shadow-soft {
     box-shadow: 0 10px 30px hsl(0 0% 0% / 0.12);
   }
+
+  .shadow-lift {
+    box-shadow: 0 20px 60px -30px hsl(var(--foreground) / 0.28);
+  }
+
   .ring-brand {
     box-shadow: 0 0 0 3px hsl(var(--background)), 0 0 0 6px hsl(var(--brand));
   }
+
+  .ring-outline {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
   .text-gradient {
-    background: linear-gradient(
-      90deg,
-      hsl(var(--brand)) 0%,
-      hsl(var(--accent-cool)) 50%,
-      hsl(var(--accent-warm)) 100%
-    );
+    background: linear-gradient(90deg, hsl(var(--brand)) 0%, hsl(var(--accent-cool)) 50%, hsl(var(--accent-warm)) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
-  .surface {
-    @apply rounded-2xl border bg-card/80 backdrop-blur supports-[backdrop-filter]:bg-card/60;
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-grid {
+    background-image: linear-gradient(hsl(var(--border) / 0.35) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.35) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .bg-dots {
+    background-image: radial-gradient(hsl(var(--border) / 0.45) 1px, transparent 0);
+    background-size: 18px 18px;
+  }
+
+  .radius {
+    border-radius: var(--radius);
+  }
+
+  .ring-brand-focus:focus-visible {
+    box-shadow: 0 0 0 3px hsl(var(--background)), 0 0 0 6px hsl(var(--ring));
   }
 }
-/* === Accesibilidad & compat === */
 
-/* Scrollbar Firefox */
+/* =====================================================
+   ACCESSIBILITY AND COMPATIBILITY
+   ===================================================== */
 * {
-  scrollbar-width: thin; /* Firefox */
+  scrollbar-width: thin;
   scrollbar-color: hsl(var(--border)) transparent;
 }
 
-/* Alto contraste: usa outline del sistema y evita sombras complejas */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--border));
+  border-radius: 9999px;
+}
+
 @media (forced-colors: active) {
   :focus-visible {
     box-shadow: none !important;
@@ -265,49 +308,16 @@
   }
 }
 
-/* iOS: evita jank de background fixed */
 @supports (-webkit-touch-callout: none) {
   body {
     background-attachment: scroll;
   }
 }
 
-/* Motion-safe transiciones globales */
 @media (prefers-reduced-motion: no-preference) {
   * {
-    transition: color 150ms, background-color 150ms, border-color 150ms;
-  }
-}
-
-/* Variantes útiles para data-state (menús/modales) */
-[data-state="open"] {
-  /* opcional: animaciones */
-}
-[data-state="closed"] {
-}
-
-/* Utilidades extra con tokens */
-@layer utilities {
-  .radius {
-    border-radius: var(--radius);
-  }
-  .ring-brand-focus:focus-visible {
-    box-shadow: 0 0 0 3px hsl(var(--background)), 0 0 0 6px hsl(var(--ring));
-  }
-  .text-balance {
-    text-wrap: balance;
-  }
-  .container-app-narrow {
-    max-width: 56rem;
-    margin-inline: auto;
-    padding-inline: 1rem;
-  }
-  .surface-strong {
-    background: linear-gradient(
-      to bottom right,
-      hsl(var(--card) / 0.85),
-      hsl(var(--accent) / 0.55)
-    );
-    @apply border backdrop-blur;
+    transition-property: color, background-color, border-color, box-shadow, transform;
+    transition-duration: 150ms;
+    transition-timing-function: ease;
   }
 }
