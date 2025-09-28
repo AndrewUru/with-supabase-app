@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { signInAction } from "@/app/auth/login/actions";
+import { GoogleSignInButton } from "@/components/google-sign-in-button";
 
 export function LoginForm({
   className,
@@ -66,6 +67,16 @@ export function LoginForm({
             <Button type="submit" className="w-full">
               Acceso
             </Button>
+
+            <div className="relative flex items-center">
+              <span className="flex-1 border-t" />
+              <span className="px-3 text-xs uppercase text-muted-foreground">
+                O continúa con
+              </span>
+              <span className="flex-1 border-t" />
+            </div>
+
+            <GoogleSignInButton next={next} />
 
             <div className="mt-2 text-center text-sm">
               ¿No tienes una cuenta?{" "}

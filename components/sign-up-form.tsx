@@ -16,6 +16,9 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { GoogleSignInButton } from "@/components/google-sign-in-button";
+
+const SOCIAL_REDIRECT = "/protected";
 
 export function SignUpForm({
   className,
@@ -28,7 +31,7 @@ export function SignUpForm({
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
 
-  // NUEVOS (opcionales)
+  // Nuevos (opcionales)
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
 
@@ -145,7 +148,7 @@ export function SignUpForm({
               />
             </div>
 
-            {/* OPCIONALES */}
+            {/* Opcionales */}
             <div className="grid gap-2">
               <Label htmlFor="full_name">Nombre (opcional)</Label>
               <Input
@@ -172,6 +175,19 @@ export function SignUpForm({
             <Button type="submit" disabled={isLoading}>
               {isLoading ? "Creando cuenta..." : "Crear cuenta"}
             </Button>
+
+            <div className="relative flex items-center">
+              <span className="flex-1 border-t" />
+              <span className="px-3 text-xs uppercase text-muted-foreground">
+                O continúa con
+              </span>
+              <span className="flex-1 border-t" />
+            </div>
+
+            <GoogleSignInButton
+              next={SOCIAL_REDIRECT}
+              className="w-full"
+            />
 
             <p className="text-sm text-muted-foreground">
               ¿Ya tienes cuenta?{" "}
