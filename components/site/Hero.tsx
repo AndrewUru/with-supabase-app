@@ -166,7 +166,7 @@ export default function Hero({
                 </span>
               </div>
               <p className="text-lg font-semibold text-foreground">
-                Disenamos experiencias inmersivas que combinan ritual, practica
+                Diseñamos experiencias inmersivas que combinan ritual, práctica
                 y aprendizaje continuo para sostener cambios reales en tu vida
                 diaria.
               </p>
