@@ -86,9 +86,9 @@ export default function RootLayout({
   const currentYear = new Date().getFullYear();
 
   return (
-    <html lang="es" className="h-full" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${playfair.variable} min-h-dvh w-full overflow-x-clip bg-background font-sans antialiased text-foreground selection:bg-brand/20 selection:text-brand-foreground`}
+        className={`${geistSans.variable} ${playfair.variable}  w-full overflow-x-clip bg-background font-sans antialiased text-foreground selection:bg-brand/20 selection:text-brand-foreground`}
       >
         <ThemeProvider
           attribute="class"
