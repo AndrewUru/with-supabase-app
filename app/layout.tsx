@@ -25,7 +25,8 @@ const defaultUrl = process.env.VERCEL_URL
   : "http://localhost:3000";
 
 const siteTitle = "EDHUCO · Reconexón Ancestral";
-const siteDescription = "Plataforma EDHUCO: terapias, viajes chamánicos, formaciones y comunidad.";
+const siteDescription =
+  "Plataforma EDHUCO: terapias, viajes chamánicos, formaciones y comunidad.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
@@ -97,7 +98,10 @@ export default function RootLayout({
         >
           <div className="relative flex min-h-screen flex-col">
             {/* Fondos decorativos */}
-            <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -z-10"
+            >
               <div className="absolute -top-32 left-1/2 h-[460px] w-[460px] -translate-x-1/2 rounded-full bg-brand/10 blur-3xl" />
               <div className="absolute bottom-0 right-0 h-[360px] w-[360px] translate-x-1/3 translate-y-1/3 rounded-full bg-accent/10 blur-3xl" />
             </div>
@@ -125,11 +129,16 @@ export default function RootLayout({
                 <div className="flex flex-col gap-16 py-12">
                   <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
                     <div className="space-y-5">
-                      <h2 id="footer-heading" className="text-lg font-semibold tracking-tight">
+                      <h2
+                        id="footer-heading"
+                        className="text-lg font-semibold tracking-tight"
+                      >
                         EDHUCO
                       </h2>
                       <p className="text-sm text-muted-foreground text-balance">
-                        {"Transformamos la educación mediante experiencias inmersivas, viajes formativos y acompañamiento humano."}
+                        {
+                          "Transformamos la educación mediante experiencias inmersivas, viajes formativos y acompañamiento humano."
+                        }
                       </p>
                       <div className="flex flex-wrap gap-3">
                         <Link
@@ -153,7 +162,10 @@ export default function RootLayout({
                       <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                         {"Navegación"}
                       </h3>
-                      <nav className="grid grid-cols-1 gap-3 sm:grid-cols-2" aria-label="Enlaces rápidos">
+                      <nav
+                        className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+                        aria-label="Enlaces rápidos"
+                      >
                         {quickLinks.map(({ href, label, icon: Icon }) => (
                           <Link
                             key={href}
@@ -175,7 +187,10 @@ export default function RootLayout({
                       </h3>
                       <div className="space-y-4">
                         {contactHighlights.map(({ icon: Icon, label }) => (
-                          <div key={label} className="flex items-center gap-3 text-sm text-muted-foreground">
+                          <div
+                            key={label}
+                            className="flex items-center gap-3 text-sm text-muted-foreground"
+                          >
                             <span className="inline-flex size-8 items-center justify-center rounded-md bg-accent/30">
                               <Icon className="h-4 w-4" />
                             </span>
@@ -187,14 +202,19 @@ export default function RootLayout({
                         className="flex items-center justify-between gap-4 rounded-xl border border-border/50 bg-background/60 px-4 py-3 shadow-inner"
                         aria-label="Selector de tema"
                       >
-                        <span className="text-sm text-muted-foreground">Tema</span>
+                        <span className="text-sm text-muted-foreground">
+                          Tema
+                        </span>
                         <ThemeSwitcher />
                       </div>
                     </div>
                   </div>
 
                   <div className="relative">
-                    <div className="absolute inset-0 flex items-center" aria-hidden>
+                    <div
+                      className="absolute inset-0 flex items-center"
+                      aria-hidden
+                    >
                       <div className="h-px w-full bg-gradient-to-r from-transparent via-border/60 to-transparent" />
                     </div>
                     <div className="relative flex justify-center">
@@ -207,9 +227,13 @@ export default function RootLayout({
 
                   <div className="flex flex-col items-start justify-between gap-4 text-xs text-muted-foreground sm:flex-row sm:items-center">
                     <p className="flex items-center gap-2 text-balance">
-                      <span>{"©"} {currentYear} EDHUCO</span>
+                      <span>
+                        {"©"} {currentYear} EDHUCO
+                      </span>
                       <span className="hidden opacity-50 sm:inline">{"•"}</span>
-                      <span className="opacity-75">Todos los derechos reservados</span>
+                      <span className="opacity-75">
+                        Todos los derechos reservados
+                      </span>
                     </p>
                     <div className="flex flex-wrap items-center gap-4">
                       <Link

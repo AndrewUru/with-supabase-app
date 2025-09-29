@@ -98,15 +98,29 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
+    overflow-x: clip;
   }
 
   body {
     @apply bg-background text-foreground min-h-screen;
     letter-spacing: 0.01em;
     line-height: 1.6;
-    background: radial-gradient(1200px 600px at 10% -10%, hsl(var(--accent) / 0.45), transparent 65%),
-      radial-gradient(900px 480px at 115% 0%, hsl(var(--accent-cool) / 0.12), transparent 55%),
-      radial-gradient(980px 560px at -15% 130%, hsl(var(--accent-warm) / 0.1), transparent 55%);
+    background: radial-gradient(
+        1200px 600px at 10% -10%,
+        hsl(var(--accent) / 0.45),
+        transparent 65%
+      ),
+      radial-gradient(
+        900px 480px at 115% 0%,
+        hsl(var(--accent-cool) / 0.12),
+        transparent 55%
+      ),
+      radial-gradient(
+        980px 560px at -15% 130%,
+        hsl(var(--accent-warm) / 0.1),
+        transparent 55%
+      );
+    overflow-x: clip;
   }
 
   body::before {
@@ -114,9 +128,14 @@
     position: fixed;
     inset: 0;
     pointer-events: none;
-    background: linear-gradient(to bottom, hsl(var(--background) / 0.85), transparent 30%),
+    background: linear-gradient(
+        to bottom,
+        hsl(var(--background) / 0.85),
+        transparent 30%
+      ),
       linear-gradient(to top, hsl(var(--background) / 0.65), transparent 25%);
     z-index: -1;
+    overflow-x: clip;
   }
 
   ::selection {
@@ -209,7 +228,11 @@
   }
 
   .glass {
-    background: linear-gradient(to bottom right, hsl(var(--card) / 0.65), hsl(var(--accent) / 0.45));
+    background: linear-gradient(
+      to bottom right,
+      hsl(var(--card) / 0.65),
+      hsl(var(--accent) / 0.45)
+    );
     @apply border border-white/30 backdrop-blur-md;
   }
 
@@ -250,7 +273,12 @@
   }
 
   .text-gradient {
-    background: linear-gradient(90deg, hsl(var(--brand)) 0%, hsl(var(--accent-cool)) 50%, hsl(var(--accent-warm)) 100%);
+    background: linear-gradient(
+      90deg,
+      hsl(var(--brand)) 0%,
+      hsl(var(--accent-cool)) 50%,
+      hsl(var(--accent-warm)) 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -261,13 +289,19 @@
   }
 
   .bg-grid {
-    background-image: linear-gradient(hsl(var(--border) / 0.35) 1px, transparent 1px),
+    background-image: linear-gradient(
+        hsl(var(--border) / 0.35) 1px,
+        transparent 1px
+      ),
       linear-gradient(90deg, hsl(var(--border) / 0.35) 1px, transparent 1px);
     background-size: 32px 32px;
   }
 
   .bg-dots {
-    background-image: radial-gradient(hsl(var(--border) / 0.45) 1px, transparent 0);
+    background-image: radial-gradient(
+      hsl(var(--border) / 0.45) 1px,
+      transparent 0
+    );
     background-size: 18px 18px;
   }
 
@@ -316,7 +350,8 @@
 
 @media (prefers-reduced-motion: no-preference) {
   * {
-    transition-property: color, background-color, border-color, box-shadow, transform;
+    transition-property: color, background-color, border-color, box-shadow,
+      transform;
     transition-duration: 150ms;
     transition-timing-function: ease;
   }
