@@ -1,4 +1,4 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -8,76 +8,76 @@
 @layer base {
   :root {
     /* Neutral palette - light */
-    --background: 0 0% 100%;
-    --foreground: 220 14% 6%;
-    --card: 0 0% 100%;
-    --card-foreground: 220 14% 8%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 14% 6%;
+    --background: 36 43% 96%;
+    --foreground: 24 28% 18%;
+    --card: 36 43% 98%;
+    --card-foreground: 24 28% 20%;
+    --popover: 36 43% 97%;
+    --popover-foreground: 24 28% 18%;
 
     /* Brand and supporting accents */
-    --brand: 222 89% 56%;
-    --brand-foreground: 0 0% 100%;
-    --accent: 220 14% 96%;
-    --accent-foreground: 222 14% 20%;
-    --accent-warm: 27 94% 54%;
-    --accent-cool: 195 82% 46%;
+    --brand: 23 62% 45%;
+    --brand-foreground: 36 43% 96%;
+    --accent: 129 24% 90%;
+    --accent-foreground: 126 22% 24%;
+    --accent-warm: 32 78% 55%;
+    --accent-cool: 170 44% 42%;
 
     /* Action colors */
     --primary: var(--brand);
     --primary-foreground: var(--brand-foreground);
-    --secondary: 220 13% 94%;
-    --secondary-foreground: 222 14% 18%;
-    --muted: 220 12% 95%;
-    --muted-foreground: 222 10% 45%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --secondary: 36 30% 92%;
+    --secondary-foreground: 24 26% 24%;
+    --muted: 36 24% 91%;
+    --muted-foreground: 25 18% 38%;
+    --destructive: 5 68% 48%;
+    --destructive-foreground: 33 43% 96%;
 
     /* Structural surfaces */
-    --border: 220 13% 90%;
-    --input: 220 13% 90%;
+    --border: 30 24% 82%;
+    --input: 30 24% 82%;
     --ring: var(--brand);
     --radius: 0.75rem;
 
     /* Optional charts */
-    --chart-1: 222 83% 53%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 335 74% 55%;
+    --chart-1: 23 62% 45%;
+    --chart-2: 170 34% 38%;
+    --chart-3: 38 72% 54%;
+    --chart-4: 196 32% 40%;
+    --chart-5: 10 64% 47%;
   }
 
   .dark {
     /* Neutral palette - dark */
-    --background: 220 17% 7%;
-    --foreground: 210 18% 96%;
-    --card: 220 18% 9%;
-    --card-foreground: 210 18% 96%;
-    --popover: 220 18% 8%;
-    --popover-foreground: 210 18% 96%;
+    --background: 190 24% 8%;
+    --foreground: 36 36% 92%;
+    --card: 190 24% 11%;
+    --card-foreground: 36 36% 92%;
+    --popover: 190 24% 9%;
+    --popover-foreground: 36 36% 92%;
 
     /* Brand and supporting accents */
-    --brand: 222 89% 64%;
-    --brand-foreground: 0 0% 100%;
-    --accent: 220 18% 14%;
-    --accent-foreground: 210 18% 96%;
-    --accent-warm: 27 94% 60%;
-    --accent-cool: 195 82% 53%;
+    --brand: 27 68% 58%;
+    --brand-foreground: 36 43% 96%;
+    --accent: 178 22% 18%;
+    --accent-foreground: 36 36% 92%;
+    --accent-warm: 32 78% 60%;
+    --accent-cool: 168 45% 46%;
 
     /* Action colors */
     --primary: var(--brand);
     --primary-foreground: var(--brand-foreground);
-    --secondary: 220 18% 18%;
-    --secondary-foreground: 210 18% 92%;
-    --muted: 220 18% 18%;
-    --muted-foreground: 215 14% 68%;
-    --destructive: 0 70% 45%;
-    --destructive-foreground: 0 0% 98%;
+    --secondary: 186 20% 18%;
+    --secondary-foreground: 36 36% 90%;
+    --muted: 186 22% 18%;
+    --muted-foreground: 36 24% 70%;
+    --destructive: 4 65% 52%;
+    --destructive-foreground: 0 0% 96%;
 
     /* Structural surfaces */
-    --border: 220 18% 22%;
-    --input: 220 18% 22%;
-    --ring: 222 89% 64%;
+    --border: 186 22% 26%;
+    --input: 186 22% 26%;
+    --ring: 27 68% 58%;
   }
 }
 
@@ -98,6 +98,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
+    overflow-x: clip;
   }
 
   body {
@@ -105,19 +106,19 @@
     letter-spacing: 0.01em;
     line-height: 1.6;
     background: radial-gradient(
-        1200px 600px at 10% -10%,
-        hsl(var(--accent) / 0.45),
-        transparent 65%
+        1200px 600px at 12% -12%,
+        hsl(var(--accent-warm) / 0.32),
+        transparent 70%
       ),
       radial-gradient(
-        900px 480px at 115% 0%,
-        hsl(var(--accent-cool) / 0.12),
-        transparent 55%
+        900px 520px at 112% 0%,
+        hsl(var(--accent-cool) / 0.16),
+        transparent 58%
       ),
       radial-gradient(
-        980px 560px at -15% 130%,
-        hsl(var(--accent-warm) / 0.1),
-        transparent 55%
+        1080px 600px at -18% 128%,
+        hsl(var(--brand) / 0.2),
+        transparent 60%
       );
     overflow-x: clip;
   }
