@@ -19,7 +19,7 @@ const ICONS = { ShieldCheck, Mountain, GraduationCap };
 
 const trustedBy: TrustedItem[] = [
   { label: "Mizentro" },
-  { label: "Universitat de Barcelona" },
+  { label: "Colegio San José" },
   { label: "Fundación Gaia" },
   { label: "Asociación UNO" },
 ];
@@ -41,7 +41,7 @@ export interface HeroProps {
 }
 
 const defaultStats: Stat[] = [
-  { value: "2.500+", label: "Personas acompañadas" },
+  { value: "500+", label: "Personas acompañadas" },
   { value: "15 años", label: "Experiencia y práctica" },
   { value: "6 países", label: "Comunidad activa" },
 ];
@@ -64,7 +64,7 @@ export default function Hero({
   tertiaryCta = { href: "#agenda", label: "Próximas fechas" },
   benefits = defaultBenefits,
   stats = defaultStats,
-  imageUrl = "/images/cuencos.png",
+  imageUrl = "/images/hero-person.JPG",
   className = "",
 }: HeroProps) {
   return (
