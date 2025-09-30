@@ -45,6 +45,14 @@
     --chart-3: 38 72% 54%;
     --chart-4: 196 32% 40%;
     --chart-5: 10 64% 47%;
+
+    /* Ambient gradients */
+    --body-gradient-1: hsl(var(--accent-warm) / 0.32);
+    --body-gradient-2: hsl(var(--accent-cool) / 0.16);
+    --body-gradient-3: hsl(var(--brand) / 0.2);
+    --body-overlay-top: hsl(var(--background) / 0.85);
+    --body-overlay-bottom: hsl(var(--background) / 0.65);
+    color-scheme: light;
   }
 
   .dark {
@@ -78,6 +86,14 @@
     --border: 186 22% 26%;
     --input: 186 22% 26%;
     --ring: 27 68% 58%;
+
+    /* Ambient gradients */
+    --body-gradient-1: hsl(var(--accent-warm) / 0.22);
+    --body-gradient-2: hsl(var(--accent-cool) / 0.24);
+    --body-gradient-3: hsl(var(--brand) / 0.24);
+    --body-overlay-top: hsl(var(--background) / 0.6);
+    --body-overlay-bottom: hsl(var(--background) / 0.4);
+    color-scheme: dark;
   }
 }
 
@@ -107,17 +123,17 @@
     line-height: 1.6;
     background: radial-gradient(
         1200px 600px at 12% -12%,
-        hsl(var(--accent-warm) / 0.32),
+        var(--body-gradient-1),
         transparent 70%
       ),
       radial-gradient(
         900px 520px at 112% 0%,
-        hsl(var(--accent-cool) / 0.16),
+        var(--body-gradient-2),
         transparent 58%
       ),
       radial-gradient(
         1080px 600px at -18% 128%,
-        hsl(var(--brand) / 0.2),
+        var(--body-gradient-3),
         transparent 60%
       );
     overflow-x: clip;
@@ -132,10 +148,10 @@
     pointer-events: none;
     background: linear-gradient(
         to bottom,
-        hsl(var(--background) / 0.85),
+        var(--body-overlay-top),
         transparent 30%
       ),
-      linear-gradient(to top, hsl(var(--background) / 0.65), transparent 25%);
+      linear-gradient(to top, var(--body-overlay-bottom), transparent 25%);
     z-index: -1;
     contain: layout paint; /* aísla capa y evita que afecte al flujo */
     transform: translateZ(0); /* fuerza capa compuesta y elimina bleed */
@@ -143,18 +159,18 @@
 
   ::selection {
     background: hsl(var(--brand) / 0.2);
-    color: hsl(var(--brand));
+    color: hsl(var(--brand) / 0.85);
   }
   ::-moz-selection {
     background: hsl(var(--brand) / 0.2);
-    color: hsl(var(--brand));
+    color: hsl(var(--brand) / 0.85);
   }
 
   a {
     @apply text-foreground transition;
   }
   a:hover {
-    color: hsl(var(--brand));
+    color: hsl(var(--brand) / 0.85);
   }
 
   :focus-visible {

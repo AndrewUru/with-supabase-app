@@ -18,10 +18,10 @@ type TrustedItem = { label: string };
 const ICONS = { ShieldCheck, Mountain, GraduationCap };
 
 const trustedBy: TrustedItem[] = [
-  { label: "Hospital Sant Pau" },
+  { label: "Mizentro" },
   { label: "Universitat de Barcelona" },
   { label: "Fundación Gaia" },
-  { label: "Casa Áurea" },
+  { label: "Asociación UNO" },
 ];
 
 export interface HeroProps {
@@ -82,13 +82,19 @@ export default function Hero({
               <div className="flex flex-wrap items-center gap-3">
                 {pill && (
                   <span className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-brand backdrop-blur-sm sm:text-xs">
-                    <span className="h-1.5 w-1.5 rounded-full bg-brand" aria-hidden="true" />
+                    <span
+                      className="h-1.5 w-1.5 rounded-full bg-brand"
+                      aria-hidden="true"
+                    />
                     {pill}
                   </span>
                 )}
                 {tagLine && (
                   <span className="inline-flex items-center gap-2 rounded-full bg-card/70 px-3.5 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground shadow-sm ring-1 ring-border/70 sm:text-xs">
-                    <span className="inline-flex h-1.5 w-1.5 rounded-full bg-accent-cool" aria-hidden="true" />
+                    <span
+                      className="inline-flex h-1.5 w-1.5 rounded-full bg-accent-cool"
+                      aria-hidden="true"
+                    />
                     {tagLine}
                   </span>
                 )}
@@ -125,9 +131,15 @@ export default function Hero({
                       className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card/70 px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
                     >
                       {Icon ? (
-                        <Icon className="h-4 w-4 text-brand" aria-hidden="true" />
+                        <Icon
+                          className="h-4 w-4 text-brand"
+                          aria-hidden="true"
+                        />
                       ) : (
-                        <span className="h-2 w-2 rounded-full bg-accent-cool" aria-hidden="true" />
+                        <span
+                          className="h-2 w-2 rounded-full bg-accent-cool"
+                          aria-hidden="true"
+                        />
                       )}
                       <span className="text-sm font-medium text-foreground">
                         {benefit.label}
@@ -159,7 +171,10 @@ export default function Hero({
                     className="group inline-flex items-center gap-2 rounded-full border border-border/60 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-foreground hover:text-foreground"
                   >
                     {secondaryCta.label}
-                    <ArrowRight className="h-4 w-4 shrink-0 transition group-hover:translate-x-1" aria-hidden="true" />
+                    <ArrowRight
+                      className="h-4 w-4 shrink-0 transition group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
                   </Link>
                 )}
               </div>
@@ -213,12 +228,18 @@ export default function Hero({
               <div className="absolute -bottom-6 left-6 right-6 hidden rounded-3xl border border-border/60 bg-background/95 px-6 py-5 shadow-xl backdrop-blur md:block">
                 <div className="flex items-start gap-4">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand to-accent-cool">
-                    <Sparkles className="h-5 w-5 text-white" aria-hidden="true" />
+                    <Sparkles
+                      className="h-5 w-5 text-white"
+                      aria-hidden="true"
+                    />
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm font-semibold text-foreground">Acompañamiento personalizado</p>
+                    <p className="text-sm font-semibold text-foreground">
+                      Acompañamiento personalizado
+                    </p>
                     <p className="text-xs leading-relaxed text-muted-foreground">
-                      Diseñamos rituales, sesiones y herramientas según tu ritmo para sostener el proceso con integridad.
+                      Diseñamos rituales, sesiones y herramientas según tu ritmo
+                      para sostener el proceso con integridad.
                     </p>
                   </div>
                 </div>
@@ -237,7 +258,10 @@ export default function Hero({
             </p>
             <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm font-medium text-muted-foreground/80 sm:text-base">
               {trustedBy.map((item) => (
-                <span key={item.label} className="rounded-full bg-card/60 px-4 py-2 ring-1 ring-border/50">
+                <span
+                  key={item.label}
+                  className="rounded-full bg-card/60 px-4 py-2 ring-1 ring-border/50"
+                >
                   {item.label}
                 </span>
               ))}
