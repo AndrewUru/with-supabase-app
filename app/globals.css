@@ -127,6 +127,8 @@
     content: "";
     position: fixed;
     inset: 0;
+    width: 100vw; /* fija a viewport, no al documento */
+    height: 100dvh; /* evita “salirse” por subpíxeles */
     pointer-events: none;
     background: linear-gradient(
         to bottom,
@@ -135,6 +137,8 @@
       ),
       linear-gradient(to top, hsl(var(--background) / 0.65), transparent 25%);
     z-index: -1;
+    contain: layout paint; /* aísla capa y evita que afecte al flujo */
+    transform: translateZ(0); /* fuerza capa compuesta y elimina bleed */
   }
 
   ::selection {
@@ -167,6 +171,14 @@
   video {
     @apply rounded-lg;
   }
+}
+html,
+body {
+  height: auto;
+  min-height: 100%;
+  margin: 0;
+  overflow-y: auto; /* evita scroll “extra” vertical */
+  overflow-x: clip; /* ya lo tienes, lo mantenemos */
 }
 
 /* =====================================================

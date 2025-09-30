@@ -100,10 +100,10 @@ export default function RootLayout({
             {/* Fondos decorativos */}
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 -z-10"
+              className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
             >
               <div className="absolute -top-32 left-1/2 h-[460px] w-[460px] -translate-x-1/2 rounded-full bg-brand/10 blur-3xl" />
-              <div className="absolute bottom-0 right-0 h-[360px] w-[360px] translate-x-1/3 translate-y-1/3 rounded-full bg-accent/10 blur-3xl" />
+              <div className="absolute bottom-0 right-0 h-[360px] w-[360px] translate-x-1/3 rounded-full bg-accent/10 blur-3xl" />
             </div>
 
             {/* Skip link accesible */}
@@ -126,7 +126,7 @@ export default function RootLayout({
             >
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/30 to-transparent" />
               <div className="container-app section">
-                <div className="flex flex-col gap-16 py-12">
+                <div className="flex flex-col gap-2 ">
                   <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
                     <div className="space-y-5">
                       <h2
