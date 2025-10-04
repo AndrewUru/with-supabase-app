@@ -23,6 +23,16 @@
     --accent-warm: 32 78% 55%;
     --accent-cool: 170 44% 42%;
 
+    /* Spiritual character accents */
+    --spiritual-ember: 28 84% 56%;
+    --spiritual-mist: 168 52% 46%;
+    --spiritual-aurora: 288 42% 60%;
+    --spiritual-light: 36 100% 97%;
+    --spiritual-shadow: 225 52% 16%;
+    --spiritual-gradient: linear-gradient(135deg, hsl(var(--spiritual-ember) / 0.95) 0%, hsl(var(--spiritual-mist) / 0.9) 45%, hsl(var(--spiritual-aurora) / 0.85) 100%);
+    --spiritual-gradient-soft: radial-gradient(120% 120% at 12% 20%, hsl(var(--spiritual-light) / 0.28) 0%, transparent 72%);
+
+
     /* Action colors */
     --primary: var(--brand);
     --primary-foreground: var(--brand-foreground);
@@ -71,6 +81,16 @@
     --accent-foreground: 36 36% 92%;
     --accent-warm: 32 78% 60%;
     --accent-cool: 168 45% 46%;
+
+    /* Spiritual character accents */
+    --spiritual-ember: 27 84% 62%;
+    --spiritual-mist: 167 54% 44%;
+    --spiritual-aurora: 288 58% 62%;
+    --spiritual-light: 45 100% 96%;
+    --spiritual-shadow: 210 50% 12%;
+    --spiritual-gradient: linear-gradient(135deg, hsl(var(--spiritual-ember) / 0.9) 0%, hsl(var(--spiritual-mist) / 0.82) 45%, hsl(var(--spiritual-aurora) / 0.78) 100%);
+    --spiritual-gradient-soft: radial-gradient(140% 140% at 80% -20%, hsl(var(--spiritual-aurora) / 0.28) 0%, transparent 75%);
+
 
     /* Action colors */
     --primary: var(--brand);
@@ -311,6 +331,88 @@ body {
     color: transparent;
   }
 
+
+  .spiritual-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: 2.25rem;
+    background: var(--spiritual-gradient);
+    color: hsl(var(--spiritual-light));
+    border: 1px solid hsl(var(--spiritual-light) / 0.26);
+    box-shadow: 0 35px 90px -50px hsl(var(--spiritual-ember) / 0.7);
+    z-index: 0;
+  }
+
+  .spiritual-card::before,
+  .spiritual-card::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    mix-blend-mode: lighten;
+    opacity: 0.85;
+    z-index: -1;
+  }
+
+  .spiritual-card::before {
+    inset: -40% 8% auto auto;
+    height: 220px;
+    width: 220px;
+    background: radial-gradient(circle, hsl(var(--spiritual-light) / 0.4), transparent 70%);
+    filter: blur(0);
+  }
+
+  .spiritual-card::after {
+    inset: auto -25% -35% auto;
+    height: 280px;
+    width: 280px;
+    background: radial-gradient(circle, hsl(var(--spiritual-aurora) / 0.32), transparent 72%);
+  }
+
+  .spiritual-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 1rem;
+    border-radius: 9999px;
+    background: hsl(var(--spiritual-light) / 0.15);
+    border: 1px solid hsl(var(--spiritual-light) / 0.35);
+    color: hsl(var(--spiritual-light));
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    font-size: 0.7rem;
+    font-weight: 600;
+    box-shadow: 0 16px 32px -24px hsl(var(--spiritual-ember) / 0.85);
+    backdrop-filter: blur(6px);
+  }
+
+  .spiritual-chip::before {
+    content: '';
+    height: 0.4rem;
+    width: 0.4rem;
+    border-radius: 9999px;
+    background: hsl(var(--spiritual-light));
+    box-shadow: 0 0 12px hsl(var(--spiritual-light) / 0.7);
+  }
+
+  .spiritual-aura {
+    position: relative;
+    z-index: 0;
+  }
+
+  .spiritual-aura::after {
+    content: '';
+    position: absolute;
+    inset: -45% -10% auto -25%;
+    height: 320px;
+    width: 320px;
+    background: var(--spiritual-gradient-soft);
+    filter: blur(0);
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: -1;
+  }
+
   .text-balance {
     text-wrap: balance;
   }
@@ -383,3 +485,4 @@ body {
     transition-timing-function: ease;
   }
 }
+

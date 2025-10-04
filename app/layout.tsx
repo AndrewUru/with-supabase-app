@@ -88,7 +88,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${playfair.variable}  w-full overflow-x-clip bg-background font-sans antialiased text-foreground selection:bg-brand/20 selection:text-brand-foreground`}
+        className={`${geistSans.variable} ${playfair.variable} w-full overflow-x-clip bg-background bg-[radial-gradient(120%_120%_at_12%_20%,_hsl(var(--spiritual-light)/0.18)_0%,_transparent_70%)] font-sans antialiased text-foreground selection:bg-[hsl(var(--spiritual-aurora)/0.25)] selection:text-white spiritual-aura`}
       >
         <ThemeProvider
           attribute="class"
@@ -102,8 +102,34 @@ export default function RootLayout({
               aria-hidden
               className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
             >
-              <div className="absolute -top-32 left-1/2 h-[460px] w-[460px] -translate-x-1/2 rounded-full bg-brand/10 blur-3xl" />
-              <div className="absolute bottom-0 right-0 h-[360px] w-[360px] translate-x-1/3 rounded-full bg-accent/10 blur-3xl" />
+              <div
+                className="absolute -top-48 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full opacity-80 blur-3xl"
+                style={{
+                  background:
+                    "radial-gradient(circle at 50% 50%, hsl(var(--spiritual-ember) / 0.32), transparent 65%)",
+                }}
+              />
+              <div
+                className="absolute -left-24 top-1/3 h-[420px] w-[420px] opacity-70 blur-[140px]"
+                style={{
+                  background:
+                    "radial-gradient(circle at 32% 40%, hsl(var(--spiritual-mist) / 0.28), transparent 70%)",
+                }}
+              />
+              <div
+                className="absolute bottom-[-18%] right-[-12%] h-[420px] w-[420px] opacity-70 blur-[140px]"
+                style={{
+                  background:
+                    "radial-gradient(circle at 50% 50%, hsl(var(--spiritual-aurora) / 0.32), transparent 72%)",
+                }}
+              />
+              <div
+                className="absolute inset-0 opacity-70"
+                style={{
+                  background:
+                    "linear-gradient(140deg, hsl(var(--spiritual-shadow) / 0.18) 0%, transparent 55%)",
+                }}
+              />
             </div>
 
             {/* Skip link accesible */}
@@ -121,10 +147,18 @@ export default function RootLayout({
             </main>
 
             <footer
-              className="relative mt-12 border-t border-border/60 bg-background/80 backdrop-blur"
+              className="relative mt-12 overflow-hidden border-t border-transparent bg-background/90 backdrop-blur-xl"
               aria-labelledby="footer-heading"
             >
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/30 to-transparent" />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -z-10"
+                style={{
+                  background:
+                    "linear-gradient(135deg, hsl(var(--spiritual-shadow) / 0.8) 0%, hsl(var(--background) / 0.9) 38%, hsl(var(--spiritual-mist) / 0.22) 100%)",
+                }}
+              />
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--spiritual-aurora)/0.45)] to-transparent" />
               <div className="container-app section">
                 <div className="flex flex-col gap-2 ">
                   <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
@@ -143,14 +177,14 @@ export default function RootLayout({
                       <div className="flex flex-wrap gap-3">
                         <Link
                           href="/#contacto"
-                          className="inline-flex items-center gap-2 rounded-full border border-border/60 px-3 py-1.5 text-sm font-medium text-foreground transition hover:border-brand hover:bg-brand/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                          className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[linear-gradient(120deg,_hsl(var(--spiritual-ember))_0%,_hsl(var(--spiritual-aurora))_65%)] px-4 py-2 text-sm font-semibold text-white shadow-[0_18px_40px_-22px_hsl(var(--spiritual-ember)/0.8)] transition hover:-translate-y-0.5 hover:shadow-[0_22px_48px_-20px_hsl(var(--spiritual-aurora)/0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--spiritual-light)/0.6)] focus-visible:ring-offset-2"
                         >
                           <Mail className="h-4 w-4" />
                           Contactar
                         </Link>
                         <Link
                           href="/protected"
-                          className="inline-flex items-center gap-2 rounded-full border border-border/60 px-3 py-1.5 text-sm font-medium text-foreground transition hover:border-brand hover:bg-brand/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                          className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--spiritual-light)/0.4)] bg-[hsl(var(--spiritual-light)/0.08)] px-3.5 py-1.5 text-sm font-medium text-foreground transition hover:bg-[hsl(var(--spiritual-light)/0.14)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--spiritual-ember)/0.4)] focus-visible:ring-offset-2"
                         >
                           <User className="h-4 w-4" />
                           {"Área personal"}
@@ -170,9 +204,9 @@ export default function RootLayout({
                           <Link
                             key={href}
                             href={href}
-                            className="group flex items-center gap-3 rounded-lg border border-transparent px-3 py-2 text-sm text-muted-foreground transition hover:border-brand/40 hover:bg-accent/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                            className="group flex items-center gap-3 rounded-lg border border-transparent px-3 py-2 text-sm text-muted-foreground transition hover:border-[hsl(var(--spiritual-ember)/0.35)] hover:bg-[hsl(var(--spiritual-light)/0.12)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--spiritual-aurora)/0.4)] focus-visible:ring-offset-2"
                           >
-                            <span className="inline-flex size-8 items-center justify-center rounded-md bg-accent/30 text-brand group-hover:bg-brand/20 group-hover:text-foreground">
+                            <span className="inline-flex size-8 items-center justify-center rounded-md bg-[hsl(var(--spiritual-light)/0.15)] text-[hsl(var(--spiritual-ember))] shadow-[0_12px_30px_-18px_hsl(var(--spiritual-ember)/0.6)] transition group-hover:bg-[hsl(var(--spiritual-light)/0.28)] group-hover:text-white">
                               <Icon className="h-4 w-4" />
                             </span>
                             {label}
@@ -191,7 +225,7 @@ export default function RootLayout({
                             key={label}
                             className="flex items-center gap-3 text-sm text-muted-foreground"
                           >
-                            <span className="inline-flex size-8 items-center justify-center rounded-md bg-accent/30">
+                            <span className="inline-flex size-8 items-center justify-center rounded-md bg-[hsl(var(--spiritual-light)/0.12)] text-[hsl(var(--spiritual-ember))] shadow-[0_12px_26px_-18px_hsl(var(--spiritual-ember)/0.55)]">
                               <Icon className="h-4 w-4" />
                             </span>
                             {label}
@@ -199,8 +233,14 @@ export default function RootLayout({
                         ))}
                       </div>
                       <div
-                        className="flex items-center justify-between gap-4 rounded-xl border border-border/50 bg-background/60 px-4 py-3 shadow-inner"
+                        className="flex items-center justify-between gap-4 rounded-xl border px-4 py-3 shadow-inner backdrop-blur-sm"
                         aria-label="Selector de tema"
+                        style={{
+                          borderColor: "hsl(var(--spiritual-light) / 0.3)",
+                          background:
+                            "linear-gradient(120deg, hsl(var(--spiritual-shadow) / 0.4) 0%, hsl(var(--background) / 0.75) 50%, hsl(var(--spiritual-light) / 0.12) 100%)",
+                          boxShadow: "inset 0 1px 12px hsl(var(--spiritual-light) / 0.15)",
+                        }}
                       >
                         <span className="text-sm text-muted-foreground">
                           Tema
@@ -215,7 +255,7 @@ export default function RootLayout({
                       className="absolute inset-0 flex items-center"
                       aria-hidden
                     >
-                      <div className="h-px w-full bg-gradient-to-r from-transparent via-border/60 to-transparent" />
+                      <div className="h-px w-full bg-gradient-to-r from-transparent via-[hsl(var(--spiritual-light)/0.2)] to-transparent" />
                     </div>
                     <div className="relative flex justify-center">
                       <span className="rounded-full bg-background px-4 py-1 text-xs uppercase tracking-[0.3em] text-muted-foreground">
