@@ -51,6 +51,11 @@ const defaultBenefits: Benefit[] = [
   { label: "Retiros y viajes conscientes", icon: "Mountain" },
   { label: "Formaciones vivenciales", icon: "GraduationCap" },
 ];
+const spiritualKeywords = [
+  "Rituales conscientes",
+  "Sabiduría ancestral",
+  "Presencia amorosa",
+];
 
 export default function Hero({
   id = "hero",
@@ -118,6 +123,42 @@ export default function Hero({
                     {subtitle}
                   </p>
                 )}
+              </div>
+            </div>
+
+            <div className="relative overflow-hidden rounded-3xl border border-brand/40 bg-gradient-to-br from-brand/90 via-accent-cool/85 to-accent-warm/85 p-6 text-white shadow-xl shadow-brand/30">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-20 top-0 h-40 w-40 rounded-full bg-white/10 blur-3xl"
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -bottom-24 left-1/4 h-48 w-48 rounded-full bg-white/10 blur-3xl"
+              />
+              <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/15">
+                  <Sparkles className="h-6 w-6 text-white" aria-hidden="true" />
+                </div>
+                <div className="space-y-4">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.32em] text-white/85">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white" aria-hidden="true" />
+                    Carácter espiritual
+                  </span>
+                  <p className="text-sm leading-relaxed text-white/90 sm:text-base">
+                    Honramos tu dimensión sagrada con rituales guiados, sonidos medicina y presencia amorosa que sostiene cada paso.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {spiritualKeywords.map((keyword) => (
+                      <span
+                        key={keyword}
+                        className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/90 shadow-sm ring-1 ring-white/30"
+                      >
+                        <span className="h-1.5 w-1.5 rounded-full bg-white/70" aria-hidden="true" />
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -293,3 +334,4 @@ function BackgroundDecor() {
     </div>
   );
 }
+
