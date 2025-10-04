@@ -13,9 +13,9 @@ const ICONS = { ShieldCheck, Mountain, GraduationCap };
 
 const trustedBy: TrustedItem[] = [
   { label: "Mizentro" },
-  { label: "Colegio San José" },
-  { label: "Fundación Gaia" },
-  { label: "Asociación UNO" },
+  { label: "Colegio San Jose" },
+  { label: "Fundacion Gaia" },
+  { label: "Asociacion UNO" },
 ];
 
 export interface HeroProps {
@@ -35,13 +35,13 @@ export interface HeroProps {
 }
 
 const defaultStats: Stat[] = [
-  { value: "500+", label: "Personas acompañadas" },
-  { value: "15 años", label: "Experiencia y práctica" },
-  { value: "6 países", label: "Comunidad activa" },
+  { value: "500+", label: "Personas acompanadas" },
+  { value: "15 anos", label: "Experiencia y practica" },
+  { value: "6 paises", label: "Comunidad activa" },
 ];
 
 const defaultBenefits: Benefit[] = [
-  { label: "Acompañamiento seguro y ético", icon: "ShieldCheck" },
+  { label: "Acompanamiento seguro y etico", icon: "ShieldCheck" },
   { label: "Retiros y viajes conscientes", icon: "Mountain" },
   { label: "Formaciones vivenciales", icon: "GraduationCap" },
 ];
@@ -49,13 +49,13 @@ const defaultBenefits: Benefit[] = [
 export default function Hero({
   id = "hero",
   pill = "EDHUCO · Comunidad viva",
-  tagLine = "Sabiduría ancestral + herramientas contemporáneas",
+  tagLine = "Sabiduria ancestral + herramientas contemporaneas",
   title = "Educar para transformar vidas",
   highlight = "Desarrollo humano consciente",
-  subtitle = "Terapias, viajes y formaciones que integran tradición, ciencia y presencia para acompañarte a crear cambios reales y sostenibles.",
+  subtitle = "Terapias, viajes y formaciones que integran tradicion, ciencia y presencia para acompanarte a crear cambios reales y sostenibles.",
   primaryCta = { href: "/auth/sign-up", label: "Reserva tu plaza" },
   secondaryCta = { href: "#beneficios", label: "Explorar servicios" },
-  tertiaryCta = { href: "#agenda", label: "Próximas fechas" },
+  tertiaryCta = { href: "#agenda", label: "Proximas fechas" },
   benefits = defaultBenefits,
   stats = defaultStats,
   imageUrl = "/images/hero-person.JPG",
@@ -65,7 +65,7 @@ export default function Hero({
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className={`relative isolate overflow-hidden bg-[#f4efe5] py-14 md:py-16 lg:py-20 ${className}`}
+      className={`relative isolate overflow-hidden bg-[hsl(var(--background))] py-14 md:py-16 lg:py-20 ${className}`}
     >
       <BackgroundDecor />
 
@@ -75,18 +75,18 @@ export default function Hero({
             <div className="space-y-6">
               <div className="flex flex-wrap items-center gap-3">
                 {pill && (
-                  <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200/70 bg-emerald-50 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.26em] text-emerald-700">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--spiritual-light)/0.32)] bg-[hsl(var(--spiritual-light)/0.16)] px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.26em] text-[hsl(var(--spiritual-ember))] dark:border-[hsl(var(--spiritual-light)/0.24)] dark:bg-[hsl(var(--spiritual-shadow)/0.68)] dark:text-[hsl(var(--spiritual-light))]">
                     <span
-                      className="h-1.5 w-1.5 rounded-full bg-emerald-600"
+                      className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--spiritual-ember))] dark:bg-[hsl(var(--spiritual-light))]"
                       aria-hidden="true"
                     />
                     {pill}
                   </span>
                 )}
                 {tagLine && (
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3.5 py-1 text-[11px] font-medium uppercase tracking-[0.22em] text-stone-500 ring-1 ring-stone-200">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-card/80 px-3.5 py-1 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground ring-1 ring-border/60 dark:bg-card/60">
                     <span
-                      className="inline-flex h-1.5 w-1.5 rounded-full bg-amber-500/80"
+                      className="inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(var(--spiritual-aurora))] dark:bg-[hsl(var(--spiritual-light))]"
                       aria-hidden="true"
                     />
                     {tagLine}
@@ -97,18 +97,18 @@ export default function Hero({
               <div className="space-y-5">
                 <h1
                   id={`${id}-title`}
-                  className="text-balance text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl lg:text-[52px]"
+                  className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-[52px]"
                 >
                   {title}
                   {highlight && (
-                    <span className="mt-3 block text-3xl font-medium text-emerald-800 sm:text-4xl lg:text-[40px]">
+                    <span className="mt-3 block text-3xl font-medium text-[hsl(var(--spiritual-ember))] sm:text-4xl lg:text-[40px] dark:text-[hsl(var(--spiritual-light))]">
                       {highlight}
                     </span>
                   )}
                 </h1>
 
                 {subtitle && (
-                  <p className="max-w-2xl text-base leading-relaxed text-stone-600 sm:text-lg">
+                  <p className="max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
                     {subtitle}
                   </p>
                 )}
@@ -122,12 +122,18 @@ export default function Hero({
                   return (
                     <li
                       key={`${benefit.label}-${index}`}
-                      className="flex items-center gap-3 rounded-2xl border border-emerald-100/80 bg-white/70 px-4 py-3 text-sm text-stone-700 shadow-sm"
+                      className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card/80 px-4 py-3 text-sm text-foreground/90 shadow-sm backdrop-blur-sm dark:bg-card/60"
                     >
                       {Icon ? (
-                        <Icon className="h-4 w-4 text-emerald-700" aria-hidden="true" />
+                        <Icon
+                          className="h-4 w-4 text-[hsl(var(--spiritual-ember))] dark:text-[hsl(var(--spiritual-light))]"
+                          aria-hidden="true"
+                        />
                       ) : (
-                        <span className="h-2 w-2 rounded-full bg-emerald-600" aria-hidden="true" />
+                        <span
+                          className="h-2 w-2 rounded-full bg-[hsl(var(--spiritual-ember))] dark:bg-[hsl(var(--spiritual-light))]"
+                          aria-hidden="true"
+                        />
                       )}
                       <span className="font-medium">{benefit.label}</span>
                     </li>
@@ -141,7 +147,7 @@ export default function Hero({
                 {primaryCta && (
                   <Link
                     href={primaryCta.href}
-                    className="inline-flex items-center gap-2 rounded-full bg-emerald-700 px-6 py-3 text-sm font-semibold text-emerald-50 transition hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+                    className="inline-flex items-center gap-2 rounded-full bg-[hsl(var(--spiritual-ember))] px-6 py-3 text-sm font-semibold text-[hsl(var(--spiritual-light))] shadow-[0_18px_40px_-28px_hsl(var(--spiritual-ember)/0.8)] transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--spiritual-light)/0.6)] focus-visible:ring-offset-2"
                   >
                     {primaryCta.label}
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -150,7 +156,7 @@ export default function Hero({
                 {secondaryCta && (
                   <Link
                     href={secondaryCta.href}
-                    className="inline-flex items-center gap-2 rounded-full border border-emerald-300 px-6 py-3 text-sm font-semibold text-emerald-900 transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
+                    className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--spiritual-light)/0.35)] bg-transparent px-6 py-3 text-sm font-semibold text-[hsl(var(--spiritual-ember))] transition hover:bg-[hsl(var(--spiritual-light)/0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--spiritual-aurora)/0.4)] focus-visible:ring-offset-2 dark:border-[hsl(var(--spiritual-light)/0.25)] dark:text-[hsl(var(--spiritual-light))] dark:hover:bg-[hsl(var(--spiritual-shadow)/0.5)]"
                   >
                     {secondaryCta.label}
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -161,7 +167,7 @@ export default function Hero({
               {tertiaryCta && (
                 <Link
                   href={tertiaryCta.href}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 transition hover:text-emerald-900"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-[hsl(var(--spiritual-ember))] transition hover:text-[hsl(var(--spiritual-ember)/0.8)] dark:text-[hsl(var(--spiritual-light))] dark:hover:text-[hsl(var(--spiritual-light)/0.8)]"
                 >
                   {tertiaryCta.label}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -174,12 +180,12 @@ export default function Hero({
                 {stats.map((stat) => (
                   <div
                     key={stat.label}
-                    className="rounded-2xl border border-emerald-100/70 bg-white/60 p-4 text-left"
+                    className="rounded-2xl border border-border/60 bg-card/70 p-4 text-left shadow-sm backdrop-blur-sm dark:bg-card/50"
                   >
-                    <dd className="text-2xl font-semibold text-emerald-900 sm:text-3xl">
+                    <dd className="text-2xl font-semibold text-foreground sm:text-3xl">
                       {stat.value}
                     </dd>
-                    <dt className="mt-1 text-xs font-medium uppercase tracking-wide text-stone-500">
+                    <dt className="mt-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       {stat.label}
                     </dt>
                   </div>
@@ -189,18 +195,24 @@ export default function Hero({
           </div>
 
           <div className="relative z-10 flex justify-center">
-            <div className="absolute -top-16 right-2 h-44 w-44 rounded-full bg-emerald-300/25 blur-[120px]" aria-hidden />
-            <div className="absolute -bottom-16 left-0 h-40 w-40 rounded-full bg-amber-200/25 blur-[120px]" aria-hidden />
-            <div className="relative w-full max-w-[420px] overflow-hidden rounded-[28px] border border-stone-200/70 bg-[#fdfbf6] shadow-[0_32px_80px_-58px_rgba(32,64,40,0.65)]">
+            <div
+              className="absolute -top-16 right-2 h-44 w-44 rounded-full bg-[hsl(var(--spiritual-ember)/0.25)] blur-[120px] dark:bg-[hsl(var(--spiritual-aurora)/0.22)]"
+              aria-hidden
+            />
+            <div
+              className="absolute -bottom-16 left-0 h-40 w-40 rounded-full bg-[hsl(var(--spiritual-light)/0.2)] blur-[120px] dark:bg-[hsl(var(--spiritual-shadow)/0.6)]"
+              aria-hidden
+            />
+            <div className="relative w-full max-w-[420px] overflow-hidden rounded-[28px] border border-border/60 bg-card/80 shadow-[0_32px_80px_-58px_hsl(var(--spiritual-shadow)/0.85)] backdrop-blur-sm dark:bg-card/60">
               <div className="relative aspect-[4/5]">
                 <Image
                   src={imageUrl}
-                  alt="Sesión de cuencos ceremoniales de EDHUCO"
+                  alt="Sesion de cuencos ceremoniales de EDHUCO"
                   fill
                   sizes="(max-width: 1024px) 90vw, 420px"
                   className="object-cover object-center"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1d3a28]/35 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--spiritual-shadow)/0.38)] via-transparent to-transparent" />
               </div>
             </div>
           </div>
@@ -208,14 +220,14 @@ export default function Hero({
 
         {trustedBy.length > 0 && (
           <div className="mt-16 flex flex-col items-center gap-4 text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-stone-500">
-              Confían en EDHUCO
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+              Confian en EDHUCO
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm font-medium text-stone-600 sm:text-base">
+            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm font-medium text-foreground/80 sm:text-base">
               {trustedBy.map((item) => (
                 <span
                   key={item.label}
-                  className="rounded-full bg-white/80 px-4 py-2 ring-1 ring-emerald-100/60"
+                  className="rounded-full bg-card/80 px-4 py-2 ring-1 ring-border/60 backdrop-blur-sm dark:bg-card/60"
                 >
                   {item.label}
                 </span>
@@ -235,15 +247,15 @@ function BackgroundDecor() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle at 20% 18%, rgba(46, 106, 76, 0.18), transparent 55%), radial-gradient(circle at 82% 76%, rgba(168, 120, 64, 0.15), transparent 60%)",
+            "radial-gradient(circle at 16% 18%, hsl(var(--spiritual-ember) / 0.18), transparent 56%), radial-gradient(circle at 84% 78%, hsl(var(--spiritual-mist) / 0.14), transparent 64%)",
         }}
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.04]"
+        className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06]"
         style={{
           backgroundImage:
-            "linear-gradient(to right, rgba(73, 54, 29, 0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(73, 54, 29, 0.15) 1px, transparent 1px)",
+            "linear-gradient(to right, hsl(var(--spiritual-shadow) / 0.12) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--spiritual-shadow) / 0.12) 1px, transparent 1px)",
           backgroundSize: "64px 64px",
         }}
       />
