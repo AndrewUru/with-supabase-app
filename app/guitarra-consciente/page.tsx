@@ -11,7 +11,6 @@ import {
   MapPin,
   Music2,
   Sparkles,
-  Waves,
 } from "lucide-react";
 
 export const metadata = {
@@ -271,7 +270,7 @@ export default function GuitarraConscientePage() {
             </ul>
             <div className="rounded-2xl border border-white/20 bg-white/5 p-4 text-sm text-muted-foreground">
               <p>
-                "No lo llamo alumnos, porque alumna significa sin luz. Cada persona que llega trae su propia llama; mi labor es acompanarla a que suene con verdad."
+                &quot;No lo llamo alumnos, porque alumna significa sin luz. Cada persona que llega trae su propia llama; mi labor es acompanarla a que suene con verdad.&quot;
               </p>
             </div>
           </div>
