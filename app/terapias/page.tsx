@@ -251,7 +251,7 @@ function HeroSection() {
               />
             </div>
             <div className="border-t border-white/20 bg-gradient-to-r from-white/60 via-transparent to-white/40 px-5 py-4 text-sm text-foreground dark:border-white/10 dark:from-white/5 dark:to-white/10">
-              "El sonido y la energía nos recuerdan lo que siempre estuvo dentro." — EDHUCO
+              &ldquo;El sonido y la energía nos recuerdan lo que siempre estuvo dentro.&rdquo; — EDHUCO
             </div>
           </div>
         </div>
@@ -517,3 +517,6 @@ function ChakanaGlyph() {
 
 const wiphalaGradient =
   "linear-gradient(130deg, #EE3124, #F97B00, #FFD500, #FFFFFF, #00A859, #0084C9, #6D3B96)";
+
+
+
