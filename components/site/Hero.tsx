@@ -11,10 +11,24 @@ type TrustedItem = { label: string };
 
 const ICONS = { ShieldCheck, Mountain, GraduationCap };
 
+// Wiphala diagonal stripes referencing the Andean flag palette.
+const WIPHLA_ROWS: string[][] = [
+  ["#6D3B96", "#0084C9", "#00A859", "#FFFFFF", "#FFD500", "#FF6B00", "#EE3124"],
+  ["#0084C9", "#00A859", "#FFFFFF", "#FFD500", "#FF6B00", "#EE3124", "#6D3B96"],
+  ["#00A859", "#FFFFFF", "#FFD500", "#FF6B00", "#EE3124", "#6D3B96", "#0084C9"],
+  ["#FFFFFF", "#FFD500", "#FF6B00", "#EE3124", "#6D3B96", "#0084C9", "#00A859"],
+  ["#FFD500", "#FF6B00", "#EE3124", "#6D3B96", "#0084C9", "#00A859", "#FFFFFF"],
+  ["#FF6B00", "#EE3124", "#6D3B96", "#0084C9", "#00A859", "#FFFFFF", "#FFD500"],
+  ["#EE3124", "#6D3B96", "#0084C9", "#00A859", "#FFFFFF", "#FFD500", "#FF6B00"],
+];
+
+const WIPHLA_GRADIENT =
+  "linear-gradient(120deg, #EE3124 0%, #FF6B00 16%, #FFD500 32%, #FFFFFF 48%, #00A859 64%, #0084C9 80%, #6D3B96 100%)";
+
 const trustedBy: TrustedItem[] = [
-  { label: "Mizentro" },
+  { label: "Espacio le Dones" },
   { label: "Colegio San Jose" },
-  { label: "Fundacion Gaia" },
+  { label: "SOMRIU" },
   { label: "Asociacion UNO" },
 ];
 
@@ -35,13 +49,13 @@ export interface HeroProps {
 }
 
 const defaultStats: Stat[] = [
-  { value: "500+", label: "Personas acompanadas" },
-  { value: "15 anos", label: "Experiencia y practica" },
-  { value: "6 paises", label: "Comunidad activa" },
+  { value: "500+", label: "Personas acompañadas" },
+  { value: "10 años", label: "Experiencia y práctica" },
+  { value: "4 países", label: "Comunidad activa" },
 ];
 
 const defaultBenefits: Benefit[] = [
-  { label: "Acompanamiento seguro y etico", icon: "ShieldCheck" },
+  { label: "Acompanamiento seguro y ético", icon: "ShieldCheck" },
   { label: "Retiros y viajes conscientes", icon: "Mountain" },
   { label: "Formaciones vivenciales", icon: "GraduationCap" },
 ];
@@ -49,13 +63,13 @@ const defaultBenefits: Benefit[] = [
 export default function Hero({
   id = "hero",
   pill = "EDHUCO · Comunidad viva",
-  tagLine = "Sabiduria ancestral + herramientas contemporaneas",
+  tagLine = "Sabiduría ancestral + herramientas contemporáneas",
   title = "Educar para transformar vidas",
   highlight = "Desarrollo humano consciente",
-  subtitle = "Terapias, viajes y formaciones que integran tradicion, ciencia y presencia para acompanarte a crear cambios reales y sostenibles.",
+  subtitle = "Terapias, viajes y formaciones que integran tradición, ciencia y presencia para acompañarte a crear cambios reales y sostenibles.",
   primaryCta = { href: "/auth/sign-up", label: "Reserva tu plaza" },
   secondaryCta = { href: "#beneficios", label: "Explorar servicios" },
-  tertiaryCta = { href: "#agenda", label: "Proximas fechas" },
+  tertiaryCta = { href: "#agenda", label: "Próximas fechas" },
   benefits = defaultBenefits,
   stats = defaultStats,
   imageUrl = "/images/hero-person.JPG",
@@ -77,7 +91,8 @@ export default function Hero({
                 {pill && (
                   <span className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--spiritual-light)/0.32)] bg-[hsl(var(--spiritual-light)/0.16)] px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.26em] text-[hsl(var(--spiritual-ember))] dark:border-[hsl(var(--spiritual-light)/0.24)] dark:bg-[hsl(var(--spiritual-shadow)/0.68)] dark:text-[hsl(var(--spiritual-light))]">
                     <span
-                      className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--spiritual-ember))] dark:bg-[hsl(var(--spiritual-light))]"
+                      className="h-2 w-2 rounded-[4px] shadow-sm ring-1 ring-white/70 dark:ring-white/20"
+                      style={{ backgroundImage: WIPHLA_GRADIENT }}
                       aria-hidden="true"
                     />
                     {pill}
@@ -86,7 +101,8 @@ export default function Hero({
                 {tagLine && (
                   <span className="inline-flex items-center gap-2 rounded-full bg-card/80 px-3.5 py-1 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground ring-1 ring-border/60 dark:bg-card/60">
                     <span
-                      className="inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(var(--spiritual-aurora))] dark:bg-[hsl(var(--spiritual-light))]"
+                      className="inline-flex h-2 w-2 rounded-[4px] shadow-sm ring-1 ring-white/60 dark:ring-white/20"
+                      style={{ backgroundImage: WIPHLA_GRADIENT }}
                       aria-hidden="true"
                     />
                     {tagLine}
@@ -101,7 +117,10 @@ export default function Hero({
                 >
                   {title}
                   {highlight && (
-                    <span className="mt-3 block text-3xl font-medium text-[hsl(var(--spiritual-ember))] sm:text-4xl lg:text-[40px] dark:text-[hsl(var(--spiritual-light))]">
+                    <span
+                      className="mt-3 inline-block bg-clip-text text-3xl font-medium text-transparent sm:text-4xl lg:text-[40px]"
+                      style={{ backgroundImage: WIPHLA_GRADIENT }}
+                    >
                       {highlight}
                     </span>
                   )}
@@ -197,11 +216,11 @@ export default function Hero({
           <div className="relative z-10 flex justify-center">
             <div
               className="absolute -top-16 right-2 h-44 w-44 rounded-full bg-[hsl(var(--spiritual-ember)/0.25)] blur-[120px] dark:bg-[hsl(var(--spiritual-aurora)/0.22)]"
-              aria-hidden
+              aria-hidden="true"
             />
             <div
               className="absolute -bottom-16 left-0 h-40 w-40 rounded-full bg-[hsl(var(--spiritual-light)/0.2)] blur-[120px] dark:bg-[hsl(var(--spiritual-shadow)/0.6)]"
-              aria-hidden
+              aria-hidden="true"
             />
             <div className="relative w-full max-w-[420px] overflow-hidden rounded-[28px] border border-border/60 bg-card/80 shadow-[0_32px_80px_-58px_hsl(var(--spiritual-shadow)/0.85)] backdrop-blur-sm dark:bg-card/60">
               <div className="relative aspect-[4/5]">
@@ -242,20 +261,40 @@ export default function Hero({
 
 function BackgroundDecor() {
   return (
-    <div className="pointer-events-none absolute inset-0 -z-10">
+    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle at 16% 18%, hsl(var(--spiritual-ember) / 0.18), transparent 56%), radial-gradient(circle at 84% 78%, hsl(var(--spiritual-mist) / 0.14), transparent 64%)",
+            "linear-gradient(135deg, rgba(109, 59, 150, 0.16) 0%, rgba(0, 132, 201, 0.18) 18%, rgba(0, 168, 89, 0.16) 36%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 213, 0, 0.2) 66%, rgba(255, 107, 0, 0.18) 82%, rgba(238, 49, 36, 0.22) 100%)",
         }}
       />
       <div
+        className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-white/10 dark:from-black/25 dark:to-black/40"
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute left-1/2 top-[45%] hidden -translate-x-1/2 -translate-y-1/2 rotate-6 overflow-hidden rounded-[36px] border border-white/30 shadow-[0_40px_120px_-60px_rgba(17,24,39,0.55)] dark:border-white/10 dark:shadow-[0_40px_120px_-70px_rgba(0,0,0,0.9)] sm:flex"
+      >
+        <div className="grid grid-cols-7">
+          {WIPHLA_ROWS.map((row, rowIndex) =>
+            row.map((color, columnIndex) => (
+              <span
+                key={`${rowIndex}-${columnIndex}`}
+                style={{ backgroundColor: color }}
+                className="aspect-square w-12 md:w-14 lg:w-16"
+              />
+            ))
+          )}
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-[0.05] dark:opacity-[0.08]"
         style={{
           backgroundImage:
-            "linear-gradient(to right, hsl(var(--spiritual-shadow) / 0.12) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--spiritual-shadow) / 0.12) 1px, transparent 1px)",
+            "linear-gradient(to right, rgba(17, 24, 39, 0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(17, 24, 39, 0.12) 1px, transparent 1px)",
           backgroundSize: "64px 64px",
         }}
       />
