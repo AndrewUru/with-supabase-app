@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿"use client";
+import Link from "next/link";
 import { ArrowRight, ShieldCheck, Mountain, GraduationCap } from "lucide-react";
 import Image from "next/image";
 
@@ -55,7 +56,7 @@ const defaultStats: Stat[] = [
 ];
 
 const defaultBenefits: Benefit[] = [
-  { label: "Acompanamiento seguro y ético", icon: "ShieldCheck" },
+  { label: "Acompañamiento seguro y ético", icon: "ShieldCheck" },
   { label: "Retiros y viajes conscientes", icon: "Mountain" },
   { label: "Formaciones vivenciales", icon: "GraduationCap" },
 ];
@@ -222,7 +223,14 @@ export default function Hero({
               className="absolute -bottom-16 left-0 h-40 w-40 rounded-full bg-[hsl(var(--spiritual-light)/0.2)] blur-[120px] dark:bg-[hsl(var(--spiritual-shadow)/0.6)]"
               aria-hidden="true"
             />
+
+            {/* Tarjeta imagen principal */}
             <div className="relative w-full max-w-[420px] overflow-hidden rounded-[28px] border border-border/60 bg-card/80 shadow-[0_32px_80px_-58px_hsl(var(--spiritual-shadow)/0.85)] backdrop-blur-sm dark:bg-card/60">
+              {/* Wiphala "ondeando" pegada a la tarjeta */}
+              <div className="pointer-events-none absolute -left-3 -top-3 z-20 rotate-[-8deg] sm:-left-4 sm:-top-4">
+                <WiphalaFlag size={96} stick />
+              </div>
+
               <div className="relative aspect-[4/5]">
                 <Image
                   src={imageUrl}
@@ -255,6 +263,49 @@ export default function Hero({
           </div>
         )}
       </div>
+
+      {/* Animaciones globales (autocontenidas) */}
+      <style jsx global>{`
+        @keyframes wiphalaWave {
+          0% {
+            transform: translateY(0) rotate(0);
+          }
+          50% {
+            transform: translateY(-3px) rotate(-0.4deg);
+          }
+          100% {
+            transform: translateY(0) rotate(0);
+          }
+        }
+        @keyframes bgWave {
+          0% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-4px) rotate(-0.3deg);
+          }
+          100% {
+            transform: translateY(0) rotate(0deg);
+          }
+        }
+        @keyframes bgFloat {
+          0% {
+            transform: translateX(0);
+          }
+          50% {
+            transform: translateX(6px);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .wiphala-cell,
+          .wiphala-bg-cell {
+            animation: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
@@ -273,17 +324,23 @@ function BackgroundDecor() {
         className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-white/10 dark:from-black/25 dark:to-black/40"
         aria-hidden="true"
       />
+      {/* Mosaico Wiphala de fondo con oleaje sutil */}
       <div
         aria-hidden="true"
-        className="absolute left-1/2 top-[45%] hidden -translate-x-1/2 -translate-y-1/2 rotate-6 overflow-hidden rounded-[36px] border border-white/30 shadow-[0_40px_120px_-60px_rgba(17,24,39,0.55)] dark:border-white/10 dark:shadow-[0_40px_120px_-70px_rgba(0,0,0,0.9)] sm:flex"
+        className="hidden selection:absolute left-1/2 top-[45%]  -translate-x-1/2 -translate-y-1/2 rotate-6 overflow-hidden  sm:flex"
       >
         <div className="grid grid-cols-7">
-          {WIPHLA_ROWS.map((row, rowIndex) =>
-            row.map((color, columnIndex) => (
+          {WIPHLA_ROWS.map((row, r) =>
+            row.map((color, c) => (
               <span
-                key={`${rowIndex}-${columnIndex}`}
-                style={{ backgroundColor: color }}
-                className="aspect-square w-12 md:w-14 lg:w-16"
+                key={`${r}-${c}`}
+                style={{
+                  backgroundColor: color,
+                  animation: `bgWave 6s ease-in-out ${
+                    c * 120
+                  }ms infinite, bgFloat 18s ease-in-out ${r * 160}ms infinite`,
+                }}
+                className="wiphala-bg-cell aspect-square w-12 md:w-14 lg:w-16"
               />
             ))
           )}
@@ -299,5 +356,51 @@ function BackgroundDecor() {
         }}
       />
     </div>
+  );
+}
+
+/** Bandera Wiphala 7x7 con animación por columnas */
+function WiphalaFlag({
+  size = 96,
+  stick = false,
+}: {
+  size?: number;
+  stick?: boolean; // dibuja un pequeño "palo"
+}) {
+  const cell = Math.floor(size / 7);
+  return (
+    <figure
+      aria-label="Bandera Wiphala"
+      className="relative grid aspect-square select-none rounded-[8px] border border-black/10 bg-white/30 p-[4px] shadow-[0_10px_35px_-10px_rgba(0,0,0,0.45)] backdrop-blur-sm"
+      style={{
+        width: size,
+        gridTemplateColumns: "repeat(7, 1fr)",
+        gridTemplateRows: "repeat(7, 1fr)",
+      }}
+    >
+      {WIPHLA_ROWS.map((row, r) =>
+        row.map((color, c) => (
+          <span
+            key={`${r}-${c}`}
+            className="wiphala-cell block rounded-[2px]"
+            style={{
+              width: cell,
+              height: cell,
+              backgroundColor: color,
+              animation: `wiphalaWave 2.8s ease-in-out ${c * 90}ms infinite`,
+              transformOrigin: "center",
+              willChange: "transform",
+            }}
+          />
+        ))
+      )}
+      {stick && (
+        <span
+          className="absolute -left-[6px] top-0 h-full w-[3px] rounded-full bg-black/30"
+          aria-hidden="true"
+        />
+      )}
+      <figcaption className="sr-only">Wiphala animada</figcaption>
+    </figure>
   );
 }

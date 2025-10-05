@@ -1,3 +1,5 @@
+"use client";
+
 import type { LucideIcon } from "lucide-react";
 import { CalendarDays, HeartHandshake, Sparkles } from "lucide-react";
 
@@ -23,25 +25,25 @@ type Benefit = {
 
 const BENEFITS: Benefit[] = [
   {
-    title: "Terapias transformadoras",
+    title: "Formación anual en Chamanismo Andino",
     description:
-      "Sesiones individuales y grupales para soltar carga, armonizar cuerpo y voz, y reactivar la confianza personal.",
-    icon: HeartHandshake,
-    highlight: "Cuidado profundo",
-  },
-  {
-    title: "Formaciones vivenciales",
-    description:
-      "Programas inmersivos que integran sabiduria ancestral, herramientas contemporaneas y practicas eticas de acompanamiento.",
+      "Edición 2025. Encuentros mensuales, prácticas guiadas y comunidad. 99 €/mes (10 cuotas) o 880 € al contado (ahorras 12%). Becas solidarias hasta −30% (plazas limitadas).",
     icon: Sparkles,
-    highlight: "Aprendizaje vivo",
+    highlight: "Plazas abiertas",
   },
   {
-    title: "Viajes y retiros",
+    title: "Módulos y talleres sueltos",
     description:
-      "Experiencias en Peru, Espana y otros territorios sagrados para reconectar con la naturaleza, la comunidad y el proposito.",
+      "Avanza paso a paso con módulos temáticos y talleres prácticos. Desde 120–180 € por encuentro. Descuentos para alumnado y suscriptores EDHUCO.",
     icon: CalendarDays,
-    highlight: "Movimiento consciente",
+    highlight: "Flexible",
+  },
+  {
+    title: "Sesiones de apoyo y retiros",
+    description:
+      "Acompañamiento individual/grupal para integrar el proceso. Retiros y viajes opcionales. Suscripción EDHUCO: 22 €/mes para recursos, comunidad y ventajas en becas.",
+    icon: HeartHandshake,
+    highlight: "Acompañamiento",
   },
 ];
 
@@ -62,30 +64,59 @@ export default function BeneficiosSection() {
               style={{ backgroundImage: WIPHLA_GRADIENT }}
               aria-hidden="true"
             />
-            Ecosistema EDHUCO
+            Formación · EDHUCO
           </span>
 
           <h2
             id="beneficios-title"
             className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-[44px]"
           >
-            Tres caminos para acompanarte en la transformacion
+            Formación en Chamanismo Andino · 2025
           </h2>
 
           <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Cada propuesta nace del tejido entre pueblos originarios y metodologias actuales. Tu suscripcion de{' '}
-            <strong className="bg-clip-text text-transparent" style={{ backgroundImage: WIPHLA_GRADIENT }}>
-              22 EUR/mes
-            </strong>{' '}permite sumar becas, materiales y experiencias abiertas a mas personas.
+            Un recorrido iniciático que integra cosmovisión andina, arte ritual,
+            manejo de la energía y acompañamiento ético. Precio:{" "}
+            <strong
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: WIPHLA_GRADIENT }}
+            >
+              99 €/mes × 10
+            </strong>{" "}
+            o{" "}
+            <strong
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: WIPHLA_GRADIENT }}
+            >
+              880 € al contado
+            </strong>
+            . Becas solidarias hasta <strong>−30%</strong>.
           </p>
 
           <div className="rounded-3xl border border-white/15 bg-card/70 p-6 text-left shadow-[0_24px_70px_-60px_rgba(17,24,39,0.78)] backdrop-blur-sm dark:bg-card/55">
-            <p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">Que recibes</p>
+            <p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">
+              Qué incluye
+            </p>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-              <li>Acceso a sesiones y recursos ineditos cada mes.</li>
-              <li>Acompanamiento etico con profesionales de la red.</li>
-              <li>Comunidad internacional para sostener procesos.</li>
+              <li>
+                Encuentros mensuales + prácticas guiadas (presencial / online).
+              </li>
+              <li>
+                Materiales (audios, guías y rituales) y comunidad privada.
+              </li>
+              <li>Acompañamiento ético por profesionales de la red.</li>
             </ul>
+            <div className="mt-4 text-xs text-muted-foreground/90">
+              <span className="rounded-full border border-white/20 bg-white/5 px-2 py-1 backdrop-blur-sm">
+                Matrícula 60 € · Cupos limitados
+              </span>
+            </div>
+          </div>
+
+          <div className="text-sm text-muted-foreground">
+            ¿Solo recursos y comunidad? Suscríbete a EDHUCO por{" "}
+            <strong>22 €/mes</strong> y accede a materiales mensuales y ventajas
+            en becas.
           </div>
         </aside>
 
@@ -98,21 +129,28 @@ export default function BeneficiosSection() {
             {BENEFITS.map((benefit, index) => {
               const Icon = benefit.icon;
               const primary = WIPHLA_COLORS[(index * 2) % WIPHLA_COLORS.length];
-              const secondary = WIPHLA_COLORS[(index * 2 + 3) % WIPHLA_COLORS.length];
+              const secondary =
+                WIPHLA_COLORS[(index * 2 + 3) % WIPHLA_COLORS.length];
 
               return (
                 <article
                   key={benefit.title}
                   className="group relative grid gap-6 rounded-[28px] border border-white/12 bg-card/85 p-6 shadow-[0_32px_90px_-62px_rgba(17,24,39,0.82)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_42px_110px_-60px_rgba(17,24,39,0.88)] dark:bg-card/60 lg:grid-cols-[auto_minmax(0,1fr)]"
                   style={{
-                    background: `linear-gradient(125deg, ${hexToRgba(primary, 0.16)} 0%, ${hexToRgba(secondary, 0.12)} 100%)`,
+                    background: `linear-gradient(125deg, ${hexToRgba(
+                      primary,
+                      0.16
+                    )} 0%, ${hexToRgba(secondary, 0.12)} 100%)`,
                   }}
                 >
                   <div className="relative flex flex-col items-center gap-3 lg:items-start">
                     <span
                       className="grid h-14 w-14 place-items-center rounded-2xl ring-1 ring-white/25 shadow-sm backdrop-blur"
                       style={{
-                        backgroundImage: `linear-gradient(140deg, ${hexToRgba(primary, 0.4)} 0%, ${hexToRgba(secondary, 0.28)} 100%)`,
+                        backgroundImage: `linear-gradient(140deg, ${hexToRgba(
+                          primary,
+                          0.4
+                        )} 0%, ${hexToRgba(secondary, 0.28)} 100%)`,
                       }}
                       aria-hidden="true"
                     >
@@ -129,8 +167,12 @@ export default function BeneficiosSection() {
                   </div>
 
                   <div className="relative space-y-3">
-                    <h3 className="text-2xl font-semibold tracking-tight text-foreground">{benefit.title}</h3>
-                    <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">{benefit.description}</p>
+                    <h3 className="text-2xl font-semibold tracking-tight text-foreground">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+                      {benefit.description}
+                    </p>
 
                     <div className="flex flex-wrap gap-3 pt-1 text-xs uppercase tracking-[0.3em] text-muted-foreground/80">
                       <span className="rounded-full border border-white/20 bg-white/5 px-3 py-1 backdrop-blur-sm">
@@ -145,7 +187,10 @@ export default function BeneficiosSection() {
                   <div
                     className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                     style={{
-                      backgroundImage: `radial-gradient(circle at 0% 0%, ${hexToRgba(primary, 0.25)}, transparent 70%)`,
+                      backgroundImage: `radial-gradient(circle at 0% 0%, ${hexToRgba(
+                        primary,
+                        0.25
+                      )}, transparent 70%)`,
                     }}
                     aria-hidden="true"
                   />
@@ -155,20 +200,109 @@ export default function BeneficiosSection() {
           </div>
         </div>
       </div>
+
+      {/* estilos locales para la Wiphala animada */}
+      <style jsx>{`
+        .wiphala-flag {
+          position: absolute;
+          top: 2rem;
+          right: 2rem;
+          width: 132px;
+          height: 132px;
+          display: grid;
+          grid-template-columns: repeat(7, 1fr);
+          grid-template-rows: repeat(7, 1fr);
+          border-radius: 16px;
+          overflow: hidden;
+          border: 1px solid rgba(255, 255, 255, 0.35);
+          box-shadow: 0 20px 60px -30px rgba(17, 24, 39, 0.55),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+          transform: rotate(10deg);
+          filter: saturate(1.05);
+          animation: wiphala-float 9s ease-in-out infinite;
+          opacity: 0.95;
+          pointer-events: none; /* puramente decorativa */
+        }
+        .wiphala-flag > span {
+          width: 100%;
+          height: 100%;
+          animation: wiphala-breathe 6.5s ease-in-out infinite;
+          will-change: transform, box-shadow, filter;
+        }
+        /* Retardo escalonado por columna para efecto de oleaje */
+        .wiphala-flag > span:nth-child(7n + 1) {
+          animation-delay: 0s;
+        }
+        .wiphala-flag > span:nth-child(7n + 2) {
+          animation-delay: 0.2s;
+        }
+        .wiphala-flag > span:nth-child(7n + 3) {
+          animation-delay: 0.4s;
+        }
+        .wiphala-flag > span:nth-child(7n + 4) {
+          animation-delay: 0.6s;
+        }
+        .wiphala-flag > span:nth-child(7n + 5) {
+          animation-delay: 0.8s;
+        }
+        .wiphala-flag > span:nth-child(7n + 6) {
+          animation-delay: 1s;
+        }
+        .wiphala-flag > span:nth-child(7n + 7) {
+          animation-delay: 1.2s;
+        }
+
+        @keyframes wiphala-float {
+          0% {
+            transform: rotate(10deg) translateY(0);
+          }
+          50% {
+            transform: rotate(10deg) translateY(-6px);
+          }
+          100% {
+            transform: rotate(10deg) translateY(0);
+          }
+        }
+        @keyframes wiphala-breathe {
+          0%,
+          100% {
+            transform: scale(1);
+            box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0);
+            filter: brightness(1);
+          }
+          50% {
+            transform: scale(1.015);
+            box-shadow: inset 0 0 12px 0 rgba(255, 255, 255, 0.22);
+            filter: brightness(1.05);
+          }
+        }
+        /* Responsivo */
+        @media (max-width: 640px) {
+          .wiphala-flag {
+            width: 100px;
+            height: 100px;
+            top: 1rem;
+            right: 1rem;
+            transform: rotate(8deg);
+          }
+        }
+        /* Accesibilidad: reduce motion (mantiene ángulo y estilo sin animar) */
+        @media (prefers-reduced-motion: reduce) {
+          .wiphala-flag {
+            animation: none !important;
+            transform: rotate(10deg);
+          }
+          .wiphala-flag > span {
+            animation: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
 
-function hexToRgba(hex: string, alpha: number) {
-  const sanitized = hex.replace('#', '');
-  const bigint = parseInt(sanitized, 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
-
 function BeneficiosBackgroundDecor() {
+  // SOLO conserva los radiales suaves y la ÚNICA Wiphala animada.
   return (
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       <div
@@ -178,21 +312,7 @@ function BeneficiosBackgroundDecor() {
             "radial-gradient(circle at 18% 8%, rgba(255, 107, 0, 0.2), transparent 58%), radial-gradient(circle at 80% 14%, rgba(0, 132, 201, 0.18), transparent 64%), radial-gradient(circle at 48% 110%, rgba(0, 168, 89, 0.2), transparent 72%)",
         }}
       />
-      <div
-        className="absolute left-8 top-[40%] hidden h-60 w-60 -translate-y-1/2 rotate-6 overflow-hidden rounded-3xl opacity-80 shadow-[0_40px_120px_-68px_rgba(17,24,39,0.82)] md:block"
-        style={{ backgroundImage: WIPHLA_GRADIENT }}
-        aria-hidden="true"
-      />
-      <div
-        className="absolute right-10 bottom-8 hidden h-64 w-64 rotate-12 overflow-hidden rounded-[40px] border border-white/30 shadow-[0_48px_150px_-72px_rgba(17,24,39,0.9)] dark:border-white/10 lg:block"
-        aria-hidden="true"
-      >
-        <div className="grid h-full w-full grid-cols-7">
-          {WIPHLA_COLORS.map((color, index) => (
-            <span key={`stripe-${color}-${index}`} style={{ backgroundColor: color }} className="h-full w-full" />
-          ))}
-        </div>
-      </div>
+      <WiphalaFlag />
       <div
         className="absolute inset-0 opacity-[0.05]"
         style={{
@@ -204,4 +324,32 @@ function BeneficiosBackgroundDecor() {
       />
     </div>
   );
+}
+
+/** ÚNICA Wiphala animada (7x7 celdas diagonales) */
+function WiphalaFlag() {
+  const COLORS = WIPHLA_COLORS;
+  const cells = Array.from({ length: 49 }, (_, i) => {
+    const row = Math.floor(i / 7);
+    const col = i % 7;
+    const colorIndex = (col - row + 7) % 7; // diagonal clásica
+    return COLORS[colorIndex];
+  });
+
+  return (
+    <div className="wiphala-flag" aria-hidden="true">
+      {cells.map((bg, i) => (
+        <span key={i} style={{ backgroundColor: bg }} />
+      ))}
+    </div>
+  );
+}
+
+function hexToRgba(hex: string, alpha: number) {
+  const sanitized = hex.replace("#", "");
+  const bigint = parseInt(sanitized, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }

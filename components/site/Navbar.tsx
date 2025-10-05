@@ -79,15 +79,17 @@ function CaretDown({ className = "w-3 h-3" }) {
   );
 }
 
-function MegaMenuTrigger({ label }: { label: string }) {
+function MegaMenuTrigger({ label, href }: { label: string; href: string }) {
   return (
-    <button
+    <Link
+      href={href}
+      prefetch={false}
       className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium hover:text-primary transition-colors"
       aria-haspopup="true"
     >
       <span>{label}</span>
       <CaretDown className="w-3 h-3 opacity-60" />
-    </button>
+    </Link>
   );
 }
 
@@ -147,12 +149,12 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
           {/* Nav Desktop */}
           <nav className="hidden md:flex items-center gap-1">
             <div className="relative group">
-              <MegaMenuTrigger label="Chamanismo" />
+              <MegaMenuTrigger label="Chamanismo" href="/chamanismo" />
               <MegaPanel columns={CHAMANISMO_COLS} />
             </div>
 
             <div className="relative group">
-              <MegaMenuTrigger label="Sonidos" />
+              <MegaMenuTrigger label="Sonidos" href="/sonidos-ancestrales" />
               <MegaPanel columns={SONIDOS_COLS} />
             </div>
 
@@ -164,12 +166,12 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
             </Link>
 
             <div className="relative group">
-              <MegaMenuTrigger label="Terapias" />
+              <MegaMenuTrigger label="Terapias" href="/terapias" />
               <MegaPanel columns={TERAPIAS_COLS} />
             </div>
 
             <div className="relative group">
-              <MegaMenuTrigger label="Recursos" />
+              <MegaMenuTrigger label="Recursos" href="/recursos" />
               <MegaPanel columns={RECURSOS_COLS} />
             </div>
 

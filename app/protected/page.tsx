@@ -14,6 +14,8 @@ import {
   Lock,
   MapPin,
   Sparkles,
+  CheckCircle2,
+  TrendingUp,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -81,16 +83,16 @@ const fmtBytes = (bytes?: number | null) => {
 
 const PLAN_LABELS: Record<Subscription["plan"], string> = {
   free: "Gratuito",
-  basic: "Basico",
+  basic: "Básico",
   pro: "Pro",
   vip: "VIP",
 };
 
 const PLAN_DESCRIPTIONS: Record<Subscription["plan"], string> = {
   free: "Contenido de arranque para familiarizarte con la comunidad.",
-  basic: "Mas sesiones guiadas y materiales descargables para avanzar.",
+  basic: "Más sesiones guiadas y materiales descargables para avanzar.",
   pro: "Acceso completo a la biblioteca, eventos online y soporte priorizado.",
-  vip: "Mentoria personalizada, encuentros exclusivos y todo el contenido premium.",
+  vip: "Mentoría personalizada, encuentros exclusivos y todo el contenido premium.",
 };
 
 const PLAN_PERKS: Record<Subscription["plan"], string[]> = {
@@ -111,7 +113,7 @@ const PLAN_PERKS: Record<Subscription["plan"], string[]> = {
   ],
   vip: [
     "Todo lo incluido en Pro",
-    "Mentoria individual",
+    "Mentoría individual",
     "Acceso anticipado a retiros y viajes",
   ],
 };
@@ -136,7 +138,7 @@ const STATUS_TONE: Record<Subscription["status"], PillTone> = {
 
 const NAV_ITEMS = [
   { id: "perfil", label: "Perfil" },
-  { id: "suscripcion", label: "Suscripcion" },
+  { id: "suscripcion", label: "Suscripción" },
   { id: "biblioteca", label: "Biblioteca" },
   { id: "eventos", label: "Eventos" },
 ];
@@ -147,18 +149,21 @@ const assetIconByKind: Record<
   MediaAsset["kind"],
   { icon: LucideIcon; tone: string }
 > = {
-  audio: { icon: Headphones, tone: "bg-brand/15 text-brand" },
+  audio: {
+    icon: Headphones,
+    tone: "bg-violet-500/10 text-violet-600 dark:bg-violet-500/20 dark:text-violet-400",
+  },
   video: {
     icon: Film,
-    tone: "bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-200",
+    tone: "bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400",
   },
   pdf: {
     icon: FileText,
-    tone: "bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-200",
+    tone: "bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400",
   },
 };
 
-// -------------------- Pagina --------------------
+// -------------------- Página --------------------
 export default async function ProtectedPage({
   searchParams,
 }: {
@@ -243,7 +248,7 @@ export default async function ProtectedPage({
       icon: Sparkles,
       hint: subscription
         ? STATUS_LABELS[subscription.status]
-        : "Sin suscripcion activa",
+        : "Sin suscripción activa",
     },
     {
       label: "Contenidos desbloqueados",
@@ -255,7 +260,7 @@ export default async function ProtectedPage({
           : "Todo tu contenido listo",
     },
     {
-      label: "Proximo evento",
+      label: "Próximo evento",
       value: nextEvent
         ? fmtDateTime(nextEvent.starts_at)
         : "Sin eventos programados",
@@ -272,42 +277,53 @@ export default async function ProtectedPage({
     : "Sin fecha programada";
 
   return (
-    <main className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-brand/10 via-background to-accent/10 p-8 shadow-lg">
+    <main className="relative mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-6 lg:p-8">
+      {/* Hero Header */}
+      <section className="relative overflow-hidden rounded-3xl border border-border/40 bg-gradient-to-br from-brand/5 via-background to-purple-500/5 shadow-xl">
         <div
-          className="absolute top-0 right-0 h-48 w-48 translate-x-20 -translate-y-16 rounded-full bg-brand/20 blur-[120px]"
+          className="absolute top-0 right-0 h-64 w-64 translate-x-24 -translate-y-20 rounded-full bg-brand/15 blur-3xl"
           aria-hidden
         />
-        <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl space-y-4">
-            <span className="inline-flex items-center rounded-full border border-brand/40 bg-background/80 px-3 py-1 text-xs font-medium uppercase tracking-wide text-brand shadow-sm">
-              Panel personal EDHUCO
-            </span>
+        <div
+          className="absolute bottom-0 left-0 h-48 w-48 -translate-x-16 translate-y-16 rounded-full bg-purple-500/10 blur-3xl"
+          aria-hidden
+        />
+
+        <div className="relative z-10 flex flex-col gap-8 p-6 md:p-8 lg:flex-row lg:items-center lg:justify-between lg:p-10">
+          <div className="max-w-2xl space-y-5">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand backdrop-blur-sm">
+                <Sparkles className="h-3.5 w-3.5" />
+                Panel EDHUCO
+              </span>
+            </div>
             <div>
-              <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              <h1 className="bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl">
                 Hola, {shortName}
               </h1>
-              <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-                Gestiona tu informacion, revisa tu suscripcion y accede a los
+              <p className="mt-3 text-base text-muted-foreground/90 sm:text-lg">
+                Gestiona tu información, revisa tu suscripción y accede a los
                 recursos que tienes disponibles.
               </p>
             </div>
             <nav aria-label="Secciones del panel" className="pt-2">
-              <ul className="flex flex-wrap gap-2 text-sm">
+              <ul className="flex flex-wrap gap-2">
                 {NAV_ITEMS.map((item) => (
                   <li key={item.id}>
                     <a
                       href={`#${item.id}`}
-                      className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-3 py-1.5 font-medium transition hover:border-brand/60 hover:bg-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                      className="group inline-flex items-center gap-2 rounded-xl border border-border/50 bg-background/60 px-4 py-2 text-sm font-medium backdrop-blur-sm transition-all duration-200 hover:border-brand/50 hover:bg-brand/5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                     >
                       {item.label}
+                      <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
                     </a>
                   </li>
                 ))}
               </ul>
             </nav>
           </div>
-          <div className="grid w-full max-w-md gap-3 sm:grid-cols-3 lg:max-w-lg">
+
+          <div className="grid w-full gap-4 sm:grid-cols-3 lg:max-w-xl">
             {highlightStats.map(
               ({ label, value, icon: IconComponent, hint }) => (
                 <StatCard
@@ -315,7 +331,7 @@ export default async function ProtectedPage({
                   label={label}
                   value={value}
                   hint={hint}
-                  icon={<IconComponent className="h-4 w-4" />}
+                  icon={<IconComponent className="h-5 w-5" />}
                 />
               )
             )}
@@ -323,43 +339,45 @@ export default async function ProtectedPage({
         </div>
       </section>
 
+      {/* Profile Section */}
       <SectionCard
         id="perfil"
         title="Tu perfil"
         desc="Consulta los datos sincronizados desde Supabase."
         badge={<Pill tone="muted">Solo lectura</Pill>}
       >
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2">
           <ProfileField label="Nombre completo" value={profile?.full_name} />
           <ProfileField label="Correo" value={user.email} />
-          <ProfileField label="Telefono" value={profile?.phone} />
+          <ProfileField label="Teléfono" value={profile?.phone} />
           <ProfileField
             label="Avatar"
             value={profile?.avatar_url}
             hint={
-              profile?.avatar_url ? "Se abrira en una nueva pestana" : undefined
+              profile?.avatar_url ? "Se abrirá en una nueva pestaña" : undefined
             }
             isLink
           />
         </div>
       </SectionCard>
 
+      {/* Subscription Section */}
       <SectionCard
         id="suscripcion"
-        title="Tu suscripcion"
+        title="Tu suscripción"
         desc="Controla el plan que te da acceso al contenido."
         badge={<Pill tone={planTone}>Plan {PLAN_LABELS[activePlan]}</Pill>}
         action={
           <Link
             href="/precios"
-            className="inline-flex items-center gap-2 rounded-full border border-brand/60 bg-brand/10 px-4 py-2 text-sm font-semibold text-brand transition hover:border-brand hover:bg-brand/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+            className="group inline-flex items-center gap-2 rounded-xl border border-brand/50 bg-gradient-to-r from-brand/10 to-brand/5 px-5 py-2.5 text-sm font-semibold text-brand shadow-sm transition-all duration-200 hover:border-brand hover:from-brand/20 hover:to-brand/10 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
           >
             Cambiar de plan
-            <ArrowUpRight className="h-4 w-4" />
+            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         }
       >
-        <div className="space-y-4">
+        <div className="space-y-5">
           <div className="flex flex-wrap items-center gap-2">
             <Pill tone="brand">Plan: {PLAN_LABELS[activePlan]}</Pill>
             {subscription ? (
@@ -371,54 +389,63 @@ export default async function ProtectedPage({
                   <Pill tone="muted">Renueva: {renewalLabel}</Pill>
                 ) : null}
                 {subscription.cancel_at_period_end ? (
-                  <Pill tone="warning">Se cancelara al final del periodo</Pill>
+                  <Pill tone="warning">Se cancelará al final del periodo</Pill>
                 ) : null}
                 {subscription.provider ? (
                   <Pill tone="muted">
-                    Gestionado via {subscription.provider}
+                    Gestionado vía {subscription.provider}
                   </Pill>
                 ) : null}
               </>
             ) : (
-              <Pill tone="muted">Sin suscripcion activa</Pill>
+              <Pill tone="muted">Sin suscripción activa</Pill>
             )}
           </div>
 
-          <p className="text-sm text-muted-foreground">{planDescription}</p>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            {planDescription}
+          </p>
 
-          <ul className="grid gap-2 sm:grid-cols-2">
-            {planPerks.map((perk) => (
-              <li
-                key={perk}
-                className="flex items-start gap-2 text-sm text-foreground"
-              >
-                <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand/15 text-brand">
-                  ?
-                </span>
-                <span>{perk}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="rounded-xl border border-border/40 bg-muted/30 p-5">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
+              <TrendingUp className="h-4 w-4 text-brand" />
+              Características incluidas
+            </h3>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {planPerks.map((perk) => (
+                <li
+                  key={perk}
+                  className="flex items-start gap-3 text-sm text-foreground"
+                >
+                  <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-brand/15 text-brand">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                  </span>
+                  <span className="leading-relaxed">{perk}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </SectionCard>
 
+      {/* Library Section */}
       <SectionCard
         id="biblioteca"
         title="Tu biblioteca"
-        desc="Accede a los contenidos disponibles segun tu plan."
+        desc="Accede a los contenidos disponibles según tu plan."
         badge={
           <Pill tone="muted">
-            {accessibleAssets.length} accesibles ? {lockedAssets} bloqueados
+            {accessibleAssets.length} accesibles · {lockedAssets} bloqueados
           </Pill>
         }
         action={
           lockedAssets > 0 ? (
             <Link
               href="/precios"
-              className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-4 py-2 text-sm font-medium transition hover:border-brand/60 hover:bg-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+              className="group inline-flex items-center gap-2 rounded-xl border border-border/50 bg-background/80 px-5 py-2.5 text-sm font-medium transition-all duration-200 hover:border-brand/50 hover:bg-brand/5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             >
-              Desbloquear mas contenidos
-              <ArrowUpRight className="h-4 w-4" />
+              Desbloquear más contenidos
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           ) : null
         }
@@ -426,44 +453,44 @@ export default async function ProtectedPage({
         {assets.length === 0 ? (
           <EmptyState
             icon={Library}
-            title="Aun no hay contenidos publicados"
-            description="Cuando se publique nuevo material aparecera aqui automaticamente."
+            title="Aún no hay contenidos publicados"
+            description="Cuando se publique nuevo material aparecerá aquí automáticamente."
           />
         ) : (
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {assets.map((asset) => {
               const config = assetIconByKind[asset.kind];
               const IconComponent = config.icon;
               const availabilityTone: PillTone = asset.allowed
                 ? "brand"
                 : "muted";
-              const meta = `${asset.kind.toUpperCase()} | ${
+              const meta = `${asset.kind.toUpperCase()} · ${
                 asset.duration_secs
                   ? `${Math.round(asset.duration_secs / 60)} min`
                   : EMPTY_PLACEHOLDER
-              } | ${fmtBytes(asset.filesz_bytes)}`;
+              } · ${fmtBytes(asset.filesz_bytes)}`;
 
               return (
                 <article
                   key={asset.id}
-                  className="flex h-full flex-col justify-between gap-4 rounded-2xl border border-border/60 bg-background/90 p-5 shadow-sm"
+                  className="group relative flex h-full flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-border/50 bg-card/80 p-5 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-border hover:shadow-lg"
                 >
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-start gap-4">
                     <span
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl ${config.tone}`}
+                      className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl ${config.tone} transition-transform duration-300 group-hover:scale-110`}
                     >
-                      <IconComponent className="h-5 w-5" />
+                      <IconComponent className="h-6 w-6" />
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-2">
-                        <h3 className="truncate text-sm font-semibold text-foreground">
+                        <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-foreground">
                           {asset.title}
                         </h3>
                         <Pill tone={availabilityTone}>
                           {asset.plan_required.toUpperCase()}
                         </Pill>
                       </div>
-                      <p className="mt-1 text-xs text-muted-foreground">
+                      <p className="mt-2 text-xs text-muted-foreground">
                         {meta}
                       </p>
                     </div>
@@ -474,14 +501,14 @@ export default async function ProtectedPage({
                       <>
                         <a
                           href={`/media/${asset.id}`}
-                          className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-4 py-2 text-sm font-medium transition hover:border-brand/60 hover:bg-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                          className="inline-flex items-center gap-2 rounded-lg border border-border/50 bg-background/80 px-4 py-2 text-sm font-medium transition-all hover:border-brand/50 hover:bg-brand/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                         >
                           Abrir
                         </a>
                         {asset.kind === "pdf" ? (
                           <a
                             href={`/media/${asset.id}?download=1`}
-                            className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-4 py-2 text-sm font-medium transition hover:border-brand/60 hover:bg-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                            className="inline-flex items-center gap-2 rounded-lg border border-border/50 bg-background/80 px-4 py-2 text-sm font-medium transition-all hover:border-brand/50 hover:bg-brand/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                           >
                             Descargar
                           </a>
@@ -490,7 +517,7 @@ export default async function ProtectedPage({
                     ) : (
                       <Link
                         href="/precios"
-                        className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-brand/60 hover:bg-brand/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                        className="inline-flex items-center gap-2 rounded-lg border border-border/50 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:border-brand/50 hover:bg-brand/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                       >
                         <Lock className="h-4 w-4" />
                         Desbloquear con {asset.plan_required.toUpperCase()}
@@ -503,24 +530,31 @@ export default async function ProtectedPage({
           </div>
         )}
 
-        <aside className="mt-4 rounded-2xl border border-dashed border-border/60 bg-muted/20 p-4 text-xs text-muted-foreground">
-          Idea tecnica: crea la ruta <code>/app/media/[id]/route.ts</code> para
-          generar un signed URL y registrar reproducciones en{" "}
-          <code>media_events</code>.
+        <aside className="mt-5 rounded-xl border border-dashed border-border/50 bg-muted/20 p-4 text-xs leading-relaxed text-muted-foreground">
+          💡 <strong>Idea técnica:</strong> Crea la ruta{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono">
+            /app/media/[id]/route.ts
+          </code>{" "}
+          para generar un signed URL y registrar reproducciones en{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono">
+            media_events
+          </code>
+          .
         </aside>
       </SectionCard>
 
+      {/* Events Section */}
       <SectionCard
         id="eventos"
-        title="Proximos eventos"
+        title="Próximos eventos"
         desc="Organiza tu agenda y revisa las plazas disponibles."
         action={
           <Link
             href="/#viajes"
-            className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-4 py-2 text-sm font-medium transition hover:border-brand/60 hover:bg-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+            className="group inline-flex items-center gap-2 rounded-xl border border-border/50 bg-background/80 px-5 py-2.5 text-sm font-medium transition-all duration-200 hover:border-brand/50 hover:bg-brand/5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
           >
             Ver agenda completa
-            <ArrowUpRight className="h-4 w-4" />
+            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         }
       >
@@ -528,7 +562,7 @@ export default async function ProtectedPage({
           <EmptyState
             icon={Calendar}
             title="Sin eventos programados"
-            description="Cuando haya nuevos encuentros veras aqui la fecha, ubicacion y plazas disponibles."
+            description="Cuando haya nuevos encuentros verás aquí la fecha, ubicación y plazas disponibles."
           />
         ) : (
           <div className="space-y-4">
@@ -545,23 +579,23 @@ export default async function ProtectedPage({
               return (
                 <article
                   key={event.id}
-                  className="flex flex-col gap-4 rounded-2xl border border-border/60 bg-background/90 p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+                  className="group flex flex-col gap-5 rounded-2xl border border-border/50 bg-card/80 p-6 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-border hover:shadow-md sm:flex-row sm:items-center sm:justify-between"
                 >
-                  <div className="flex items-start gap-3">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">
-                      <Calendar className="h-5 w-5" />
+                  <div className="flex items-start gap-4">
+                    <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand transition-transform duration-300 group-hover:scale-110">
+                      <Calendar className="h-6 w-6" />
                     </span>
-                    <div className="min-w-0 space-y-1">
-                      <h3 className="truncate text-sm font-semibold text-foreground">
+                    <div className="min-w-0 space-y-2">
+                      <h3 className="text-base font-semibold leading-snug text-foreground">
                         {event.title}
                       </h3>
-                      <p className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Clock className="h-3.5 w-3.5" />
+                      <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Clock className="h-4 w-4" />
                         {fmtDateTime(event.starts_at)}
                       </p>
                       {event.location_name ? (
-                        <p className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <MapPin className="h-3.5 w-3.5" />
+                        <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <MapPin className="h-4 w-4" />
                           <span className="truncate">
                             {event.location_name}
                           </span>
@@ -569,8 +603,8 @@ export default async function ProtectedPage({
                       ) : null}
                     </div>
                   </div>
-                  <div className="flex items-start justify-end gap-3 sm:flex-col sm:items-end">
-                    <p className="text-sm font-medium text-foreground">
+                  <div className="flex flex-col items-start gap-2 sm:items-end">
+                    <p className="text-sm font-semibold text-foreground">
                       {capacityLabel}
                     </p>
                     {slotsLeft !== null ? (
@@ -591,6 +625,8 @@ export default async function ProtectedPage({
   );
 }
 
+// -------------------- Components --------------------
+
 const Pill = ({
   children,
   tone = "muted",
@@ -599,14 +635,14 @@ const Pill = ({
   tone?: PillTone;
 }) => {
   const base =
-    "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium";
+    "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium shadow-sm";
   const variants: Record<PillTone, string> = {
-    muted: "border-border/70 bg-muted/30 text-muted-foreground",
-    brand: "border-brand/60 bg-brand/15 text-brand",
+    muted: "border-border/60 bg-muted/40 text-muted-foreground",
+    brand: "border-brand/40 bg-brand/10 text-brand",
     positive:
-      "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:border-emerald-400/30 dark:bg-emerald-500/20 dark:text-emerald-200",
+      "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:border-emerald-400/20 dark:bg-emerald-500/15 dark:text-emerald-300",
     warning:
-      "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:border-amber-400/30 dark:bg-amber-500/20 dark:text-amber-200",
+      "border-amber-500/30 bg-amber-500/10 text-amber-600 dark:border-amber-400/20 dark:bg-amber-500/15 dark:text-amber-300",
   };
 
   return <span className={`${base} ${variants[tone]}`}>{children}</span>;
@@ -629,14 +665,12 @@ const SectionCard = ({
 }) => (
   <section
     id={id}
-    className="rounded-3xl border border-border/60 bg-card/80 p-6 shadow-md backdrop-blur"
+    className="rounded-3xl border border-border/50 bg-card/50 p-6 shadow-lg backdrop-blur-sm md:p-8"
   >
-    <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
-      <div>
-        <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
-        {desc ? (
-          <p className="mt-1 text-sm text-muted-foreground">{desc}</p>
-        ) : null}
+    <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+      <div className="space-y-1.5">
+        <h2 className="text-xl font-bold tracking-tight">{title}</h2>
+        {desc ? <p className="text-sm text-muted-foreground">{desc}</p> : null}
       </div>
       <div className="flex flex-wrap items-center gap-2">
         {badge}
@@ -662,8 +696,8 @@ const ProfileField = ({
     value && value.trim().length > 0 ? value.trim() : EMPTY_PLACEHOLDER;
 
   return (
-    <div className="rounded-2xl border border-border/60 bg-muted/10 p-4">
-      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+    <div className="group rounded-xl border border-border/50 bg-gradient-to-br from-muted/30 to-muted/10 p-5 transition-all duration-200 hover:border-border hover:shadow-md">
+      <p className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
         {label}
       </p>
       {isLink && normalized !== EMPTY_PLACEHOLDER ? (
@@ -671,16 +705,18 @@ const ProfileField = ({
           href={normalized}
           target="_blank"
           rel="noreferrer noopener"
-          className="mt-1 inline-flex items-center gap-2 truncate text-sm font-medium text-brand hover:underline"
+          className="inline-flex items-center gap-2 truncate text-sm font-medium text-brand transition-colors hover:text-brand/80 hover:underline"
         >
           {normalized}
-          <ArrowUpRight className="h-3.5 w-3.5" />
+          <ArrowUpRight className="h-4 w-4 flex-shrink-0" />
         </a>
       ) : (
-        <p className="mt-1 truncate text-sm text-foreground">{normalized}</p>
+        <p className="truncate text-sm font-medium text-foreground">
+          {normalized}
+        </p>
       )}
       {hint ? (
-        <p className="mt-1 text-xs text-muted-foreground">{hint}</p>
+        <p className="mt-2 text-xs text-muted-foreground">{hint}</p>
       ) : null}
     </div>
   );
@@ -695,13 +731,15 @@ const EmptyState = ({
   title: string;
   description: string;
 }) => (
-  <div className="flex flex-col gap-3 rounded-2xl border border-dashed border-border/60 bg-muted/20 p-6 text-sm text-muted-foreground">
-    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-background/80 text-muted-foreground">
-      <Icon className="h-5 w-5" />
+  <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-border/50 bg-muted/20 p-8 text-center">
+    <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-muted/50 text-muted-foreground shadow-sm">
+      <Icon className="h-8 w-8" />
     </span>
-    <div>
+    <div className="max-w-md space-y-2">
       <p className="text-base font-semibold text-foreground">{title}</p>
-      <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+      <p className="text-sm leading-relaxed text-muted-foreground">
+        {description}
+      </p>
     </div>
   </div>
 );
@@ -717,16 +755,21 @@ const StatCard = ({
   hint: string;
   icon: ReactNode;
 }) => (
-  <div className="group rounded-2xl border border-border/60 bg-background/90 p-4 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-brand/60 hover:shadow-lg">
-    <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-brand/10 text-brand">
-      {icon}
-    </span>
-    <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-      {label}
-    </p>
-    <p className="mt-1 truncate text-base font-semibold text-foreground">
-      {value}
-    </p>
-    <p className="mt-1 text-xs text-muted-foreground">{hint}</p>
+  <div className="group relative overflow-hidden rounded-2xl border border-border/40 bg-card/90 p-5 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-xl">
+    <div className="absolute inset-0 bg-gradient-to-br from-brand/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+    <div className="relative space-y-3">
+      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand/15 to-brand/5 text-brand shadow-sm transition-transform duration-300 group-hover:scale-110">
+        {icon}
+      </span>
+      <div>
+        <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+          {label}
+        </p>
+        <p className="mt-1.5 truncate text-lg font-bold text-foreground">
+          {value}
+        </p>
+      </div>
+      <p className="text-xs leading-relaxed text-muted-foreground">{hint}</p>
+    </div>
   </div>
 );

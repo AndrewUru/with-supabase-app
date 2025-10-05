@@ -34,7 +34,7 @@ const WIPHLA_GRADIENT =
   "linear-gradient(120deg, #EE3124 0%, #FF6B00 16%, #FFD500 32%, #FFFFFF 48%, #00A859 64%, #0084C9 80%, #6D3B96 100%)";
 
 const PRICE_EUR = "22 EUR / mes";
-const SUBSCRIBE_PATH = "/suscripcion";
+const SUBSCRIBE_PATH = "/precios";
 const LOGIN_PATH = "/auth/login";
 
 const CATEGORY_MARK: Record<Category, string> = {
@@ -207,8 +207,6 @@ async function fetchResources(params: URLSearchParams): Promise<ResourceRow[]> {
     return [];
   }
 
-
-
   const normalized: ResourceRow[] = (data ?? []).map((raw) => {
     const record = raw as Record<string, unknown>;
 
@@ -236,14 +234,10 @@ async function fetchResources(params: URLSearchParams): Promise<ResourceRow[]> {
     );
 
     const premium =
-      asBool(record.premium) ||
-      asBool(record.es_premium) ||
-      false;
+      asBool(record.premium) || asBool(record.es_premium) || false;
 
     const rawStatus =
-      asString(record.status) ||
-      asString(record.estado) ||
-      "published";
+      asString(record.status) || asString(record.estado) || "published";
     const status = normStatus(rawStatus);
 
     const file_path =
@@ -269,7 +263,6 @@ async function fetchResources(params: URLSearchParams): Promise<ResourceRow[]> {
       created_at,
     };
   });
-
 
   const categoria = params.get("categoria");
   const acceso = params.get("acceso");
@@ -302,7 +295,8 @@ async function fetchResources(params: URLSearchParams): Promise<ResourceRow[]> {
   }
 
   return out.sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   );
 }
 
@@ -372,7 +366,10 @@ export default async function RecursosPage({
 
   return (
     <main className="flex flex-col">
-      <section className="relative isolate overflow-hidden py-20" aria-labelledby="recursos-hero-title">
+      <section
+        className="relative isolate overflow-hidden py-20"
+        aria-labelledby="recursos-hero-title"
+      >
         <HeroBackgroundDecor />
         <div className="container-app relative z-10 grid gap-14 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
           <div className="space-y-8">
@@ -393,7 +390,9 @@ export default async function RecursosPage({
                 Recursos vivos para tu proceso
               </h1>
               <p className="max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                Audios, videos y guias descargables que combinan saberes ancestrales con practicas contemporaneas. Explora contenidos gratuitos y desbloquea la biblioteca completa por {PRICE_EUR}.
+                Audios, videos y guias descargables que combinan saberes
+                ancestrales con practicas contemporaneas. Explora contenidos
+                gratuitos y desbloquea la biblioteca completa por {PRICE_EUR}.
               </p>
             </div>
 
@@ -418,7 +417,8 @@ export default async function RecursosPage({
             {!isSubscribed && (
               <div className="rounded-2xl border border-white/15 bg-card/80 p-5 shadow-[0_30px_90px_-68px_rgba(17,24,39,0.82)] backdrop-blur-sm dark:bg-card/60">
                 <p className="text-sm text-muted-foreground">
-                  Tu suscripcion sostiene becas, nuevos materiales y encuentros abiertos. Accede a toda la biblioteca premium por {PRICE_EUR}.
+                  Tu suscripcion sostiene becas, nuevos materiales y encuentros
+                  abiertos. Accede a toda la biblioteca premium por {PRICE_EUR}.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-3">
                   <Link
@@ -444,7 +444,10 @@ export default async function RecursosPage({
           <div className="space-y-6 rounded-[32px] border border-white/15 bg-card/85 p-6 shadow-[0_36px_110px_-72px_rgba(17,24,39,0.88)] backdrop-blur-sm dark:bg-card/65">
             <form action="/recursos" method="get" className="space-y-4">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+                <Search
+                  className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+                  aria-hidden="true"
+                />
                 <input
                   type="search"
                   name="q"
@@ -453,7 +456,11 @@ export default async function RecursosPage({
                   className="w-full rounded-full border border-white/15 bg-white/5 px-10 py-3 text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-white/40"
                 />
                 {selectedCategoria !== "todas" && (
-                  <input type="hidden" name="categoria" value={selectedCategoria} />
+                  <input
+                    type="hidden"
+                    name="categoria"
+                    value={selectedCategoria}
+                  />
                 )}
                 {selectedAcceso !== "todos" && (
                   <input type="hidden" name="acceso" value={selectedAcceso} />
@@ -489,11 +496,17 @@ export default async function RecursosPage({
               />
               <FilterSection
                 title="Categoria"
-                chips={[{ href: withParam("categoria", "todas"), label: "Todas", active: selectedCategoria === "todas" },
+                chips={[
+                  {
+                    href: withParam("categoria", "todas"),
+                    label: "Todas",
+                    active: selectedCategoria === "todas",
+                  },
                   ...allCategories.map((cat) => ({
                     href: withParam("categoria", cat.toLowerCase()),
                     label: cat,
-                    active: selectedCategoria.toLowerCase() === cat.toLowerCase(),
+                    active:
+                      selectedCategoria.toLowerCase() === cat.toLowerCase(),
                   })),
                 ]}
               />
@@ -520,10 +533,13 @@ export default async function RecursosPage({
                         <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground/80">
                           {CATEGORY_MARK[category]} - {category}
                         </p>
-                        <h2 className="mt-2 text-2xl font-semibold text-foreground">{category}</h2>
+                        <h2 className="mt-2 text-2xl font-semibold text-foreground">
+                          {category}
+                        </h2>
                       </div>
                       <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1 text-xs font-semibold text-muted-foreground/80 backdrop-blur-sm">
-                        <Star className="h-4 w-4" aria-hidden="true" /> {items.length} recursos
+                        <Star className="h-4 w-4" aria-hidden="true" />{" "}
+                        {items.length} recursos
                       </span>
                     </header>
 
@@ -534,7 +550,9 @@ export default async function RecursosPage({
                           r={resource}
                           isLoggedIn={isLoggedIn}
                           isSubscribed={isSubscribed}
-                          highlight={index === 0 && resource.premium && isSubscribed}
+                          highlight={
+                            index === 0 && resource.premium && isSubscribed
+                          }
                         />
                       ))}
                     </div>
@@ -609,9 +627,12 @@ function EmptyState() {
       <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/10">
         <Filter className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
       </div>
-      <h3 className="text-lg font-semibold text-foreground">No encontramos recursos</h3>
+      <h3 className="text-lg font-semibold text-foreground">
+        No encontramos recursos
+      </h3>
       <p className="mt-2 text-sm text-muted-foreground">
-        Ajusta la busqueda o limpia los filtros para explorar la biblioteca completa.
+        Ajusta la busqueda o limpia los filtros para explorar la biblioteca
+        completa.
       </p>
       <Link
         href="/recursos"
@@ -699,7 +720,13 @@ function ResourceCard({
               : "border border-white/20 bg-white/5 text-foreground/80 backdrop-blur-sm hover:border-white/35 hover:text-foreground",
           ].join(" ")}
         >
-          {locked ? (isLoggedIn ? "Subscribirme" : "Iniciar sesion") : r.type === "video" ? "Reproducir" : "Descargar"}
+          {locked
+            ? isLoggedIn
+              ? "Subscribirme"
+              : "Iniciar sesion"
+            : r.type === "video"
+            ? "Reproducir"
+            : "Descargar"}
           {locked ? (
             <Sparkles className="h-4 w-4" aria-hidden="true" />
           ) : r.type === "video" ? (
@@ -781,5 +808,3 @@ function ResourcesBackgroundDecor() {
     </div>
   );
 }
-
-
