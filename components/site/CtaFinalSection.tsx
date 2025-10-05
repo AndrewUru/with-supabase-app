@@ -62,7 +62,7 @@ export default function CtaFinalSection() {
     <section
       id="contacto"
       aria-labelledby="cta-final-title"
-      className="relative isolate overflow-hidden py-20 sm:py-24"
+      className="relative isolate overflow-hidden sm:py-24"
     >
       <DecorBackground />
 

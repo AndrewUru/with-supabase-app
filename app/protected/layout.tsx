@@ -6,7 +6,7 @@ type Props = { children: React.ReactNode };
 
 export default function ProtectedLayout({ children }: Props) {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Skip link para navegación por teclado */}
       <a
         href="#content"
@@ -17,7 +17,7 @@ export default function ProtectedLayout({ children }: Props) {
 
       {/* Header fijo de toda la anchura */}
 
-      <div className="mx-auto max-w-6xl px-4">
+      <div className="mx-auto max-w-6xl">
         <div className="flex h-16 items-center justify-between gap-3">
           {/* Izquierda: espacio para marca/breadcrumb si lo necesitas */}
           <div className="flex items-center gap-3">
@@ -41,13 +41,7 @@ export default function ProtectedLayout({ children }: Props) {
           sm:[scroll-margin-top:8rem]
         "
       >
-        <div
-          className="
-            rounded-2xl border border-foreground/10 bg-card/60 p-5 shadow-sm
-          "
-        >
-          {children}
-        </div>
+        <div className=" ">{children}</div>
       </section>
     </main>
   );

@@ -39,12 +39,7 @@ type Subscription = {
   id: string;
   user_id: string;
   plan: "free" | "basic" | "pro" | "vip";
-  status:
-    | "active"
-    | "trialing"
-    | "past_due"
-    | "canceled"
-    | "incomplete";
+  status: "active" | "trialing" | "past_due" | "canceled" | "incomplete";
   current_period_end: string | null;
   cancel_at_period_end: boolean | null;
   provider: "stripe" | "manual" | null;
@@ -71,7 +66,9 @@ const fmtDateTime = (iso?: string | null) =>
       })
     : EMPTY_PLACEHOLDER;
 const fmtDate = (iso?: string | null) =>
-  iso ? new Date(iso).toLocaleDateString("es-ES", { dateStyle: "medium" }) : EMPTY_PLACEHOLDER;
+  iso
+    ? new Date(iso).toLocaleDateString("es-ES", { dateStyle: "medium" })
+    : EMPTY_PLACEHOLDER;
 const fmtBytes = (bytes?: number | null) => {
   if (!bytes || bytes <= 0) return EMPTY_PLACEHOLDER;
   const kb = bytes / 1024;
@@ -146,10 +143,19 @@ const NAV_ITEMS = [
 
 const PLAN_ORDER: Subscription["plan"][] = ["free", "basic", "pro", "vip"];
 
-const assetIconByKind: Record<MediaAsset["kind"], { icon: LucideIcon; tone: string }> = {
+const assetIconByKind: Record<
+  MediaAsset["kind"],
+  { icon: LucideIcon; tone: string }
+> = {
   audio: { icon: Headphones, tone: "bg-brand/15 text-brand" },
-  video: { icon: Film, tone: "bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-200" },
-  pdf: { icon: FileText, tone: "bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-200" },
+  video: {
+    icon: Film,
+    tone: "bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-200",
+  },
+  pdf: {
+    icon: FileText,
+    tone: "bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-200",
+  },
 };
 
 // -------------------- Pagina --------------------
@@ -178,7 +184,9 @@ export default async function ProtectedPage({
       .maybeSingle(),
     supabase
       .from("subscriptions")
-      .select("id,user_id,plan,status,current_period_end,cancel_at_period_end,provider")
+      .select(
+        "id,user_id,plan,status,current_period_end,cancel_at_period_end,provider"
+      )
       .eq("user_id", user.id)
       .in("status", ["active", "trialing", "past_due"])
       .order("current_period_end", { ascending: false })
@@ -199,8 +207,11 @@ export default async function ProtectedPage({
 
   const mediaRes = await supabase
     .from("media_assets")
-    .select("id,title,kind,storage_path,duration_secs,filesz_bytes,plan_required");
-  const rawAssets = (mediaRes.data as Omit<MediaAsset, "allowed">[] | null) ?? [];
+    .select(
+      "id,title,kind,storage_path,duration_secs,filesz_bytes,plan_required"
+    );
+  const rawAssets =
+    (mediaRes.data as Omit<MediaAsset, "allowed">[] | null) ?? [];
   const userLevel = PLAN_ORDER.indexOf(activePlan);
   const assets: MediaAsset[] = rawAssets.map((asset) => ({
     ...asset,
@@ -220,22 +231,34 @@ export default async function ProtectedPage({
       : user.email ?? "tu cuenta";
   const shortName = displayName.split(" ")[0] ?? displayName;
 
-  const highlightStats: Array<{ label: string; value: string; hint: string; icon: LucideIcon }> = [
+  const highlightStats: Array<{
+    label: string;
+    value: string;
+    hint: string;
+    icon: LucideIcon;
+  }> = [
     {
       label: "Plan activo",
       value: PLAN_LABELS[activePlan],
       icon: Sparkles,
-      hint: subscription ? STATUS_LABELS[subscription.status] : "Sin suscripcion activa",
+      hint: subscription
+        ? STATUS_LABELS[subscription.status]
+        : "Sin suscripcion activa",
     },
     {
       label: "Contenidos desbloqueados",
       value: accessibleAssets.length.toString(),
       icon: Library,
-      hint: lockedAssets > 0 ? `${lockedAssets} por desbloquear` : "Todo tu contenido listo",
+      hint:
+        lockedAssets > 0
+          ? `${lockedAssets} por desbloquear`
+          : "Todo tu contenido listo",
     },
     {
       label: "Proximo evento",
-      value: nextEvent ? fmtDateTime(nextEvent.starts_at) : "Sin eventos programados",
+      value: nextEvent
+        ? fmtDateTime(nextEvent.starts_at)
+        : "Sin eventos programados",
       icon: Calendar,
       hint: nextEvent?.location_name ?? "Te avisaremos cuando haya novedades",
     },
@@ -251,16 +274,22 @@ export default async function ProtectedPage({
   return (
     <main className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 p-4 md:p-8">
       <section className="relative overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-brand/10 via-background to-accent/10 p-8 shadow-lg">
-        <div className="absolute top-0 right-0 h-48 w-48 translate-x-20 -translate-y-16 rounded-full bg-brand/20 blur-[120px]" aria-hidden />
+        <div
+          className="absolute top-0 right-0 h-48 w-48 translate-x-20 -translate-y-16 rounded-full bg-brand/20 blur-[120px]"
+          aria-hidden
+        />
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl space-y-4">
             <span className="inline-flex items-center rounded-full border border-brand/40 bg-background/80 px-3 py-1 text-xs font-medium uppercase tracking-wide text-brand shadow-sm">
               Panel personal EDHUCO
             </span>
             <div>
-              <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Hola, {shortName}</h1>
+              <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                Hola, {shortName}
+              </h1>
               <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-                Gestiona tu informacion, revisa tu suscripcion y accede a los recursos que tienes disponibles.
+                Gestiona tu informacion, revisa tu suscripcion y accede a los
+                recursos que tienes disponibles.
               </p>
             </div>
             <nav aria-label="Secciones del panel" className="pt-2">
@@ -279,15 +308,17 @@ export default async function ProtectedPage({
             </nav>
           </div>
           <div className="grid w-full max-w-md gap-3 sm:grid-cols-3 lg:max-w-lg">
-            {highlightStats.map(({ label, value, icon: IconComponent, hint }) => (
-              <StatCard
-                key={label}
-                label={label}
-                value={value}
-                hint={hint}
-                icon={<IconComponent className="h-4 w-4" />}
-              />
-            ))}
+            {highlightStats.map(
+              ({ label, value, icon: IconComponent, hint }) => (
+                <StatCard
+                  key={label}
+                  label={label}
+                  value={value}
+                  hint={hint}
+                  icon={<IconComponent className="h-4 w-4" />}
+                />
+              )
+            )}
           </div>
         </div>
       </section>
@@ -305,7 +336,9 @@ export default async function ProtectedPage({
           <ProfileField
             label="Avatar"
             value={profile?.avatar_url}
-            hint={profile?.avatar_url ? "Se abrira en una nueva pestana" : undefined}
+            hint={
+              profile?.avatar_url ? "Se abrira en una nueva pestana" : undefined
+            }
             isLink
           />
         </div>
@@ -341,7 +374,9 @@ export default async function ProtectedPage({
                   <Pill tone="warning">Se cancelara al final del periodo</Pill>
                 ) : null}
                 {subscription.provider ? (
-                  <Pill tone="muted">Gestionado via {subscription.provider}</Pill>
+                  <Pill tone="muted">
+                    Gestionado via {subscription.provider}
+                  </Pill>
                 ) : null}
               </>
             ) : (
@@ -353,8 +388,13 @@ export default async function ProtectedPage({
 
           <ul className="grid gap-2 sm:grid-cols-2">
             {planPerks.map((perk) => (
-              <li key={perk} className="flex items-start gap-2 text-sm text-foreground">
-                <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand/15 text-brand">?</span>
+              <li
+                key={perk}
+                className="flex items-start gap-2 text-sm text-foreground"
+              >
+                <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand/15 text-brand">
+                  ?
+                </span>
                 <span>{perk}</span>
               </li>
             ))}
@@ -366,7 +406,11 @@ export default async function ProtectedPage({
         id="biblioteca"
         title="Tu biblioteca"
         desc="Accede a los contenidos disponibles segun tu plan."
-        badge={<Pill tone="muted">{accessibleAssets.length} accesibles ? {lockedAssets} bloqueados</Pill>}
+        badge={
+          <Pill tone="muted">
+            {accessibleAssets.length} accesibles ? {lockedAssets} bloqueados
+          </Pill>
+        }
         action={
           lockedAssets > 0 ? (
             <Link
@@ -390,8 +434,14 @@ export default async function ProtectedPage({
             {assets.map((asset) => {
               const config = assetIconByKind[asset.kind];
               const IconComponent = config.icon;
-              const availabilityTone: PillTone = asset.allowed ? "brand" : "muted";
-              const meta = `${asset.kind.toUpperCase()} | ${asset.duration_secs ? `${Math.round(asset.duration_secs / 60)} min` : EMPTY_PLACEHOLDER} | ${fmtBytes(asset.filesz_bytes)}`;
+              const availabilityTone: PillTone = asset.allowed
+                ? "brand"
+                : "muted";
+              const meta = `${asset.kind.toUpperCase()} | ${
+                asset.duration_secs
+                  ? `${Math.round(asset.duration_secs / 60)} min`
+                  : EMPTY_PLACEHOLDER
+              } | ${fmtBytes(asset.filesz_bytes)}`;
 
               return (
                 <article
@@ -399,15 +449,23 @@ export default async function ProtectedPage({
                   className="flex h-full flex-col justify-between gap-4 rounded-2xl border border-border/60 bg-background/90 p-5 shadow-sm"
                 >
                   <div className="flex items-start gap-3">
-                    <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${config.tone}`}>
+                    <span
+                      className={`flex h-10 w-10 items-center justify-center rounded-xl ${config.tone}`}
+                    >
                       <IconComponent className="h-5 w-5" />
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-2">
-                        <h3 className="truncate text-sm font-semibold text-foreground">{asset.title}</h3>
-                        <Pill tone={availabilityTone}>{asset.plan_required.toUpperCase()}</Pill>
+                        <h3 className="truncate text-sm font-semibold text-foreground">
+                          {asset.title}
+                        </h3>
+                        <Pill tone={availabilityTone}>
+                          {asset.plan_required.toUpperCase()}
+                        </Pill>
                       </div>
-                      <p className="mt-1 text-xs text-muted-foreground">{meta}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {meta}
+                      </p>
                     </div>
                   </div>
 
@@ -446,7 +504,9 @@ export default async function ProtectedPage({
         )}
 
         <aside className="mt-4 rounded-2xl border border-dashed border-border/60 bg-muted/20 p-4 text-xs text-muted-foreground">
-          Idea tecnica: crea la ruta <code>/app/media/[id]/route.ts</code> para generar un signed URL y registrar reproducciones en <code>media_events</code>.
+          Idea tecnica: crea la ruta <code>/app/media/[id]/route.ts</code> para
+          generar un signed URL y registrar reproducciones en{" "}
+          <code>media_events</code>.
         </aside>
       </SectionCard>
 
@@ -475,8 +535,12 @@ export default async function ProtectedPage({
             {upcoming.map((event) => {
               const capacity = event.capacity ?? 0;
               const booked = event.bookings?.[0]?.count ?? 0;
-              const slotsLeft = capacity ? Math.max(capacity - booked, 0) : null;
-              const capacityLabel = capacity ? `${booked}/${capacity} reservas` : `${booked} reservas`;
+              const slotsLeft = capacity
+                ? Math.max(capacity - booked, 0)
+                : null;
+              const capacityLabel = capacity
+                ? `${booked}/${capacity} reservas`
+                : `${booked} reservas`;
 
               return (
                 <article
@@ -488,7 +552,9 @@ export default async function ProtectedPage({
                       <Calendar className="h-5 w-5" />
                     </span>
                     <div className="min-w-0 space-y-1">
-                      <h3 className="truncate text-sm font-semibold text-foreground">{event.title}</h3>
+                      <h3 className="truncate text-sm font-semibold text-foreground">
+                        {event.title}
+                      </h3>
                       <p className="flex items-center gap-2 text-xs text-muted-foreground">
                         <Clock className="h-3.5 w-3.5" />
                         {fmtDateTime(event.starts_at)}
@@ -496,16 +562,22 @@ export default async function ProtectedPage({
                       {event.location_name ? (
                         <p className="flex items-center gap-2 text-xs text-muted-foreground">
                           <MapPin className="h-3.5 w-3.5" />
-                          <span className="truncate">{event.location_name}</span>
+                          <span className="truncate">
+                            {event.location_name}
+                          </span>
                         </p>
                       ) : null}
                     </div>
                   </div>
                   <div className="flex items-start justify-end gap-3 sm:flex-col sm:items-end">
-                    <p className="text-sm font-medium text-foreground">{capacityLabel}</p>
+                    <p className="text-sm font-medium text-foreground">
+                      {capacityLabel}
+                    </p>
                     {slotsLeft !== null ? (
                       <Pill tone={slotsLeft > 0 ? "positive" : "warning"}>
-                        {slotsLeft > 0 ? `${slotsLeft} plazas libres` : "Completo"}
+                        {slotsLeft > 0
+                          ? `${slotsLeft} plazas libres`
+                          : "Completo"}
                       </Pill>
                     ) : null}
                   </div>
@@ -526,12 +598,15 @@ const Pill = ({
   children: ReactNode;
   tone?: PillTone;
 }) => {
-  const base = "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium";
+  const base =
+    "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium";
   const variants: Record<PillTone, string> = {
     muted: "border-border/70 bg-muted/30 text-muted-foreground",
     brand: "border-brand/60 bg-brand/15 text-brand",
-    positive: "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:border-emerald-400/30 dark:bg-emerald-500/20 dark:text-emerald-200",
-    warning: "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:border-amber-400/30 dark:bg-amber-500/20 dark:text-amber-200",
+    positive:
+      "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:border-emerald-400/30 dark:bg-emerald-500/20 dark:text-emerald-200",
+    warning:
+      "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:border-amber-400/30 dark:bg-amber-500/20 dark:text-amber-200",
   };
 
   return <span className={`${base} ${variants[tone]}`}>{children}</span>;
@@ -552,11 +627,16 @@ const SectionCard = ({
   action?: ReactNode;
   children: ReactNode;
 }) => (
-  <section id={id} className="rounded-3xl border border-border/60 bg-card/80 p-6 shadow-md backdrop-blur">
+  <section
+    id={id}
+    className="rounded-3xl border border-border/60 bg-card/80 p-6 shadow-md backdrop-blur"
+  >
     <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
       <div>
         <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
-        {desc ? <p className="mt-1 text-sm text-muted-foreground">{desc}</p> : null}
+        {desc ? (
+          <p className="mt-1 text-sm text-muted-foreground">{desc}</p>
+        ) : null}
       </div>
       <div className="flex flex-wrap items-center gap-2">
         {badge}
@@ -578,11 +658,14 @@ const ProfileField = ({
   hint?: string;
   isLink?: boolean;
 }) => {
-  const normalized = value && value.trim().length > 0 ? value.trim() : EMPTY_PLACEHOLDER;
+  const normalized =
+    value && value.trim().length > 0 ? value.trim() : EMPTY_PLACEHOLDER;
 
   return (
     <div className="rounded-2xl border border-border/60 bg-muted/10 p-4">
-      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</p>
+      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        {label}
+      </p>
       {isLink && normalized !== EMPTY_PLACEHOLDER ? (
         <a
           href={normalized}
@@ -596,7 +679,9 @@ const ProfileField = ({
       ) : (
         <p className="mt-1 truncate text-sm text-foreground">{normalized}</p>
       )}
-      {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
+      {hint ? (
+        <p className="mt-1 text-xs text-muted-foreground">{hint}</p>
+      ) : null}
     </div>
   );
 };
@@ -633,9 +718,15 @@ const StatCard = ({
   icon: ReactNode;
 }) => (
   <div className="group rounded-2xl border border-border/60 bg-background/90 p-4 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-brand/60 hover:shadow-lg">
-    <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-brand/10 text-brand">{icon}</span>
-    <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</p>
-    <p className="mt-1 truncate text-base font-semibold text-foreground">{value}</p>
+    <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-brand/10 text-brand">
+      {icon}
+    </span>
+    <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+      {label}
+    </p>
+    <p className="mt-1 truncate text-base font-semibold text-foreground">
+      {value}
+    </p>
     <p className="mt-1 text-xs text-muted-foreground">{hint}</p>
   </div>
 );
