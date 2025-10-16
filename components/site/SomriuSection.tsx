@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
 const WIPHLA_GRADIENT =
   "linear-gradient(90deg, #EE3124 0%, #FF6B00 16%, #FFD500 32%, #FFFFFF 48%, #00A859 64%, #0084C9 80%, #6D3B96 100%)";
@@ -162,4 +162,5 @@ function FlagBackdrop() {
     </div>
   );
 }
+
 

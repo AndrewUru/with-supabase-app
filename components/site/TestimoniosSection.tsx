@@ -27,51 +27,51 @@ type Testimonio = {
 const testimonios: Testimonio[] = [
   {
     name: "Caterina C. L.",
-    text: "Un camino de sanación, humildad y empoderamiento. Resultados desde el primer momento.",
+    text: "Un camino de sanaciÃ³n, humildad y empoderamiento. Resultados desde el primer momento.",
     rating: 5,
-    location: "Barcelona, España",
+    location: "Barcelona, EspaÃ±a",
   },
   {
     name: "Alicia P.",
-    text: "La música me atravesó. Salí más ligera y presente. Una experiencia que cambió mi perspectiva completamente.",
+    text: "La mÃºsica me atravesÃ³. SalÃ­ mÃ¡s ligera y presente. Una experiencia que cambiÃ³ mi perspectiva completamente.",
     rating: 5,
-    location: "Madrid, España",
+    location: "Madrid, EspaÃ±a",
   },
   {
-    name: "María José R.",
-    text: "Increíble cómo la terapia con sonido puede liberar emociones guardadas por años. Me siento renovada.",
+    name: "MarÃ­a JosÃ© R.",
+    text: "IncreÃ­ble cÃ³mo la terapia con sonido puede liberar emociones guardadas por aÃ±os. Me siento renovada.",
     rating: 5,
-    location: "Valencia, España",
+    location: "Valencia, EspaÃ±a",
   },
   {
     name: "Carlos M.",
-    text: "Nunca pensé que los cuencos tibetanos pudieran tener un efecto tan profundo. Altamente recomendado.",
+    text: "Nunca pensÃ© que los cuencos tibetanos pudieran tener un efecto tan profundo. Altamente recomendado.",
     rating: 5,
-    location: "Sevilla, España",
+    location: "Sevilla, EspaÃ±a",
   },
   {
-    name: "Ana Sofía T.",
-    text: "Cada sesión es un viaje hacia el interior. La profesionalidad y calidez hacen la diferencia.",
+    name: "Ana SofÃ­a T.",
+    text: "Cada sesiÃ³n es un viaje hacia el interior. La profesionalidad y calidez hacen la diferencia.",
     rating: 5,
-    location: "Bilbao, España",
+    location: "Bilbao, EspaÃ±a",
   },
   {
     name: "Roberto L.",
-    text: "Después de meses de estrés, encontré la paz que buscaba. Un enfoque holístico excepcional.",
+    text: "DespuÃ©s de meses de estrÃ©s, encontrÃ© la paz que buscaba. Un enfoque holÃ­stico excepcional.",
     rating: 5,
-    location: "Granada, España",
+    location: "Granada, EspaÃ±a",
   },
   {
     name: "Isabel V.",
-    text: "La combinación de sonido y energía crea una atmósfera única de sanación. Transformador.",
+    text: "La combinaciÃ³n de sonido y energÃ­a crea una atmÃ³sfera Ãºnica de sanaciÃ³n. Transformador.",
     rating: 5,
-    location: "Zaragoza, España",
+    location: "Zaragoza, EspaÃ±a",
   },
   {
     name: "Diego F.",
     text: "Resultados inmediatos y duraderos. Ahora entiendo el poder curativo del sonido.",
     rating: 5,
-    location: "Málaga, España",
+    location: "MÃ¡laga, EspaÃ±a",
   },
 ];
 
@@ -218,12 +218,12 @@ export default function TestimoniosSection() {
           </span>
 
           <h2 className="mt-6 text-balance text-3xl font-semibold md:text-4xl">
-            Historias reales de transformación sonora
+            Historias reales de transformaciÃ³n sonora
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Voces que describen cómo las ceremonias, viajes y sesiones de sonido
+            Voces que describen cÃ³mo las ceremonias, viajes y sesiones de sonido
             desbloquearon estados de calma profunda, claridad emocional y
-            conexión interior.
+            conexiÃ³n interior.
           </p>
         </div>
 
@@ -231,7 +231,7 @@ export default function TestimoniosSection() {
           <div className="flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-4 py-2 shadow-soft">
             <Star className="h-4 w-4 text-amber-400" />
             <span className="font-semibold text-foreground">4.9/5</span>
-            <span>Valoración media (830+ sesiones)</span>
+            <span>ValoraciÃ³n media (830+ sesiones)</span>
           </div>
           <div className="flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-4 py-2 shadow-soft">
             <CalendarClock className="h-4 w-4 text-[hsl(var(--brand))]" />
@@ -302,7 +302,7 @@ export default function TestimoniosSection() {
                     transition={{ delay: 0.1, duration: 0.5 }}
                     className="text-lg leading-relaxed text-foreground/90"
                   >
-                    “{activeTestimonio.text}”
+                    â€œ{activeTestimonio.text}â€
                   </motion.blockquote>
 
                   <div className="flex items-center gap-3">
@@ -317,16 +317,16 @@ export default function TestimoniosSection() {
                       )}
                     </div>
                     <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                      Calificación
+                      CalificaciÃ³n
                     </span>
                   </div>
 
                   <div className="mt-4 flex flex-wrap gap-3">
                     <span className="rounded-full border border-border/60 bg-background/80 px-3 py-1 text-xs font-medium text-muted-foreground">
-                      Sonido terapéutico
+                      Sonido terapÃ©utico
                     </span>
                     <span className="rounded-full border border-border/60 bg-background/80 px-3 py-1 text-xs font-medium text-muted-foreground">
-                      Integración emocional
+                      IntegraciÃ³n emocional
                     </span>
                     <span className="rounded-full border border-border/60 bg-background/80 px-3 py-1 text-xs font-medium text-muted-foreground">
                       Calma profunda
@@ -401,7 +401,7 @@ export default function TestimoniosSection() {
 
           <aside className="w-full space-y-6 lg:w-auto">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-              Próximas voces
+              PrÃ³ximas voces
             </p>
             <div className="space-y-4">
               {previewTestimonials.map((testimonio) => (
@@ -440,10 +440,10 @@ export default function TestimoniosSection() {
 
             <div className="rounded-3xl border border-[hsl(var(--brand)/0.3)] bg-gradient-to-br from-[hsl(var(--brand)/0.2)] via-background to-[hsl(var(--accent)/0.1)] p-6 shadow-soft">
               <h3 className="text-lg font-semibold text-foreground">
-                ¿Listo para tu propia transformación?
+                Â¿Listo para tu propia transformaciÃ³n?
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Reserva una sesión y vive en primera persona el poder del sonido
+                Reserva una sesiÃ³n y vive en primera persona el poder del sonido
                 sanador.
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
@@ -457,7 +457,7 @@ export default function TestimoniosSection() {
                   variant="ghost"
                   className="rounded-full border border-border/70 bg-background/80 px-6 text-sm font-semibold hover:border-[hsl(var(--brand)/0.4)]"
                 >
-                  Ver próximas fechas
+                  Ver prÃ³ximas fechas
                 </Button>
               </div>
             </div>
@@ -483,3 +483,4 @@ export default function TestimoniosSection() {
     </section>
   );
 }
+

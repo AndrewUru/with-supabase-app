@@ -25,25 +25,25 @@ type Benefit = {
 
 const BENEFITS: Benefit[] = [
   {
-    title: "Formación anual en Chamanismo Andino",
+    title: "FormaciÃ³n anual en Chamanismo Andino",
     description:
-      "Edición 2025. Encuentros mensuales, prácticas guiadas y comunidad. 99 €/mes (10 cuotas) o 880 € al contado (ahorras 12%). Becas solidarias hasta −30% (plazas limitadas).",
+      "EdiciÃ³n 2025. Encuentros mensuales, prÃ¡cticas guiadas y comunidad. 99 â‚¬/mes (10 cuotas) o 880 â‚¬ al contado (ahorras 12%). Becas solidarias hasta âˆ’30% (plazas limitadas).",
     icon: Sparkles,
     highlight: "Plazas abiertas",
   },
   {
-    title: "Módulos y talleres sueltos",
+    title: "MÃ³dulos y talleres sueltos",
     description:
-      "Avanza paso a paso con módulos temáticos y talleres prácticos. Desde 120–180 € por encuentro. Descuentos para alumnado y suscriptores EDHUCO.",
+      "Avanza paso a paso con mÃ³dulos temÃ¡ticos y talleres prÃ¡cticos. Desde 120â€“180 â‚¬ por encuentro. Descuentos para alumnado y suscriptores EDHUCO.",
     icon: CalendarDays,
     highlight: "Flexible",
   },
   {
     title: "Sesiones de apoyo y retiros",
     description:
-      "Acompañamiento individual/grupal para integrar el proceso. Retiros y viajes opcionales. Suscripción EDHUCO: 22 €/mes para recursos, comunidad y ventajas en becas.",
+      "AcompaÃ±amiento individual/grupal para integrar el proceso. Retiros y viajes opcionales. SuscripciÃ³n EDHUCO: 22 â‚¬/mes para recursos, comunidad y ventajas en becas.",
     icon: HeartHandshake,
-    highlight: "Acompañamiento",
+    highlight: "AcompaÃ±amiento",
   },
 ];
 
@@ -64,58 +64,58 @@ export default function BeneficiosSection() {
               style={{ backgroundImage: WIPHLA_GRADIENT }}
               aria-hidden="true"
             />
-            Formación · EDHUCO
+            FormaciÃ³n Â· EDHUCO
           </span>
 
           <h2
             id="beneficios-title"
             className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-[44px]"
           >
-            Formación en Chamanismo Andino · 2025
+            FormaciÃ³n en Chamanismo Andino Â· 2025
           </h2>
 
           <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Un recorrido iniciático que integra cosmovisión andina, arte ritual,
-            manejo de la energía y acompañamiento ético. Precio:{" "}
+            Un recorrido iniciÃ¡tico que integra cosmovisiÃ³n andina, arte ritual,
+            manejo de la energÃ­a y acompaÃ±amiento Ã©tico. Precio:{" "}
             <strong
               className="bg-clip-text text-transparent"
               style={{ backgroundImage: WIPHLA_GRADIENT }}
             >
-              99 €/mes × 10
+              99 â‚¬/mes Ã— 10
             </strong>{" "}
             o{" "}
             <strong
               className="bg-clip-text text-transparent"
               style={{ backgroundImage: WIPHLA_GRADIENT }}
             >
-              880 € al contado
+              880 â‚¬ al contado
             </strong>
-            . Becas solidarias hasta <strong>−30%</strong>.
+            . Becas solidarias hasta <strong>âˆ’30%</strong>.
           </p>
 
           <div className="rounded-3xl border border-white/15 bg-card/70 p-6 text-left shadow-[0_24px_70px_-60px_rgba(17,24,39,0.78)] backdrop-blur-sm dark:bg-card/55">
             <p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">
-              Qué incluye
+              QuÃ© incluye
             </p>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
               <li>
-                Encuentros mensuales + prácticas guiadas (presencial / online).
+                Encuentros mensuales + prÃ¡cticas guiadas (presencial / online).
               </li>
               <li>
-                Materiales (audios, guías y rituales) y comunidad privada.
+                Materiales (audios, guÃ­as y rituales) y comunidad privada.
               </li>
-              <li>Acompañamiento ético por profesionales de la red.</li>
+              <li>AcompaÃ±amiento Ã©tico por profesionales de la red.</li>
             </ul>
             <div className="mt-4 text-xs text-muted-foreground/90">
               <span className="rounded-full border border-white/20 bg-white/5 px-2 py-1 backdrop-blur-sm">
-                Matrícula 60 € · Cupos limitados
+                MatrÃ­cula 60 â‚¬ Â· Cupos limitados
               </span>
             </div>
           </div>
 
           <div className="text-sm text-muted-foreground">
-            ¿Solo recursos y comunidad? Suscríbete a EDHUCO por{" "}
-            <strong>22 €/mes</strong> y accede a materiales mensuales y ventajas
+            Â¿Solo recursos y comunidad? SuscrÃ­bete a EDHUCO por{" "}
+            <strong>22 â‚¬/mes</strong> y accede a materiales mensuales y ventajas
             en becas.
           </div>
         </aside>
@@ -286,7 +286,7 @@ export default function BeneficiosSection() {
             transform: rotate(8deg);
           }
         }
-        /* Accesibilidad: reduce motion (mantiene ángulo y estilo sin animar) */
+        /* Accesibilidad: reduce motion (mantiene Ã¡ngulo y estilo sin animar) */
         @media (prefers-reduced-motion: reduce) {
           .wiphala-flag {
             animation: none !important;
@@ -302,7 +302,7 @@ export default function BeneficiosSection() {
 }
 
 function BeneficiosBackgroundDecor() {
-  // SOLO conserva los radiales suaves y la ÚNICA Wiphala animada.
+  // SOLO conserva los radiales suaves y la ÃšNICA Wiphala animada.
   return (
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       <div
@@ -326,13 +326,13 @@ function BeneficiosBackgroundDecor() {
   );
 }
 
-/** ÚNICA Wiphala animada (7x7 celdas diagonales) */
+/** ÃšNICA Wiphala animada (7x7 celdas diagonales) */
 function WiphalaFlag() {
   const COLORS = WIPHLA_COLORS;
   const cells = Array.from({ length: 49 }, (_, i) => {
     const row = Math.floor(i / 7);
     const col = i % 7;
-    const colorIndex = (col - row + 7) % 7; // diagonal clásica
+    const colorIndex = (col - row + 7) % 7; // diagonal clÃ¡sica
     return COLORS[colorIndex];
   });
 
@@ -353,3 +353,4 @@ function hexToRgba(hex: string, alpha: number) {
   const b = bigint & 255;
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
+

@@ -1,4 +1,4 @@
-// ¡Sin "use client"!
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
 import { signInAction } from "@/app/auth/login/actions";
 import { GoogleSignInButton } from "@/components/google-sign-in-button";
 
@@ -24,15 +23,18 @@ export function LoginForm({
   errorMessage?: string;
 }) {
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
+    <div
+      className={cn("spiritual-aura flex flex-col gap-8", className)}
+      {...props}
+    >
+      <Card className="border border-border/55 bg-card/80 shadow-soft backdrop-blur-2xl">
+        <CardHeader className="gap-4">
+          <CardTitle className="text-3xl">Iniciar sesion</CardTitle>
           <CardDescription>
-            Ingresa tu email y contraseña para acceder a tu cuenta.
+            Ingresa tu email y contrasena para acceder a tu cuenta.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-2">
           <form action={signInAction} className="flex flex-col gap-6">
             <input type="hidden" name="next" value={next} />
 
@@ -48,41 +50,46 @@ export function LoginForm({
             </div>
 
             <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Contraseña</Label>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="password">Contrasena</Label>
                 <Link
                   href="/auth/forgot-password"
-                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  className="ml-auto text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 transition-colors duration-200 hover:text-foreground"
                 >
-                  ¿Olvidaste tu contraseña?
+                  Olvidaste tu contrasena?
                 </Link>
               </div>
               <Input id="password" name="password" type="password" required />
             </div>
 
             {Boolean(errorMessage) && (
-              <p className="text-sm text-red-500">{errorMessage}</p>
+              <p className="rounded-full bg-destructive/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-destructive">
+                {errorMessage}
+              </p>
             )}
 
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full justify-center shadow-soft"
+            >
               Acceso
             </Button>
 
-            <div className="relative flex items-center">
-              <span className="flex-1 border-t" />
-              <span className="px-3 text-xs uppercase text-muted-foreground">
-                O continúa con
+            <div className="relative flex items-center gap-3 text-muted-foreground/70">
+              <span className="flex-1 border-t border-border/60" />
+              <span className="text-[0.68rem] font-semibold uppercase tracking-[0.28em]">
+                O continua con
               </span>
-              <span className="flex-1 border-t" />
+              <span className="flex-1 border-t border-border/60" />
             </div>
 
             <GoogleSignInButton next={next} />
 
-            <div className="mt-2 text-center text-sm">
-              ¿No tienes una cuenta?{" "}
+            <div className="text-center text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80">
+              No tienes una cuenta?{" "}
               <Link
                 href="/auth/sign-up"
-                className="underline underline-offset-4"
+                className="text-foreground underline-offset-4 transition-colors duration-200 hover:text-brand hover:underline"
               >
                 Registrarse
               </Link>

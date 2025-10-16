@@ -94,7 +94,7 @@ const ThemeSwitcher = () => {
           variant="outline"
           size="icon"
           aria-label={`Cambiar tema (${displayOption.label})`}
-          className="relative h-9 w-9 rounded-full border-border/60 bg-background/80 p-0 text-muted-foreground shadow-sm transition hover:bg-muted focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className="relative h-11 w-11 rounded-full border-border/60 bg-background/80 p-0 text-muted-foreground shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent/60 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <span className="sr-only">Cambiar tema</span>
           <span className="flex h-full w-full items-center justify-center">
@@ -116,12 +116,12 @@ const ThemeSwitcher = () => {
       <DropdownMenuContent
         sideOffset={10}
         align="end"
-        className="w-56 rounded-xl border border-border/50 bg-popover/95 p-2 shadow-lg backdrop-blur"
+        className="w-60"
       >
-        <DropdownMenuLabel className="text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground/80">
+        <DropdownMenuLabel className="text-muted-foreground/80">
           Elige el ambiente
         </DropdownMenuLabel>
-        <DropdownMenuSeparator className="bg-border/60" />
+        <DropdownMenuSeparator />
         <DropdownMenuRadioGroup
           value={currentTheme}
           onValueChange={handleThemeChange}
@@ -131,15 +131,14 @@ const ThemeSwitcher = () => {
               key={option.value}
               value={option.value}
               className={cn(
-                "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition",
-                "focus:bg-muted/70 focus:text-foreground",
-                "data-[state=checked]:bg-accent/90 data-[state=checked]:text-accent-foreground"
+                "group flex items-center gap-3 rounded-2xl px-4 py-2 transition-all duration-200",
+                "focus:bg-accent/60 focus:text-foreground data-[state=checked]:bg-accent/80 data-[state=checked]:text-foreground"
               )}
             >
               <span
                 aria-hidden
                 className={cn(
-                  "flex h-8 w-8 items-center justify-center rounded-full border border-border/60 bg-muted/60 text-muted-foreground transition",
+                  "flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-muted/60 text-muted-foreground transition duration-200",
                   option.tint,
                   "group-data-[state=checked]:border-transparent group-data-[state=checked]:bg-background group-data-[state=checked]:text-foreground"
                 )}
@@ -147,10 +146,10 @@ const ThemeSwitcher = () => {
                 <option.icon size={14} strokeWidth={1.8} />
               </span>
               <span className="flex flex-col text-left">
-                <span className="text-sm font-medium leading-tight">
+                <span className="text-sm font-medium leading-tight tracking-normal">
                   {option.label}
                 </span>
-                <span className="text-xs font-normal text-muted-foreground/80">
+                <span className="text-xs font-normal uppercase tracking-[0.16em] text-muted-foreground/70">
                   {option.description}
                 </span>
               </span>

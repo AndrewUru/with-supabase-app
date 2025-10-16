@@ -2,6 +2,8 @@
 import Link from "next/link";
 import type { ComponentType, SVGProps } from "react";
 import { ArrowRight, CalendarDays, MessageCircle, Mail } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 type QuickActionTone = "brand" | "cool" | "warm";
 
@@ -96,7 +98,7 @@ export default function CtaFinalSection() {
     <section
       id="contacto"
       aria-labelledby="cta-final-title"
-      className="relative isolate overflow-hidden sm:py-24"
+      className="section relative isolate overflow-hidden spiritual-aura"
     >
       <DecorBackground />
 
@@ -133,16 +135,12 @@ export default function CtaFinalSection() {
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Link
-                  href="/auth/signup"
-                  className="group inline-flex items-center gap-2 rounded-full bg-[hsl(var(--brand))] px-7 py-3 text-sm font-semibold text-[hsl(var(--brand-foreground))] shadow-lg shadow-[hsl(var(--brand)/0.35)] transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand))] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                >
-                  Unirme ahora
-                  <ArrowRight
-                    className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                    aria-hidden="true"
-                  />
-                </Link>
+                <Button asChild size="lg" className="gap-3 shadow-soft">
+                  <Link href="/auth/signup">
+                    Unirme ahora
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </Button>
               </div>
 
               <p className="mt-5 text-xs uppercase tracking-[0.28em] text-muted-foreground">
@@ -207,18 +205,26 @@ function QuickActionCard({ action }: { action: QuickAction }) {
   const cardContent = (
     <>
       <span
-        className={`inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br ${icon} text-white shadow-md shadow-[hsl(var(--foreground)/0.18)]`}
+        className={cn(
+          "inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br text-white shadow-soft",
+          icon,
+        )}
       >
         <Icon className="h-4 w-4" aria-hidden="true" />
       </span>
       <div className="space-y-1">
-        <span className="text-sm font-semibold text-foreground">{label}</span>
+        <span className="text-sm font-semibold uppercase tracking-[0.16em] text-foreground">
+          {label}
+        </span>
         <p className="text-xs leading-relaxed text-muted-foreground">
           {description}
         </p>
       </div>
       <span
-        className={`mt-auto inline-flex items-center gap-1 text-xs font-semibold transition group-hover:text-foreground ${accent}`}
+        className={cn(
+          "mt-auto inline-flex items-center gap-1 text-[0.68rem] font-semibold uppercase tracking-[0.22em] transition group-hover:text-foreground",
+          accent,
+        )}
       >
         Ir ahora
         <ArrowRight
@@ -235,7 +241,10 @@ function QuickActionCard({ action }: { action: QuickAction }) {
         href={href}
         target="_blank"
         rel="noreferrer"
-        className={`group relative flex h-full flex-col gap-3 rounded-2xl border border-border/70 bg-card/90 p-5 text-left shadow-soft transition hover:-translate-y-1 hover:shadow-lift ${border}`}
+        className={cn(
+          "group relative flex h-full flex-col gap-4 rounded-[2rem] border border-border/55 bg-card/75 p-6 text-left shadow-soft backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-lift",
+          border,
+        )}
       >
         {cardContent}
       </a>
@@ -245,7 +254,10 @@ function QuickActionCard({ action }: { action: QuickAction }) {
   return (
     <Link
       href={href}
-      className={`group relative flex h-full flex-col gap-3 rounded-2xl border border-border/70 bg-card/90 p-5 text-left shadow-soft transition hover:-translate-y-1 hover:shadow-lift ${border}`}
+      className={cn(
+        "group relative flex h-full flex-col gap-4 rounded-[2rem] border border-border/55 bg-card/75 p-6 text-left shadow-soft backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-lift",
+        border,
+      )}
     >
       {cardContent}
     </Link>
@@ -369,3 +381,5 @@ function AndeanConfetti() {
     </div>
   );
 }
+
+

@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -12,8 +14,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export function UpdatePasswordForm({
   className,
@@ -24,52 +24,64 @@ export function UpdatePasswordForm({
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleForgotPassword = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleForgotPassword = async (event: React.FormEvent) => {
+    event.preventDefault();
     const supabase = createClient();
     setIsLoading(true);
     setError(null);
 
     try {
-      const { error } = await supabase.auth.updateUser({ password });
-      if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
+      const { error: updateError } = await supabase.auth.updateUser({
+        password,
+      });
+      if (updateError) throw updateError;
       router.push("/protected");
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
+      setError(error instanceof Error ? error.message : "Ha ocurrido un error");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Reestablecer tu contraseña</CardTitle>
+    <div
+      className={cn("spiritual-aura flex flex-col gap-8", className)}
+      {...props}
+    >
+      <Card className="border border-border/55 bg-card/80 shadow-soft backdrop-blur-2xl">
+        <CardHeader className="gap-4">
+          <CardTitle className="text-3xl">
+            Reestablece tu contrasena
+          </CardTitle>
           <CardDescription>
-            Por favor ingresa tu nueva contraseña a continuación.
+            Ingresa una nueva contrasena para actualizar tu cuenta.
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleForgotPassword}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="password">Nueva contraseña</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Nueva contraseña"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Guardando..." : "Guardar nueva contraseña"}
-              </Button>
+        <CardContent className="pt-2">
+          <form onSubmit={handleForgotPassword} className="flex flex-col gap-6">
+            <div className="grid gap-2">
+              <Label htmlFor="password">Nueva contrasena</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Nueva contrasena"
+                required
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              />
             </div>
+            {error && (
+              <p className="rounded-full bg-destructive/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-destructive">
+                {error}
+              </p>
+            )}
+            <Button
+              type="submit"
+              className="w-full justify-center shadow-soft"
+              disabled={isLoading}
+            >
+              {isLoading ? "Guardando..." : "Guardar contrasena"}
+            </Button>
           </form>
         </CardContent>
       </Card>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 
@@ -41,25 +42,27 @@ export function GoogleSignInButton({
       if (err instanceof Error) {
         setErrorMessage(err.message);
       } else {
-        setErrorMessage("No se pudo iniciar sesión con Google.");
+        setErrorMessage("No se pudo iniciar sesion con Google.");
       }
       setIsLoading(false);
     }
   };
 
   return (
-    <div className={className}>
+    <div className={cn("flex flex-col gap-2", className)}>
       <Button
         type="button"
         variant="outline"
-        className="w-full"
+        className="w-full justify-center shadow-soft"
         onClick={handleClick}
         disabled={isLoading}
       >
         {isLoading ? "Conectando..." : "Continuar con Google"}
       </Button>
       {errorMessage ? (
-        <p className="mt-2 text-sm text-red-500">{errorMessage}</p>
+        <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-destructive">
+          {errorMessage}
+        </p>
       ) : null}
     </div>
   );

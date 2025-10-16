@@ -1,7 +1,9 @@
-﻿"use client";
+"use client";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Mountain, GraduationCap } from "lucide-react";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export type BenefitIconName = "ShieldCheck" | "Mountain" | "GraduationCap";
 
@@ -50,27 +52,27 @@ export interface HeroProps {
 }
 
 const defaultStats: Stat[] = [
-  { value: "500+", label: "Personas acompañadas" },
-  { value: "10 años", label: "Experiencia y práctica" },
-  { value: "4 países", label: "Comunidad activa" },
+  { value: "500+", label: "Personas acompanadas" },
+  { value: "10 anos", label: "Experiencia y practica" },
+  { value: "4 paises", label: "Comunidad activa" },
 ];
 
 const defaultBenefits: Benefit[] = [
-  { label: "Acompañamiento seguro y ético", icon: "ShieldCheck" },
+  { label: "Acompanamiento seguro y etico", icon: "ShieldCheck" },
   { label: "Retiros y viajes conscientes", icon: "Mountain" },
   { label: "Formaciones vivenciales", icon: "GraduationCap" },
 ];
 
 export default function Hero({
   id = "hero",
-  pill = "EDHUCO · Comunidad viva",
-  tagLine = "Sabiduría ancestral + herramientas contemporáneas",
+  pill = "EDHUCO Â· Comunidad viva",
+  tagLine = "Sabiduria ancestral + herramientas contemporaneas",
   title = "Educar para transformar vidas",
   highlight = "Desarrollo humano consciente",
-  subtitle = "Terapias, viajes y formaciones que integran tradición, ciencia y presencia para acompañarte a crear cambios reales y sostenibles.",
+  subtitle = "Terapias, viajes y formaciones que integran tradicion, ciencia y presencia para acompanarte a crear cambios reales y sostenibles.",
   primaryCta = { href: "/auth/sign-up", label: "Reserva tu plaza" },
   secondaryCta = { href: "#beneficios", label: "Explorar servicios" },
-  tertiaryCta = { href: "#agenda", label: "Próximas fechas" },
+  tertiaryCta = { href: "#agenda", label: "Proximas fechas" },
   benefits = defaultBenefits,
   stats = defaultStats,
   imageUrl = "/images/hero-person.JPG",
@@ -80,7 +82,10 @@ export default function Hero({
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className={`relative isolate overflow-hidden bg-[hsl(var(--background))] py-14 md:py-16 lg:py-20 ${className}`}
+      className={cn(
+        "section relative isolate overflow-hidden bg-[hsl(var(--background))] spiritual-aura",
+        className
+      )}
     >
       <BackgroundDecor />
 
@@ -142,7 +147,7 @@ export default function Hero({
                   return (
                     <li
                       key={`${benefit.label}-${index}`}
-                      className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card/80 px-4 py-3 text-sm text-foreground/90 shadow-sm backdrop-blur-sm dark:bg-card/60"
+                      className="flex items-center gap-3 rounded-3xl border border-border/55 bg-card/75 px-4 py-3 text-sm text-foreground/90 shadow-soft backdrop-blur-xl"
                     >
                       {Icon ? (
                         <Icon
@@ -165,29 +170,38 @@ export default function Hero({
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-3">
               <div className="flex flex-1 flex-wrap gap-3">
                 {primaryCta && (
-                  <Link
-                    href={primaryCta.href}
-                    className="inline-flex items-center gap-2 rounded-full bg-[hsl(var(--spiritual-ember))] px-6 py-3 text-sm font-semibold text-[hsl(var(--spiritual-light))] shadow-[0_18px_40px_-28px_hsl(var(--spiritual-ember)/0.8)] transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--spiritual-light)/0.6)] focus-visible:ring-offset-2"
+                  <Button
+                    asChild
+                    size="lg"
+                    className="gap-3 shadow-soft"
+                    aria-label={primaryCta.label}
                   >
-                    {primaryCta.label}
-                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
+                    <Link href={primaryCta.href}>
+                      {primaryCta.label}
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </Link>
+                  </Button>
                 )}
                 {secondaryCta && (
-                  <Link
-                    href={secondaryCta.href}
-                    className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--spiritual-light)/0.35)] bg-transparent px-6 py-3 text-sm font-semibold text-[hsl(var(--spiritual-ember))] transition hover:bg-[hsl(var(--spiritual-light)/0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--spiritual-aurora)/0.4)] focus-visible:ring-offset-2 dark:border-[hsl(var(--spiritual-light)/0.25)] dark:text-[hsl(var(--spiritual-light))] dark:hover:bg-[hsl(var(--spiritual-shadow)/0.5)]"
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="gap-3"
+                    aria-label={secondaryCta.label}
                   >
-                    {secondaryCta.label}
-                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
+                    <Link href={secondaryCta.href}>
+                      {secondaryCta.label}
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </Link>
+                  </Button>
                 )}
               </div>
 
               {tertiaryCta && (
                 <Link
                   href={tertiaryCta.href}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-[hsl(var(--spiritual-ember))] transition hover:text-[hsl(var(--spiritual-ember)/0.8)] dark:text-[hsl(var(--spiritual-light))] dark:hover:text-[hsl(var(--spiritual-light)/0.8)]"
+                  className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 transition-colors duration-200 hover:text-foreground"
                 >
                   {tertiaryCta.label}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -200,12 +214,12 @@ export default function Hero({
                 {stats.map((stat) => (
                   <div
                     key={stat.label}
-                    className="rounded-2xl border border-border/60 bg-card/70 p-4 text-left shadow-sm backdrop-blur-sm dark:bg-card/50"
+                    className="rounded-[2rem] border border-border/55 bg-card/75 p-5 text-left shadow-soft backdrop-blur-xl"
                   >
                     <dd className="text-2xl font-semibold text-foreground sm:text-3xl">
                       {stat.value}
                     </dd>
-                    <dt className="mt-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <dt className="mt-1 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-muted-foreground/80">
                       {stat.label}
                     </dt>
                   </div>
@@ -359,13 +373,13 @@ function BackgroundDecor() {
   );
 }
 
-/** Bandera Wiphala 7x7 con animación por columnas */
+/** Bandera Wiphala 7x7 con animaciÃ³n por columnas */
 function WiphalaFlag({
   size = 96,
   stick = false,
 }: {
   size?: number;
-  stick?: boolean; // dibuja un pequeño "palo"
+  stick?: boolean; // dibuja un pequeÃ±o "palo"
 }) {
   const cell = Math.floor(size / 7);
   return (
@@ -404,3 +418,4 @@ function WiphalaFlag({
     </figure>
   );
 }
+
