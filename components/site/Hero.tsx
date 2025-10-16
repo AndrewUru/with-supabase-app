@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import "@/app/styles/hero-experience.css";
 
 export interface HeroProps {
   id?: string;
@@ -15,58 +17,248 @@ export interface HeroProps {
 }
 
 const defaultPrimary = { href: "/auth/sign-up", label: "Comenzar" };
-const defaultSecondary = { href: "/contacto", label: "Conocer mas" };
+const defaultSecondary = { href: "/contacto", label: "Conocer más" };
 
 export default function Hero({
   id = "hero",
   eyebrow = "EDHUCO",
-  title = "Acompanamos procesos de crecimiento humano",
-  subtitle = "Terapias, formaciones y retiros para sostener tu transformacion desde la calma.",
+  title = "Acompañamos procesos de crecimiento humano",
+  subtitle = "Terapias, formaciones y retiros para sostener tu transformación desde la calma.",
   primaryCta = defaultPrimary,
   secondaryCta = defaultSecondary,
   className,
 }: HeroProps) {
+  useEffect(() => {
+    let cleanup = () => {};
+    let cancelled = false;
+
+    const loadExperience = async () => {
+      const [{ gsap }, { ScrollTrigger }, LenisModule] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+        import("lenis").then((mod) => mod.default ?? mod),
+      ]);
+
+      if (cancelled) {
+        return;
+      }
+
+      gsap.registerPlugin(ScrollTrigger);
+      (window as unknown as Record<string, unknown>).gsap = gsap;
+      (window as unknown as Record<string, unknown>).ScrollTrigger =
+        ScrollTrigger;
+      (window as unknown as Record<string, unknown>).Lenis = LenisModule;
+
+      const script = document.createElement("script");
+      script.src = "/js/hero-experience.js";
+      script.async = true;
+      document.body.appendChild(script);
+
+      cleanup = () => {
+        script.remove();
+        delete (window as unknown as Record<string, unknown>).gsap;
+        delete (window as unknown as Record<string, unknown>).ScrollTrigger;
+        delete (window as unknown as Record<string, unknown>).Lenis;
+      };
+    };
+
+    void loadExperience();
+
+    return () => {
+      cancelled = true;
+      cleanup();
+    };
+  }, []);
+
   return (
-    <section
-      id={id}
-      aria-labelledby={`${id}-title`}
-      className={cn("py-20 sm:py-28", className)}
-    >
-      <div className="container-app flex flex-col items-center gap-8 text-center">
-        {eyebrow ? (
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-            {eyebrow}
-          </span>
-        ) : null}
+    <>
+      <div className="gradient-reveal"></div>
 
-        <div className="space-y-5">
-          <h1
-            id={`${id}-title`}
-            className="mx-auto max-w-3xl text-4xl font-medium tracking-tight text-foreground sm:text-5xl"
-          >
-            {title}
-          </h1>
+      <div className="audio-enable">
+        <p>
+          COMIENZA LA EXPERIENCIA
+          <br />
+          CON SONIDO
+        </p>
+        <button className="enable-button" id="enableBtn">
+          INICIAR
+        </button>
+      </div>
 
-          {subtitle ? (
-            <p className="mx-auto max-w-2xl text-base text-muted-foreground sm:text-lg">
-              {subtitle}
-            </p>
-          ) : null}
-        </div>
+      <div className="preloader" id="preloader">
+        <span id="counter">[000]</span>
+      </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          {primaryCta ? (
-            <Button asChild size="lg">
-              <Link href={primaryCta.href}>{primaryCta.label}</Link>
-            </Button>
-          ) : null}
-          {secondaryCta ? (
-            <Button asChild variant="outline" size="lg">
-              <Link href={secondaryCta.href}>{secondaryCta.label}</Link>
-            </Button>
-          ) : null}
+      <div className="geometric-background">
+        <svg className="geometric-svg" viewBox="0 0 1920 1080">
+          <g id="grid-lines"></g>
+          <g id="circles-outline"></g>
+          <g id="circles-filled">
+            <clipPath id="right-half">
+              <rect x="960" y="0" width="960" height="1080" />
+            </clipPath>
+            <g clipPath="url(#right-half)"></g>
+          </g>
+
+          <text className="geometric-text" x="100" y="100">
+            EL CAMINO
+          </text>
+          <text className="geometric-text" x="100" y="115">
+            SONORO
+          </text>
+
+          <text className="geometric-text" x="1720" y="100">
+            SONIDOS QUE
+          </text>
+          <text className="geometric-text" x="1720" y="115">
+            TRANSFORMAN
+          </text>
+
+          <text className="geometric-text" x="100" y="980" id="debugLine1">
+            VIBRACIÓN: SANADORA
+          </text>
+          <text className="geometric-text" x="100" y="995" id="debugLine2">
+            ENERGÍA: CONSCIENTE
+          </text>
+          <text className="geometric-text" x="100" y="1010" id="debugLine3">
+            ESTADO: EXPANDIDO
+          </text>
+          <text className="geometric-text" x="100" y="1025" id="debugLine4">
+            PRESENCIA: VIVA
+          </text>
+
+          <text className="geometric-text" x="1620" y="980">
+            ENTRE LA VIBRACIÓN
+          </text>
+          <text className="geometric-text" x="1620" y="995">
+            Y EL SILENCIO
+          </text>
+        </svg>
+      </div>
+
+      <audio id="startClickSound" preload="auto">
+        <source
+          src="https://assets.codepen.io/7558/preloader-2s-001.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
+      <audio id="preloaderSound" preload="auto">
+        <source
+          src="https://assets.codepen.io/7558/preloader-5s-001.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
+      <audio id="scrollSound1" loop preload="auto">
+        <source
+          src="https://assets.codepen.io/7558/glitch-fx-001.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
+      <audio id="scrollSound2" loop preload="auto">
+        <source
+          src="https://assets.codepen.io/7558/glitch-fx-001.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
+      <audio id="scrollSound3" loop preload="auto">
+        <source
+          src="https://assets.codepen.io/7558/glitch-fx-001.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
+      <audio id="hoverSound" preload="auto">
+        <source
+          src="https://assets.codepen.io/7558/preloader-2s-001.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
+      <audio id="backgroundMusic" loop preload="auto">
+        <source
+          src="https://assets.codepen.io/7558/lxstnght-night-angel.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
+
+      <div className="center-circle">
+        <div className="circle-container">
+          <div className="glowing-circle" id="glowCircle"></div>
         </div>
       </div>
-    </section>
+
+      <section id={id} className={cn("section section-1", className)}>
+        <div className="section-content text-center">
+          {eyebrow && (
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+              {eyebrow}
+            </span>
+          )}
+          <div className="space-y-5">
+            <h1 className="mx-auto max-w-3xl text-4xl font-medium tracking-tight text-foreground sm:text-5xl">
+              {title}
+            </h1>
+            {subtitle && (
+              <p className="mx-auto max-w-2xl text-base text-muted-foreground sm:text-lg">
+                {subtitle}
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center mt-8">
+            {primaryCta && (
+              <Button asChild size="lg">
+                <Link href={primaryCta.href}>{primaryCta.label}</Link>
+              </Button>
+            )}
+            {secondaryCta && (
+              <Button asChild variant="outline" size="lg">
+                <Link href={secondaryCta.href}>{secondaryCta.label}</Link>
+              </Button>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section className="section section-2">
+        <div className="section-content"></div>
+      </section>
+      <section className="section section-3">
+        <div className="section-content"></div>
+      </section>
+
+      <footer className="site-footer">
+        <div className="footer-content-section">
+          <div className="footer-content">
+            <div className="footer-left">
+              <p>EN EL SILENCIO</p>
+              <p>NACE EL SONIDO</p>
+              <p>QUE TRANSFORMA</p>
+              <p>EN LA OSCURIDAD</p>
+              <p>SE ESCONDE</p>
+              <p>LA LUZ DEL DESPERTAR</p>
+            </div>
+            <div className="footer-right">
+              <p>LA VIBRACIÓN RECORRE</p>
+              <p>CADA ESPACIO INTERIOR</p>
+              <p>DESPIERTA MEMORIAS</p>
+              <p>SANA HERIDAS ANTIGUAS</p>
+              <p>Y NOS CONECTA CON</p>
+              <p>LA MAGIA DE LA VIDA</p>
+            </div>
+          </div>
+          <div className="footer-credits">
+            <p>
+              Sonido y Sanación por{" "}
+              <a
+                href="https://open.spotify.com/artist/6YXgRMajnjib8j6Cxzcryp?si=iiLnt59BRp6QgKGizkG5Zg"
+                target="_blank"
+              >
+                @SonidosAncestrales
+              </a>
+            </p>
+          </div>
+        </div>
+        <div className="footer-svg-section"></div>
+      </footer>
+    </>
   );
 }
