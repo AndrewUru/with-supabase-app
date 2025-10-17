@@ -26,6 +26,16 @@ html {
   overflow-x: hidden;
 }
 
+body.loading-active,
+html.loading-active {
+  height: 100vh;
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
 body {
 }
 

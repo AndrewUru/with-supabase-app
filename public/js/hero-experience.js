@@ -128,7 +128,10 @@ function setupGeometricBackground() {
 }
 
 document.getElementById("enableBtn").onclick = function () {
+  // 🔒 Bloquear scroll en body y html
+  document.documentElement.classList.add("loading-active");
   document.body.classList.add("loading-active");
+
   startClickSound = document.getElementById("startClickSound");
   preloaderSound = document.getElementById("preloaderSound");
   scrollSound1 = document.getElementById("scrollSound1");
@@ -136,32 +139,49 @@ document.getElementById("enableBtn").onclick = function () {
   scrollSound3 = document.getElementById("scrollSound3");
   backgroundMusic = document.getElementById("backgroundMusic");
 
-  if (startClickSound) startClickSound.play().catch((e) => {});
+  // 🎵 Sonido inicial de clic
+  if (startClickSound) startClickSound.play().catch(() => {});
+
+  // 🎬 Mostrar preloader y ocultar pantalla de activación
   document.querySelector(".audio-enable").style.display = "none";
   document.getElementById("preloader").style.display = "flex";
-  if (preloaderSound) preloaderSound.play().catch((e) => {});
 
+  // 🔊 Sonido de precarga
+  if (preloaderSound) preloaderSound.play().catch(() => {});
+
+  // 🎶 Iniciar música de fondo con delay
   setTimeout(() => {
     if (backgroundMusic) {
       backgroundMusic.volume = 0.5;
-      backgroundMusic.play().catch((e) => {});
+      backgroundMusic.play().catch(() => {});
     }
   }, 500);
 
+  // ⏱️ Simulación de carga con contador
   let count = 0;
   const timer = setInterval(() => {
     count++;
     document.getElementById("counter").textContent = `[${count
       .toString()
       .padStart(3, "0")}]`;
+
     if (count >= 100) {
       clearInterval(timer);
+
       setTimeout(() => {
+        // 🛑 Detener sonido de precarga
         if (preloaderSound) {
           preloaderSound.pause();
           preloaderSound.currentTime = 0;
         }
+
+        // 🩶 Volver al inicio (evita quedar en otra sección)
+        window.scrollTo({ top: 0 });
+
+        // 🔓 Desbloquear scroll y continuar animaciones
+        document.documentElement.classList.remove("loading-active");
         document.body.classList.remove("loading-active");
+
         setupGeometricBackground();
         startAnimations();
         setupSectionScrollSounds();
