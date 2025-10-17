@@ -187,7 +187,7 @@ document.getElementById("enableBtn").onclick = function () {
         setupSectionScrollSounds();
       }, 500);
     }
-  }, 50);
+  }, 15);
 };
 
 function setupSectionScrollSounds() {

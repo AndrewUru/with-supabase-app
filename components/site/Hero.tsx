@@ -193,7 +193,7 @@ export default function Hero({
             </span>
           )}
           <div className="space-y-5">
-            <h1 className="mx-auto max-w-3xl text-4xl font-medium tracking-tight text-foreground sm:text-5xl">
+            <h1 className="mx-auto max-w-3xl text-4xl sm:text-6xl font-semibold leading-tight tracking-tight text-foreground">
               {title}
             </h1>
             {subtitle && (

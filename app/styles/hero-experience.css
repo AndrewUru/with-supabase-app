@@ -57,6 +57,19 @@ body::before {
   overflow: hidden !important;
 }
 
+/* Oculta completamente la barra de scroll durante la carga */
+html.loading-active,
+body.loading-active {
+  scrollbar-width: none; /* Firefox */
+}
+
+html.loading-active::-webkit-scrollbar,
+body.loading-active::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none; /* Chrome, Safari, Edge */
+}
+
 .audio-enable {
   position: fixed;
   top: 0;
@@ -239,7 +252,7 @@ body::before {
 }
 
 .section {
-  height: 200vh;
+  height: 100vh;
   position: relative;
   background-size: cover;
   background-position: center;
@@ -628,4 +641,17 @@ body::before {
   .footer-right {
     font-size: 9px;
   }
+}
+
+/* 🔒 Oculta completamente la barra de scroll mientras esté activo el loader */
+html.loading-active,
+body.loading-active {
+  scrollbar-width: none; /* Firefox */
+}
+
+html.loading-active::-webkit-scrollbar,
+body.loading-active::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none; /* Chrome, Edge, Safari */
 }

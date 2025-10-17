@@ -29,5 +29,9 @@ a:hover {
 }
 
 .bg-sky-haze {
-  background: linear-gradient(160deg, var(--color-background-main) 0%, var(--color-sky-haze) 100%);
+  background: linear-gradient(
+    160deg,
+    var(--color-background-main) 0%,
+    var(--color-sky-haze) 100%
+  );
 }
