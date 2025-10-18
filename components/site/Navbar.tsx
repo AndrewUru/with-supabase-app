@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Script from "next/script";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { AuthButton } from "@/components/auth-button";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { User, Sparkle } from "lucide-react";
+import { MobileMenuCloser } from "./MobileMenuCloser";
 
 type NavbarProps = { brand?: string };
 
@@ -121,7 +121,13 @@ function MegaPanel({ columns }: { columns: MegaColumn[] }) {
   );
 }
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function NavLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
   return (
     <Link
       href={href}
@@ -146,7 +152,10 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
           aria-label="Volver al inicio"
           className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 text-sm font-semibold uppercase tracking-[0.24em] text-foreground shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift"
         >
-          <Sparkle className="h-4 w-4 text-[hsl(var(--brand))]" aria-hidden="true" />
+          <Sparkle
+            className="h-4 w-4 text-[hsl(var(--brand))]"
+            aria-hidden="true"
+          />
           {brand}
         </Link>
 
@@ -212,8 +221,14 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
               <nav className="space-y-1">
                 {[
                   { href: "/chamanismo", label: "Chamanismo" },
-                  { href: "/sonidos-ancestrales", label: "Sonidos Ancestrales" },
-                  { href: "/guitarra-consciente", label: "Guitarra Consciente" },
+                  {
+                    href: "/sonidos-ancestrales",
+                    label: "Sonidos Ancestrales",
+                  },
+                  {
+                    href: "/guitarra-consciente",
+                    label: "Guitarra Consciente",
+                  },
                   { href: "/terapias", label: "Terapias" },
                   { href: "/recursos", label: "Recursos" },
                   { href: "/contacto", label: "Contacto" },
@@ -248,7 +263,10 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                   </form>
                 </>
               ) : (
-                <AuthButton variant="default" className="mt-1 w-full justify-center" />
+                <AuthButton
+                  variant="default"
+                  className="mt-1 w-full justify-center"
+                />
               )}
 
               <div className="mt-3 flex justify-center">
@@ -259,25 +277,7 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
         </div>
       </div>
 
-      <Script id="close-mobile-menu" strategy="afterInteractive">
-        {`
-(function () {
-  const menu = document.getElementById("mobile-menu");
-  if (!menu) return;
-  const summary = menu.querySelector("summary");
-  const closeMenu = () => {
-    menu.removeAttribute("open");
-    summary?.blur();
-  };
-  menu.addEventListener("click", (event) => {
-    if (event.target.closest("a")) closeMenu();
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && menu.open) closeMenu();
-  });
-})();
-        `}
-      </Script>
+      <MobileMenuCloser menuId="mobile-menu" />
     </header>
   );
 }

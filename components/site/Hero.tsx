@@ -232,6 +232,7 @@ export default function Hero({
               <p>EN EL SILENCIO</p>
               <p>NACE EL SONIDO</p>
               <p>QUE TRANSFORMA</p>
+              <br></br>
               <p>EN LA OSCURIDAD</p>
               <p>SE ESCONDE</p>
               <p>LA LUZ DEL DESPERTAR</p>

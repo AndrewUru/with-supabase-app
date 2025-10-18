@@ -1,5 +1,9 @@
 /* eslint-disable */
 
+// 🔹 CONFIGURACIÓN PRELOADER: solo 1 vez por sesión o por tiempo
+const PRELOADER_EXPIRATION_HOURS = 24; // puedes poner 0 si no quieres que se repita nunca
+
+// 🔹 VARIABLES GLOBALES
 let startClickSound,
   preloaderSound,
   scrollSound1,
@@ -11,6 +15,7 @@ let currentSection = 1;
 let isScrolling = false;
 let circleTransitions = [];
 
+// 🔹 FUNCIÓN: inicializar fondo geométrico
 function setupGeometricBackground() {
   const gridLinesGroup = document.getElementById("grid-lines");
   const circlesOutlineGroup = document.getElementById("circles-outline");
@@ -63,45 +68,9 @@ function setupGeometricBackground() {
       initial: { cx: centerX, cy: centerY + 3 * d, r: d * 0.8 },
       final: { cx: centerX, cy: centerY, r: 4 * d },
     },
-    {
-      initial: { cx: centerX - 2 * d, cy: centerY - 2 * d, r: d * 0.6 },
-      final: { cx: centerX, cy: centerY, r: 4 * d },
-    },
-    {
-      initial: { cx: centerX + 2 * d, cy: centerY - 2 * d, r: d * 0.6 },
-      final: { cx: centerX, cy: centerY, r: 4 * d },
-    },
-    {
-      initial: { cx: centerX - 2 * d, cy: centerY + 2 * d, r: d * 0.6 },
-      final: { cx: centerX, cy: centerY, r: 4 * d },
-    },
-    {
-      initial: { cx: centerX + 2 * d, cy: centerY + 2 * d, r: d * 0.6 },
-      final: { cx: centerX, cy: centerY, r: 4 * d },
-    },
-    {
-      initial: { cx: centerX - 4 * d, cy: centerY, r: d * 0.4 },
-      final: { cx: centerX, cy: centerY, r: 4 * d },
-    },
-    {
-      initial: { cx: centerX + 4 * d, cy: centerY, r: d * 0.4 },
-      final: { cx: centerX, cy: centerY, r: 4 * d },
-    },
-    {
-      initial: { cx: centerX, cy: centerY - 4 * d, r: d * 0.4 },
-      final: { cx: centerX, cy: centerY, r: 4 * d },
-    },
-    {
-      initial: { cx: centerX, cy: centerY + 4 * d, r: d * 0.4 },
-      final: { cx: centerX, cy: centerY, r: 4 * d },
-    },
-    {
-      initial: { cx: centerX, cy: centerY, r: d * 0.3 },
-      final: { cx: centerX, cy: centerY, r: 4 * d },
-    },
   ];
 
-  circleTransitions.forEach((transition, index) => {
+  circleTransitions.forEach((transition) => {
     const circleOutline = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "circle"
@@ -127,8 +96,8 @@ function setupGeometricBackground() {
   });
 }
 
-document.getElementById("enableBtn").onclick = function () {
-  // 🔒 Bloquear scroll en body y html
+// 🔹 FUNCIÓN: ejecutar el preloader por primera vez
+function runPreloader() {
   document.documentElement.classList.add("loading-active");
   document.body.classList.add("loading-active");
 
@@ -139,17 +108,11 @@ document.getElementById("enableBtn").onclick = function () {
   scrollSound3 = document.getElementById("scrollSound3");
   backgroundMusic = document.getElementById("backgroundMusic");
 
-  // 🎵 Sonido inicial de clic
   if (startClickSound) startClickSound.play().catch(() => {});
-
-  // 🎬 Mostrar preloader y ocultar pantalla de activación
   document.querySelector(".audio-enable").style.display = "none";
   document.getElementById("preloader").style.display = "flex";
 
-  // 🔊 Sonido de precarga
   if (preloaderSound) preloaderSound.play().catch(() => {});
-
-  // 🎶 Iniciar música de fondo con delay
   setTimeout(() => {
     if (backgroundMusic) {
       backgroundMusic.volume = 0.5;
@@ -157,7 +120,6 @@ document.getElementById("enableBtn").onclick = function () {
     }
   }, 500);
 
-  // ⏱️ Simulación de carga con contador
   let count = 0;
   const timer = setInterval(() => {
     count++;
@@ -167,27 +129,54 @@ document.getElementById("enableBtn").onclick = function () {
 
     if (count >= 100) {
       clearInterval(timer);
-
       setTimeout(() => {
-        // 🛑 Detener sonido de precarga
         if (preloaderSound) {
           preloaderSound.pause();
           preloaderSound.currentTime = 0;
         }
-
-        // 🩶 Volver al inicio (evita quedar en otra sección)
         window.scrollTo({ top: 0 });
-
-        // 🔓 Desbloquear scroll y continuar animaciones
         document.documentElement.classList.remove("loading-active");
         document.body.classList.remove("loading-active");
-
         setupGeometricBackground();
         startAnimations();
         setupSectionScrollSounds();
+
+        // Guardamos que ya se mostró (con timestamp)
+        localStorage.setItem("preloaderShownAt", Date.now().toString());
       }, 500);
     }
   }, 15);
+}
+
+// 🔹 FUNCIÓN: saltar preloader (ya visto)
+function skipPreloader() {
+  document.querySelector(".audio-enable")?.remove();
+  document.getElementById("preloader")?.remove();
+  setupGeometricBackground();
+  startAnimations();
+  setupSectionScrollSounds();
+}
+
+// 🔹 COMPORTAMIENTO DEL BOTÓN
+const enableButton = document.getElementById("enableBtn");
+if (enableButton) {
+  enableButton.onclick = function () {
+    const lastShown = parseInt(localStorage.getItem("preloaderShownAt") || "0");
+    const now = Date.now();
+    const diffHours = (now - lastShown) / (1000 * 60 * 60);
+
+    if (lastShown && diffHours < PRELOADER_EXPIRATION_HOURS) {
+      skipPreloader();
+      return;
+    }
+    runPreloader();
+  };
+}
+
+// 🔹 OPCIONAL: función manual para resetear preloader desde consola
+window.resetPreloader = function () {
+  localStorage.removeItem("preloaderShownAt");
+  console.log("🔁 Preloader reiniciado. Se mostrará nuevamente al recargar.");
 };
 
 function setupSectionScrollSounds() {

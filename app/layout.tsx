@@ -1,4 +1,3 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "next-themes";
@@ -10,7 +9,7 @@ const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
 
-const siteTitle = "EDHUCO · Reconexón Ancestral";
+const siteTitle = "EDHUCO · Reconexión Ancestral";
 const siteDescription =
   "Plataforma EDHUCO: terapias, viajes chamánicos, formaciones y comunidad.";
 
@@ -54,13 +53,13 @@ const playfair = Playfair_Display({
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${playfair.variable} antialiased`}
+        className={`${geistSans.variable} ${playfair.variable} bg-background text-foreground antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -72,7 +71,7 @@ export default function RootLayout({
             <Navbar />
             <main
               id="main"
-              className="mx-auto flex flex-1 flex-col gap-16 px-6 py-18"
+              className="mx-auto flex flex-1 flex-col gap-16 px-6 py-18 "
             >
               {children}
             </main>
