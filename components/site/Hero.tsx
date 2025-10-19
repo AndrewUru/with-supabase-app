@@ -228,23 +228,48 @@ export default function Hero({
       <footer className="site-footer">
         <div className="footer-content-section">
           <div className="footer-content">
-            <div className="footer-left">
-              <p>EN EL SILENCIO</p>
-              <p>NACE EL SONIDO</p>
-              <p>QUE TRANSFORMA</p>
-              <br></br>
-              <p>EN LA OSCURIDAD</p>
-              <p>SE ESCONDE</p>
-              <p>LA LUZ DEL DESPERTAR</p>
+            <div className="footer-left text-center md:text-left">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                EN EL SILENCIO
+              </p>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                NACE EL SONIDO
+              </p>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                QUE TRANSFORMA
+              </p>
+              <br />
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                EN LA OSCURIDAD
+              </p>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                SE ESCONDE
+              </p>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                LA LUZ DEL DESPERTAR
+              </p>
             </div>
-            <div className="footer-right">
-              <p>LA VIBRACIÓN RECORRE</p>
-              <p>CADA ESPACIO INTERIOR</p>
-              <p>DESPIERTA MEMORIAS</p>
-              <br></br>
-              <p>SANA HERIDAS ANTIGUAS</p>
-              <p>Y NOS CONECTA CON</p>
-              <p>LA MAGIA DE LA VIDA</p>
+
+            <div className="footer-right text-center md:text-right">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                LA VIBRACIÓN RECORRE
+              </p>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                CADA ESPACIO INTERIOR
+              </p>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                DESPIERTA MEMORIAS
+              </p>
+              <br />
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                SANA HERIDAS ANTIGUAS
+              </p>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                Y NOS CONECTA CON
+              </p>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
+                LA MAGIA DE LA VIDA
+              </p>
             </div>
           </div>
           <div className="footer-credits">
