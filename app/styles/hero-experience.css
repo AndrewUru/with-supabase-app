@@ -243,7 +243,7 @@ body.loading-active::-webkit-scrollbar {
   opacity: 0.9;
   max-width: 600px;
   margin-bottom: 2.5rem; /* 🔥 más separación antes de los botones */
-  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 /* Botones CTA */
@@ -454,8 +454,8 @@ body.loading-active::-webkit-scrollbar {
   }
 
   .glowing-circle {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
   }
 
   .footer-right {
@@ -547,6 +547,20 @@ body.loading-active::-webkit-scrollbar {
     grid-column: 1;
     grid-row: 1;
     justify-self: center;
+  }
+
+  .main-nav {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+  }
+
+  .main-nav ul {
+    gap: 0.8rem;
+  }
+
+  .main-nav a {
+    font-size: 9px;
   }
 
   .contact-link {
