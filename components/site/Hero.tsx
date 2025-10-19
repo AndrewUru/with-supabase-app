@@ -138,31 +138,31 @@ export default function Hero({
 
       <audio id="startClickSound" preload="auto">
         <source
-          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
+          src="https://assets.codepen.io/7558/preloader-2s-001.mp3"
           type="audio/mpeg"
         />
       </audio>
       <audio id="preloaderSound" preload="auto">
         <source
-          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
+          src="https://assets.codepen.io/7558/preloader-5s-001.mp3"
           type="audio/mpeg"
         />
       </audio>
       <audio id="scrollSound1" loop preload="auto">
         <source
-          src="https://assets.codepen.io/7558/glitch-fx-001.mp3"
+          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
           type="audio/mpeg"
         />
       </audio>
       <audio id="scrollSound2" loop preload="auto">
         <source
-          src="https://assets.codepen.io/7558/glitch-fx-001.mp3"
+          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
           type="audio/mpeg"
         />
       </audio>
       <audio id="scrollSound3" loop preload="auto">
         <source
-          src="https://assets.codepen.io/7558/glitch-fx-001.mp3"
+          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
           type="audio/mpeg"
         />
       </audio>
@@ -174,7 +174,7 @@ export default function Hero({
       </audio>
       <audio id="backgroundMusic" loop preload="auto">
         <source
-          src="https://assets.codepen.io/7558/lxstnght-night-angel.mp3"
+          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
           type="audio/mpeg"
         />
       </audio>
