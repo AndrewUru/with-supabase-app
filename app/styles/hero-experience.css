@@ -10,7 +10,7 @@
 
 html {
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 body.loading-active,
@@ -174,11 +174,11 @@ body.loading-active::-webkit-scrollbar {
 }
 
 .section-2 {
-  background-image: url("https://assets.codepen.io/7558/blue-orange-001.jpg");
+  background-image: url("https://elsaltoweb.es/wp-content/uploads/2025/10/valle-andino-noche.webp");
 }
 
 .section-3 {
-  background-image: url("https://assets.codepen.io/7558/blue-orange-002.jpg");
+  background-image: url("https://elsaltoweb.es/wp-content/uploads/2025/10/kiron-e-inma.webp");
 }
 
 /* Centrado del contenido interno */
@@ -302,11 +302,14 @@ body.loading-active::-webkit-scrollbar {
   line-height: 1.1;
 }
 
+.hero-experience-wrapper {
+  position: relative;
+}
+
 .center-circle {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: sticky;
+  top: 50vh;
+  transform: translateY(-50%);
   text-align: center;
   z-index: 60;
   width: 100%;
@@ -314,6 +317,9 @@ body.loading-active::-webkit-scrollbar {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.4s ease;
 }
 
 .circle-container {

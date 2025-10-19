@@ -287,6 +287,9 @@ function startAnimations() {
   });
 
   const circle = document.getElementById("glowCircle");
+  const circleWrapper = document.querySelector(".center-circle");
+  const heroWrapper = document.querySelector(".hero-experience-wrapper");
+  const siteFooter = document.querySelector(".site-footer");
   const debugLine1 = document.getElementById("debugLine1");
   const debugLine2 = document.getElementById("debugLine2");
   const debugLine3 = document.getElementById("debugLine3");
@@ -299,8 +302,9 @@ function startAnimations() {
     const maxScroll = document.body.scrollHeight - window.innerHeight;
     const progress = Math.min(scrollY / maxScroll, 1);
 
-    const footerStart =
-      document.querySelector(".site-footer").offsetTop - window.innerHeight;
+    const footerStart = siteFooter
+      ? siteFooter.offsetTop - window.innerHeight
+      : maxScroll;
     const footerProgress = Math.max(
       0,
       (scrollY - footerStart) / (window.innerHeight * 0.5)
@@ -309,6 +313,20 @@ function startAnimations() {
     document.querySelectorAll(".geometric-text").forEach((text) => {
       text.style.opacity = textOpacity;
     });
+
+    if (circleWrapper) {
+      const heroEnd = heroWrapper
+        ? heroWrapper.offsetTop + heroWrapper.offsetHeight
+        : maxScroll;
+      const fadeRange = Math.max(window.innerHeight * 0.6, 1);
+      const fadeProgress = Math.min(
+        Math.max((scrollY - heroEnd) / fadeRange, 0),
+        1
+      );
+      const opacity = 1 - fadeProgress;
+      circleWrapper.style.opacity = opacity.toFixed(3);
+      circleWrapper.style.visibility = opacity <= 0.01 ? "hidden" : "visible";
+    }
 
     const freq1 = (432 + progress * 108).toFixed(1);
     const freq2 = (528 - progress * 156).toFixed(1);

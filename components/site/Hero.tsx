@@ -71,7 +71,7 @@ export default function Hero({
   }, []);
 
   return (
-    <>
+    <div className="hero-experience-wrapper">
       <div className="gradient-reveal"></div>
 
       <div className="audio-enable">
@@ -150,19 +150,19 @@ export default function Hero({
       </audio>
       <audio id="scrollSound1" loop preload="auto">
         <source
-          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
+          src="https://elsaltoweb.es/wp-content/uploads/2025/10/AUDIO-CHAMANICO-ZOOM.mp3"
           type="audio/mpeg"
         />
       </audio>
       <audio id="scrollSound2" loop preload="auto">
         <source
-          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
+          src="https://elsaltoweb.es/wp-content/uploads/2025/10/AUDIO-CHAMANICO-ZOOM.mp3"
           type="audio/mpeg"
         />
       </audio>
       <audio id="scrollSound3" loop preload="auto">
         <source
-          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
+          src="https://elsaltoweb.es/wp-content/uploads/2025/10/AUDIO-CHAMANICO-ZOOM.mp3"
           type="audio/mpeg"
         />
       </audio>
@@ -174,7 +174,7 @@ export default function Hero({
       </audio>
       <audio id="backgroundMusic" loop preload="auto">
         <source
-          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
+          src="https://elsaltoweb.es/wp-content/uploads/2025/10/AUDIO-CHAMANICO-ZOOM.mp3"
           type="audio/mpeg"
         />
       </audio>
@@ -286,6 +286,6 @@ export default function Hero({
         </div>
         <div className="footer-svg-section"></div>
       </footer>
-    </>
+    </div>
   );
 }
