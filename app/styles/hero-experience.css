@@ -16,7 +16,7 @@ html {
 body.loading-active,
 html.loading-active {
   height: 100vh;
-  overflow-x: hidden !important;
+  overflow: hidden !important;
   position: fixed;
   background-image: url("https://assets.codepen.io/7558/noise-002.png");
   width: 100%;
