@@ -97,35 +97,12 @@ body.loading-active::-webkit-scrollbar {
   text-transform: uppercase;
 }
 
-.site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  background: transparent;
-  z-index: 100;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.header-container {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 1rem;
-  align-items: center;
-  padding: 0 2rem;
-  width: 100%;
-  height: 100%;
-}
-
 .logo-container {
   grid-column: 1 / 3;
   position: relative;
   display: flex;
   align-items: center;
-  height: 2rem;
+  height: 4rem;
 }
 
 .logo-circles {
@@ -163,46 +140,30 @@ body.loading-active::-webkit-scrollbar {
   transform: translate(0.5rem, -50%);
 }
 
-.contact-link {
-  grid-column: 9 / 13;
-  text-align: right;
-}
-
-.contact-link a {
-  color: var(--text-color);
-  text-decoration: none;
-  font-size: 12px;
-  font-family: var(--font-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: opacity 0.3s ease;
-}
-
-.contact-link a:hover {
-  opacity: 0.7;
-}
-
 .section {
+  position: relative;
+  width: 100vw;
   height: 100vh; /* Ocupa toda la altura visible */
-  width: 100vw; /* Ocupa todo el ancho real de la ventana */
   margin-left: calc(
     50% - 50vw
-  ); /* Corrige el centrado y elimina padding lateral */
-  position: relative;
+  ); /* Elimina padding lateral de contenedores padres */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding: 0;
-  display: block;
-  border: none;
-  outline: none;
-  line-height: 0;
-  font-size: 11px;
-  overflow: hidden; /* Evita scrolls laterales */
+  overflow: hidden;
   z-index: 0;
+  /* Tipografía base */
+  font-size: 12px;
+
+  /* Espaciado superior por la navbar */
+  padding-top: var(--navbar-height, 120px);
+
+  /* Flex para centrar contenido */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 /* Fondo de cada sección */
@@ -216,6 +177,78 @@ body.loading-active::-webkit-scrollbar {
 
 .section-3 {
   background-image: url("https://assets.codepen.io/7558/blue-orange-002.jpg");
+}
+
+/* Centrado del contenido interno */
+.section-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+/* Botones CTA centrados */
+.section-content .flex {
+  justify-content: center;
+  gap: 1rem;
+  color: #050505; /* tono cálido crema */
+}
+
+.section-1 .section-content h1 {
+  color: #e4e4e4; /* tono cálido crema */
+}
+
+.section-1 .section-content p {
+  color: #1d1d1d; /* azul suave más legible sobre luz */
+}
+
+/* Ajuste general del contenido en la hero */
+.section-1 .section-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* 🔥 sube el contenido */
+  text-align: center;
+  color: #fff;
+
+  /* mueve todo el bloque un poco hacia arriba */
+  transform: translateY(-5%);
+}
+
+/* Título principal */
+.section-1 .section-content h1 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.8rem; /* más separación hacia CTA */
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Subtítulo */
+.section-1 .section-content p {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-bottom: 2.5rem; /* 🔥 más separación antes de los botones */
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Botones CTA */
+.section-1 .section-content .flex {
+  justify-content: center;
+  gap: 1.5rem;
 }
 
 .geometric-background {
@@ -296,10 +329,13 @@ body.loading-active::-webkit-scrollbar {
 .glowing-circle {
   width: 80px;
   height: 80px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.55); /* blanco translúcido */
   border-radius: 50%;
-  box-shadow: none;
   position: relative;
+  box-shadow: 0 0 40px rgba(255, 200, 120, 0.35),
+    /* halo cálido */ 0 0 80px rgba(255, 255, 200, 0.2),
+    /* resplandor difuso */ inset 0 0 20px rgba(255, 255, 255, 0.4); /* brillo interior */
+  transition: background 0.6s ease, box-shadow 0.6s ease;
 }
 
 .section-content {
@@ -330,74 +366,79 @@ body.loading-active::-webkit-scrollbar {
 
 .site-footer {
   position: relative;
-  width: 100%;
+  width: 100vw; /* 🔥 usa el ancho completo del viewport */
+  margin-left: calc(50% - 50vw); /* elimina el padding de contenedores padres */
   height: 50vh;
   background: #0a0a0a;
   z-index: 10;
-  margin-top: 0;
-  clear: both;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem;
+  padding: 4rem 2rem;
+  overflow: hidden;
 }
 
+/* Secciones internas del footer */
 .footer-content-section,
 .footer-svg-section {
   width: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
 }
 
+/* 🔥 Elimina el margin del 10% que estaba reduciendo el ancho */
 .footer-content-section {
   height: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: 10%;
+  margin: 0;
+  padding: 0 2rem;
 }
 
+/* Distribución del contenido */
 .footer-content {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  max-width: 1200px; /* limita el contenido, no el fondo */
   align-items: flex-start;
   margin-bottom: 2rem;
 }
 
+/* Texto lateral izquierdo y derecho */
 .footer-left,
 .footer-right {
   font-family: var(--font-primary);
   font-size: 12px;
   text-transform: uppercase;
   color: var(--text-color);
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 .footer-left {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.25rem;
 }
 
 .footer-right {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.25rem;
   text-align: right;
   max-width: 40%;
 }
 
+/* Créditos finales */
 .footer-credits {
   font-family: var(--font-primary);
-  font-size: 16px;
+  font-size: 14px;
   text-transform: uppercase;
-  letter-spacing: 0.7em;
+  letter-spacing: 0.3em;
   color: rgba(245, 245, 245, 0.6);
-  text-align: left;
-  margin-bottom: 1rem;
+  text-align: center; /* centrado visual */
+  margin-top: 2rem;
 }
 
 .footer-credits a {

@@ -188,11 +188,11 @@ export default function Hero({
       <section id={id} className={cn("section section-1", className)}>
         <div className="section-content text-center">
           {eyebrow && (
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+            <span className="text-xl margin-top-5 font-semibold uppercase tracking-[0.3em] text-muted-foreground">
               {eyebrow}
             </span>
           )}
-          <div className="space-y-5">
+          <div className="space-y-10">
             <h1 className="mx-auto max-w-3xl text-4xl sm:text-6xl font-semibold leading-tight tracking-tight text-foreground">
               {title}
             </h1>
