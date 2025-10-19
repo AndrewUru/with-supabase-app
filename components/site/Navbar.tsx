@@ -84,7 +84,7 @@ function MegaMenuTrigger({ label, href }: { label: string; href: string }) {
       aria-haspopup="true"
     >
       <span>{label}</span>
-      <CaretDown className="w-3 h-3 opacity-70" />
+      <CaretDown className="w-3 h-3 opacity-90" />
     </Link>
   );
 }
@@ -92,7 +92,7 @@ function MegaMenuTrigger({ label, href }: { label: string; href: string }) {
 function MegaPanel({ columns }: { columns: MegaColumn[] }) {
   return (
     <div
-      className="invisible absolute left-1/2 top-full z-40 mt-2 w-64 -translate-x-1/2 rounded-[1.75rem] border border-border/60 bg-card/85 p-5 opacity-0 shadow-soft backdrop-blur-xl transition duration-200 group-hover:visible group-hover:opacity-100"
+      className="invisible absolute left-1/2 top-full z-40 mt-2 w-64 -translate-x-1/2 rounded-[1.75rem] border border-border/80 bg-card/100 p-5  shadow-soft transition duration-200 group-hover:visible group-hover:opacity-100"
       role="menu"
     >
       <div className="space-y-5">

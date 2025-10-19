@@ -16,8 +16,9 @@ html {
 body.loading-active,
 html.loading-active {
   height: 100vh;
-  overflow: hidden !important;
+  overflow-x: hidden !important;
   position: fixed;
+  background-image: url("https://assets.codepen.io/7558/noise-002.png");
   width: 100%;
   top: 0;
   left: 0;
@@ -204,7 +205,7 @@ body.loading-active::-webkit-scrollbar {
 }
 
 .section-1 .section-content p {
-  color: #1d1d1d; /* azul suave más legible sobre luz */
+  color: #ffffff; /* azul suave más legible sobre luz */
 }
 
 /* Ajuste general del contenido en la hero */
@@ -242,7 +243,7 @@ body.loading-active::-webkit-scrollbar {
   opacity: 0.9;
   max-width: 600px;
   margin-bottom: 2.5rem; /* 🔥 más separación antes de los botones */
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Botones CTA */
@@ -298,12 +299,6 @@ body.loading-active::-webkit-scrollbar {
   letter-spacing: 0.12em;
   transition: opacity 0.3s ease, transform 0.3s ease;
   line-height: 1.1;
-}
-
-/* Opcional: animación sutil al pasar el cursor */
-.geometric-text:hover {
-  opacity: 0.9;
-  transform: scale(1.02);
 }
 
 .center-circle {
@@ -459,8 +454,8 @@ body.loading-active::-webkit-scrollbar {
   }
 
   .glowing-circle {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
   }
 
   .footer-right {
@@ -552,20 +547,6 @@ body.loading-active::-webkit-scrollbar {
     grid-column: 1;
     grid-row: 1;
     justify-self: center;
-  }
-
-  .main-nav {
-    grid-column: 1;
-    grid-row: 2;
-    justify-self: center;
-  }
-
-  .main-nav ul {
-    gap: 0.8rem;
-  }
-
-  .main-nav a {
-    font-size: 9px;
   }
 
   .contact-link {

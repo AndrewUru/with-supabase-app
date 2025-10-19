@@ -103,14 +103,14 @@ export default function Hero({
           <text className="geometric-text" x="100" y="100">
             EL CAMINO
           </text>
-          <text className="geometric-text" x="100" y="115">
+          <text className="geometric-text" x="100" y="130">
             SONORO
           </text>
 
           <text className="geometric-text" x="1720" y="100">
             SONIDOS QUE
           </text>
-          <text className="geometric-text" x="1720" y="115">
+          <text className="geometric-text" x="1720" y="130">
             TRANSFORMAN
           </text>
 
@@ -127,10 +127,10 @@ export default function Hero({
             PRESENCIA: VIVA
           </text>
 
-          <text className="geometric-text" x="1620" y="980">
+          <text className="geometric-text" x="1620" y="950">
             ENTRE LA VIBRACIÓN
           </text>
-          <text className="geometric-text" x="1620" y="995">
+          <text className="geometric-text" x="1620" y="985">
             Y EL SILENCIO
           </text>
         </svg>
@@ -138,13 +138,13 @@ export default function Hero({
 
       <audio id="startClickSound" preload="auto">
         <source
-          src="https://assets.codepen.io/7558/preloader-2s-001.mp3"
+          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
           type="audio/mpeg"
         />
       </audio>
       <audio id="preloaderSound" preload="auto">
         <source
-          src="https://assets.codepen.io/7558/preloader-5s-001.mp3"
+          src="https://elsaltoweb.es/wp-content/uploads/2025/10/audio-flauta.mp3"
           type="audio/mpeg"
         />
       </audio>
@@ -241,6 +241,7 @@ export default function Hero({
               <p>LA VIBRACIÓN RECORRE</p>
               <p>CADA ESPACIO INTERIOR</p>
               <p>DESPIERTA MEMORIAS</p>
+              <br></br>
               <p>SANA HERIDAS ANTIGUAS</p>
               <p>Y NOS CONECTA CON</p>
               <p>LA MAGIA DE LA VIDA</p>

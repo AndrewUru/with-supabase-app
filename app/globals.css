@@ -120,7 +120,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("https://assets.codepen.io/7558/noise-002.png");
+
   background-repeat: repeat;
   opacity: var(--noise-opacity);
   z-index: 1000;
