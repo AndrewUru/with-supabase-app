@@ -335,42 +335,42 @@ function startAnimations() {
 
     let awarenessState, becomingState, energyState, presenceState;
     if (progress <= 0.1) {
-      awarenessState = `[${freq1}] AWARENESS: SILENCE`;
-      becomingState = `.${freq2} STATE: VOID`;
-      energyState = `{${energy}} ENERGY: DORMANT`;
+      awarenessState = `[${freq1}] CONCIENCIA: SILENCIO`;
+      becomingState = `.${freq2} ESTADO: SEMILLA`;
+      energyState = `{${energy}} ENERGÍA: LATENTE`;
     } else if (progress <= 0.25) {
-      awarenessState = `[${freq1}] AWARENESS: STIRRING`;
-      becomingState = `.${freq2} STATE: EMERGING`;
-      energyState = `{${energy}} ENERGY: AWAKENING`;
+      awarenessState = `[${freq1}] CONCIENCIA: LLAMADO`;
+      becomingState = `.${freq2} ESTADO: BROTE`;
+      energyState = `{${energy}} ENERGÍA: DESPERTANDO`;
     } else if (progress <= 0.5) {
-      awarenessState = `[${freq1}] AWARENESS: FLOWING`;
-      becomingState = `.${freq2} STATE: EXPANDING`;
-      energyState = `{${energy}} ENERGY: BUILDING`;
+      awarenessState = `[${freq1}] CONCIENCIA: FLUJO`;
+      becomingState = `.${freq2} ESTADO: ONDA`;
+      energyState = `{${energy}} ENERGÍA: CRECIENTE`;
     } else if (progress <= 0.75) {
-      awarenessState = `[${freq1}] AWARENESS: ASCENDING`;
-      becomingState = `.${freq2} STATE: DISSOLVING`;
-      energyState = `{${energy}} ENERGY: RADIATING`;
+      awarenessState = `[${freq1}] CONCIENCIA: ASCENSO`;
+      becomingState = `.${freq2} ESTADO: ESPIRAL`;
+      energyState = `{${energy}} ENERGÍA: RADIANTE`;
     } else if (progress <= 0.9) {
-      awarenessState = `[${freq1}] AWARENESS: TRANSCENDING`;
-      becomingState = `.${freq2} STATE: INFINITE`;
-      energyState = `{${energy}} ENERGY: OVERFLOWING`;
+      awarenessState = `[${freq1}] CONCIENCIA: PORTAL`;
+      becomingState = `.${freq2} ESTADO: INFINITO`;
+      energyState = `{${energy}} ENERGÍA: DESBORDADA`;
     } else {
-      awarenessState = `[${freq1}] AWARENESS: UNITY`;
-      becomingState = `.${freq2} STATE: ETERNAL`;
-      energyState = `{${energy}} ENERGY: PURE`;
+      awarenessState = `[${freq1}] CONCIENCIA: UNIDAD`;
+      becomingState = `.${freq2} ESTADO: LUZ`;
+      energyState = `{${energy}} ENERGÍA: PULSO PURO`;
     }
 
     const presenceIntensity = Math.max(0, 1 - progress);
     if (presenceIntensity > 0.8) {
-      presenceState = `.${presence} PRESENCE: SOLID`;
+      presenceState = `.${presence} PRESENCIA: PLENA`;
     } else if (presenceIntensity > 0.6) {
-      presenceState = `.${presence} PRESENCE: SOFTENING`;
+      presenceState = `.${presence} PRESENCIA: SUAVE`;
     } else if (presenceIntensity > 0.4) {
-      presenceState = `.${presence} PRESENCE: TRANSLUCENT`;
+      presenceState = `.${presence} PRESENCIA: TRASLÚCIDA`;
     } else if (presenceIntensity > 0.2) {
-      presenceState = `.${presence} PRESENCE: ETHEREAL`;
+      presenceState = `.${presence} PRESENCIA: ETÉREA`;
     } else {
-      presenceState = `.${presence} PRESENCE: VOID`;
+      presenceState = `.${presence} PRESENCIA: VACÍO`;
     }
 
     const scale = 1 + progress * 1.8;
