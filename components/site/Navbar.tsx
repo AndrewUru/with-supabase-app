@@ -213,12 +213,12 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
 
         <div className="md:hidden">
           <details id="mobile-menu" className="group relative">
-            <summary className="list-none inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 transition hover:bg-accent/60 hover:text-foreground">
+            <summary className="list-none inline-flex items-center gap-2 rounded-full border border-border/60 bg-black px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 transition hover:bg-accent/60 hover:text-foreground">
               Menu
               <CaretDown className="h-3 w-3 transition group-open:rotate-180" />
             </summary>
 
-            <div className="absolute right-0 mt-3 w-72 rounded-[1.75rem] border border-border/60 bg-card/85 p-4 shadow-soft backdrop-blur-xl">
+            <div className="absolute right-0 mt-3 w-72 rounded-[1.75rem] border border-border/60 bg-black p-4 shadow-soft backdrop-blur-xl">
               <nav className="space-y-1">
                 {[
                   { href: "/chamanismo", label: "Chamanismo" },
