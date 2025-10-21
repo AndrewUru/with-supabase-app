@@ -298,7 +298,7 @@ export default async function ProtectedPage({
               </span>
             </div>
             <div>
-              <h1 className="bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl">
+              <h1 className="bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-2xl font-bold tracking-tight text-transparent sm:text-2xl">
                 Hola, {shortName}
               </h1>
               <p className="mt-3 text-base text-muted-foreground/90 sm:text-lg">
