@@ -50,9 +50,9 @@ const sections = [
 export default function Home() {
   return (
     <main className="relative mx-auto flex min-h-screen w-full flex-col bg-background text-foreground">
-      <div className="absolute inset-x-0 top-0 -z-10 h-72 bg-gradient-to-b from-brand/10 via-background to-transparent" />
+      <div className="absolute inset-x-0 top-0 -z-10 bg-gradient-to-b from-brand/10 via-background to-transparent" />
       {sections.map(({ id, component: Section }) => (
-        <section key={id} id={id} className="scroll-mt-24">
+        <section key={id} id={id} className="">
           <Section />
         </section>
       ))}

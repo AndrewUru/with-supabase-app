@@ -71,7 +71,7 @@ export default function RootLayout({
             <Navbar />
             <main
               id="main"
-              className="mx-auto flex flex-1 flex-col gap-16 px-6 py-18 "
+              className="mx-auto flex flex-1 flex-col gap-16 pb-18 pt-0"
             >
               {children}
             </main>

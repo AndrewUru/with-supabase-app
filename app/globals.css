@@ -38,6 +38,7 @@
   --text-color: rgba(245, 245, 245, 0.9);
   --warm-off-black: #1a1917;
   --warm-off-white: #f8f5f2;
+  --navbar-height: 5rem; /* mantiene la hero alineada con la altura real del header */
 }
 
 /* ---------- Modo Oscuro (por clase manual) ---------- */
@@ -69,6 +70,7 @@
   --color-text-muted: #9baec8;
   --color-accent: #ffaa4c;
   --noise-opacity: 0.08;
+  --navbar-height: 5rem;
 }
 
 /* ---------- Modo Oscuro Automático (según sistema) ---------- */

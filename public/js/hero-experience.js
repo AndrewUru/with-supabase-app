@@ -109,8 +109,14 @@ function runPreloader() {
   backgroundMusic = document.getElementById("backgroundMusic");
 
   if (startClickSound) startClickSound.play().catch(() => {});
-  document.querySelector(".audio-enable").style.display = "none";
-  document.getElementById("preloader").style.display = "flex";
+  const audioEnableEl = document.querySelector(".audio-enable");
+  if (audioEnableEl) {
+    audioEnableEl.style.display = "none";
+  }
+  const preloaderEl = document.getElementById("preloader");
+  if (preloaderEl) {
+    preloaderEl.style.display = "flex";
+  }
 
   if (preloaderSound) preloaderSound.play().catch(() => {});
   setTimeout(() => {
@@ -269,7 +275,10 @@ function startAnimations() {
     ease: "power2.inOut",
     delay: 1.0,
     onComplete: () => {
-      document.getElementById("preloader").style.display = "none";
+      const preloaderEl = document.getElementById("preloader");
+      if (preloaderEl) {
+        preloaderEl.style.display = "none";
+      }
     },
   });
 

@@ -114,16 +114,16 @@ export default function Hero({
             TRANSFORMAN
           </text>
 
-          <text className="geometric-text" x="100" y="980" id="debugLine1">
+          <text className="geometric-text" x="100" y="92vh" id="debugLine1">
             VIBRACIÓN: SANADORA
           </text>
-          <text className="geometric-text" x="100" y="995" id="debugLine2">
+          <text className="geometric-text" x="100" y="94vh" id="debugLine2">
             ENERGÍA: CONSCIENTE
           </text>
-          <text className="geometric-text" x="100" y="1010" id="debugLine3">
+          <text className="geometric-text" x="100" y="96vh" id="debugLine3">
             ESTADO: EXPANDIDO
           </text>
-          <text className="geometric-text" x="100" y="1025" id="debugLine4">
+          <text className="geometric-text" x="100" y="98vh" id="debugLine4">
             PRESENCIA: VIVA
           </text>
 
@@ -188,7 +188,7 @@ export default function Hero({
       <section id={id} className={cn("section section-1", className)}>
         <div className="section-content text-center">
           {eyebrow && (
-            <span className="text-xl margin-top-5 font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+            <span className="text-xl font-semibold uppercase tracking-[0.3em] text-muted-foreground">
               {eyebrow}
             </span>
           )}
