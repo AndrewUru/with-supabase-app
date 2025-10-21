@@ -14,6 +14,70 @@ let isBackgroundPlaying = true;
 let currentSection = 1;
 let isScrolling = false;
 let circleTransitions = [];
+const PRELOADER_STORAGE_KEY = "preloaderShownAt";
+const prefersReducedMotion = window.matchMedia
+  ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  : false;
+
+function markPreloaderSeen() {
+  try {
+    localStorage.setItem(PRELOADER_STORAGE_KEY, Date.now().toString());
+  } catch (error) {
+    console.warn("Preloader storage unavailable", error);
+  }
+}
+
+function getLastPreloaderTimestamp() {
+  try {
+    return parseInt(localStorage.getItem(PRELOADER_STORAGE_KEY) || "0", 10);
+  } catch (error) {
+    console.warn("Preloader storage unavailable", error);
+    return 0;
+  }
+}
+
+function shouldSkipPreloader() {
+  if (prefersReducedMotion) {
+    return true;
+  }
+  const lastShown = getLastPreloaderTimestamp();
+  if (!lastShown) {
+    return false;
+  }
+  const diffHours = (Date.now() - lastShown) / (1000 * 60 * 60);
+  return diffHours < PRELOADER_EXPIRATION_HOURS;
+}
+
+function activateAudioOverlay() {
+  const audioEnableEl = document.querySelector(".audio-enable");
+  if (!audioEnableEl) return;
+
+  audioEnableEl.setAttribute("aria-hidden", "false");
+  requestAnimationFrame(() => {
+    audioEnableEl.classList.add("is-active");
+    const enableButton = document.getElementById("enableBtn");
+    if (enableButton && typeof enableButton.focus === "function") {
+      try {
+        enableButton.focus({ preventScroll: true });
+      } catch (error) {
+        enableButton.focus();
+      }
+    }
+  });
+}
+
+function deactivateAudioOverlay({ removeNode = false } = {}) {
+  const audioEnableEl = document.querySelector(".audio-enable");
+  if (!audioEnableEl) return;
+
+  audioEnableEl.classList.remove("is-active");
+  audioEnableEl.setAttribute("aria-hidden", "true");
+  if (removeNode) {
+    setTimeout(() => {
+      audioEnableEl.remove();
+    }, 300);
+  }
+}
 
 // 🔹 FUNCIÓN: inicializar fondo geométrico
 function setupGeometricBackground() {
@@ -109,13 +173,11 @@ function runPreloader() {
   backgroundMusic = document.getElementById("backgroundMusic");
 
   if (startClickSound) startClickSound.play().catch(() => {});
-  const audioEnableEl = document.querySelector(".audio-enable");
-  if (audioEnableEl) {
-    audioEnableEl.style.display = "none";
-  }
+  deactivateAudioOverlay({ removeNode: true });
   const preloaderEl = document.getElementById("preloader");
   if (preloaderEl) {
     preloaderEl.style.display = "flex";
+    preloaderEl.setAttribute("aria-hidden", "false");
   }
 
   if (preloaderSound) preloaderSound.play().catch(() => {});
@@ -129,9 +191,10 @@ function runPreloader() {
   let count = 0;
   const timer = setInterval(() => {
     count++;
-    document.getElementById("counter").textContent = `[${count
-      .toString()
-      .padStart(3, "0")}]`;
+    const counterEl = document.getElementById("counter");
+    if (counterEl) {
+      counterEl.textContent = `[${count.toString().padStart(3, "0")}]`;
+    }
 
     if (count >= 100) {
       clearInterval(timer);
@@ -148,35 +211,57 @@ function runPreloader() {
         setupSectionScrollSounds();
 
         // Guardamos que ya se mostró (con timestamp)
-        localStorage.setItem("preloaderShownAt", Date.now().toString());
+        markPreloaderSeen();
+        if (preloaderEl) {
+          preloaderEl.setAttribute("aria-hidden", "true");
+          preloaderEl.style.display = "none";
+        }
       }, 500);
     }
   }, 15);
 }
 
 // 🔹 FUNCIÓN: saltar preloader (ya visto)
-function skipPreloader() {
-  document.querySelector(".audio-enable")?.remove();
-  document.getElementById("preloader")?.remove();
+function skipPreloader({ recordSeen = false } = {}) {
+  deactivateAudioOverlay({ removeNode: true });
+  const preloaderEl = document.getElementById("preloader");
+  if (preloaderEl) {
+    preloaderEl.setAttribute("aria-hidden", "true");
+    preloaderEl.remove();
+  }
   setupGeometricBackground();
   startAnimations();
   setupSectionScrollSounds();
+  if (recordSeen) {
+    markPreloaderSeen();
+  }
 }
 
 // 🔹 COMPORTAMIENTO DEL BOTÓN
 const enableButton = document.getElementById("enableBtn");
-if (enableButton) {
-  enableButton.onclick = function () {
-    const lastShown = parseInt(localStorage.getItem("preloaderShownAt") || "0");
-    const now = Date.now();
-    const diffHours = (now - lastShown) / (1000 * 60 * 60);
+const skipButton = document.getElementById("skipBtn");
+const shouldAutoSkip = shouldSkipPreloader();
 
-    if (lastShown && diffHours < PRELOADER_EXPIRATION_HOURS) {
-      skipPreloader();
+if (enableButton) {
+  enableButton.addEventListener("click", () => {
+    if (shouldSkipPreloader()) {
+      skipPreloader({ recordSeen: true });
       return;
     }
     runPreloader();
-  };
+  });
+}
+
+if (skipButton) {
+  skipButton.addEventListener("click", () => {
+    skipPreloader({ recordSeen: true });
+  });
+}
+
+if (shouldAutoSkip) {
+  skipPreloader();
+} else {
+  activateAudioOverlay();
 }
 
 // 🔹 OPCIONAL: función manual para resetear preloader desde consola

@@ -92,7 +92,7 @@ function MegaMenuTrigger({ label, href }: { label: string; href: string }) {
 function MegaPanel({ columns }: { columns: MegaColumn[] }) {
   return (
     <div
-      className="invisible absolute left-1/2 top-full z-40 mt-2 w-64 -translate-x-1/2 rounded-[1.75rem] border border-border/80 bg-card/100 p-5  shadow-soft transition duration-200 group-hover:visible group-hover:opacity-100"
+      className="invisible absolute left-1/2 top-full z-40 mt-2 w-64 -translate-x-1/2 rounded-[1.75rem] border border-border/80 bg-black p-5  shadow-soft transition duration-200 group-hover:visible group-hover:opacity-100 z-index-50 "
       role="menu"
     >
       <div className="space-y-5">
@@ -147,7 +147,8 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="container-app flex h-20 items-center justify-between gap-6">
-        <Link
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a
           href="/"
           aria-label="Volver al inicio"
           className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 text-sm font-semibold uppercase tracking-[0.24em] text-foreground shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift"
@@ -157,7 +158,7 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
             aria-hidden="true"
           />
           {brand}
-        </Link>
+        </a>
 
         <nav className="hidden items-center gap-1 md:flex">
           <div className="group relative">

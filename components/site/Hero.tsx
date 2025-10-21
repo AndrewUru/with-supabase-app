@@ -22,7 +22,7 @@ const defaultSecondary = { href: "/contacto", label: "Conocer más" };
 export default function Hero({
   id = "hero",
   eyebrow = "EDHUCO",
-  title = "Acompañamos procesos de crecimiento humano",
+  title = "Acompaño procesos de crecimiento humano",
   subtitle = "Terapias, formaciones y retiros para sostener tu transformación desde la calma.",
   primaryCta = defaultPrimary,
   secondaryCta = defaultSecondary,
@@ -74,18 +74,54 @@ export default function Hero({
     <div className="hero-experience-wrapper">
       <div className="gradient-reveal"></div>
 
-      <div className="audio-enable">
-        <p>
-          COMIENZA LA EXPERIENCIA
-          <br />
-          CON SONIDO
-        </p>
-        <button className="enable-button" id="enableBtn">
-          INICIAR
-        </button>
+      <div
+        className="audio-enable"
+        role="dialog"
+        aria-modal="true"
+        aria-hidden="true"
+        aria-labelledby="audioPromptTitle"
+        aria-describedby="audioPromptDescription"
+      >
+        <div className="audio-enable__content">
+          <p id="audioPromptTitle">
+            COMIENZA LA EXPERIENCIA
+            <br />
+            CON SONIDO
+          </p>
+          <p id="audioPromptDescription" className="audio-enable__subtitle">
+            Activa la ambientación sonora para disfrutar la experiencia animada.
+          </p>
+          <div className="audio-enable__actions">
+            <button
+              className="enable-button"
+              id="enableBtn"
+              type="button"
+              aria-label="Iniciar experiencia con sonido"
+            >
+              Iniciar
+            </button>
+            <button
+              className="skip-button"
+              id="skipBtn"
+              type="button"
+              aria-label="Continuar sin activar el sonido"
+            >
+              Continuar sin sonido
+            </button>
+          </div>
+          <p className="audio-enable__hint">
+            Puedes activar el sonido más tarde desde la navegación.
+          </p>
+        </div>
       </div>
 
-      <div className="preloader" id="preloader">
+      <div
+        className="preloader"
+        id="preloader"
+        role="status"
+        aria-live="polite"
+        aria-hidden="true"
+      >
         <span id="counter">[000]</span>
       </div>
 
@@ -228,7 +264,7 @@ export default function Hero({
       <footer className="site-footer">
         <div className="footer-content-section">
           <div className="footer-content">
-            <div className="footer-left text-center md:text-left">
+            <div className="footer-left">
               <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
                 EN EL SILENCIO
               </p>
@@ -250,7 +286,7 @@ export default function Hero({
               </p>
             </div>
 
-            <div className="footer-right text-center md:text-right">
+            <div className="footer-right">
               <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-tight">
                 LA VIBRACIÓN RECORRE
               </p>
