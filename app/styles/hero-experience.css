@@ -399,6 +399,7 @@ body.loading-active::-webkit-scrollbar {
 
 .hero-experience-wrapper {
   position: relative;
+  z-index: 0;
 }
 
 .center-circle {
@@ -407,7 +408,7 @@ body.loading-active::-webkit-scrollbar {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  z-index: 60;
+  z-index: 10;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -417,6 +418,7 @@ body.loading-active::-webkit-scrollbar {
 
 .circle-container {
   display: flex;
+  z-index: 0;
   align-items: center;
   justify-content: center;
 }
@@ -431,6 +433,7 @@ body.loading-active::-webkit-scrollbar {
     /* halo cálido */ 0 0 80px rgba(255, 255, 200, 0.2),
     /* resplandor difuso */ inset 0 0 20px rgba(255, 255, 255, 0.4); /* brillo interior */
   transition: background 0.6s ease, box-shadow 0.6s ease;
+  z-index: 0;
 }
 
 .section-content {

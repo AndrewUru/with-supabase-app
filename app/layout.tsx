@@ -55,11 +55,7 @@ export default function RootLayout({
           <div className="flex min-h-screen flex-col" data-oid="u_pkwvq">
             <Navbar data-oid="2bnf.qc" />
 
-            <main
-              id="main"
-              className="mx-auto flex flex-1 flex-col gap-16 pb-18 pt-0 opacity-100 mr-[89px] ml-[44.5px] w-[1333px] h-[8600px]"
-              data-oid="i:x_cal"
-            >
+            <main id="main" className="mx-auto flex flex-1" data-oid="i:x_cal">
               {children}
             </main>
             <Footer data-oid="hivn:7:" />

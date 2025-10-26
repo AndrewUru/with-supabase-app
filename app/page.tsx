@@ -51,7 +51,7 @@ const sections = [
 export default function Home() {
   return (
     <main
-      className="relative mx-auto flex min-h-screen w-full flex-col bg-background text-foreground"
+      className="relative mx-auto flex min-h-screen flex-col bg-background text-foreground"
       data-oid="n9r3tz1"
     >
       <div
