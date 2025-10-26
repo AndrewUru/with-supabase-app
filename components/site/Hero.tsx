@@ -230,27 +230,6 @@ export default function Hero({
           data-oid="ojmddf_"
         />
       </audio>
-      <audio id="scrollSound1" loop preload="auto" data-oid="fuepbz5">
-        <source
-          src=""
-          type="audio/mpeg"
-          data-oid="38xck6h"
-        />
-      </audio>
-      <audio id="scrollSound2" loop preload="auto" data-oid="oe0ehzs">
-        <source
-          src=""
-          type="audio/mpeg"
-          data-oid="9ie4261"
-        />
-      </audio>
-      <audio id="scrollSound3" loop preload="auto" data-oid="9ifz7gr">
-        <source
-          src=""
-          type="audio/mpeg"
-          data-oid="pqn-5h3"
-        />
-      </audio>
       <audio id="hoverSound" preload="auto" data-oid="joy1h96">
         <source
           src="https://assets.codepen.io/7558/preloader-2s-001.mp3"

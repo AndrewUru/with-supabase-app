@@ -4,15 +4,8 @@
 const PRELOADER_EXPIRATION_HOURS = 24; // puedes poner 0 si no quieres que se repita nunca
 
 // 🔹 VARIABLES GLOBALES
-let startClickSound,
-  preloaderSound,
-  scrollSound1,
-  scrollSound2,
-  scrollSound3,
-  backgroundMusic;
+let startClickSound, preloaderSound, backgroundMusic;
 let isBackgroundPlaying = true;
-let currentSection = 1;
-let isScrolling = false;
 let circleTransitions = [];
 const PRELOADER_STORAGE_KEY = "preloaderShownAt";
 const prefersReducedMotion = window.matchMedia
@@ -167,9 +160,6 @@ function runPreloader() {
 
   startClickSound = document.getElementById("startClickSound");
   preloaderSound = document.getElementById("preloaderSound");
-  scrollSound1 = document.getElementById("scrollSound1");
-  scrollSound2 = document.getElementById("scrollSound2");
-  scrollSound3 = document.getElementById("scrollSound3");
   backgroundMusic = document.getElementById("backgroundMusic");
 
   if (startClickSound) startClickSound.play().catch(() => {});
@@ -208,7 +198,6 @@ function runPreloader() {
         document.body.classList.remove("loading-active");
         setupGeometricBackground();
         startAnimations();
-        setupSectionScrollSounds();
 
         // Guardamos que ya se mostró (con timestamp)
         markPreloaderSeen();
@@ -231,7 +220,6 @@ function skipPreloader({ recordSeen = false } = {}) {
   }
   setupGeometricBackground();
   startAnimations();
-  setupSectionScrollSounds();
   if (recordSeen) {
     markPreloaderSeen();
   }
@@ -269,46 +257,6 @@ window.resetPreloader = function () {
   localStorage.removeItem("preloaderShownAt");
   console.log("🔁 Preloader reiniciado. Se mostrará nuevamente al recargar.");
 };
-
-function setupSectionScrollSounds() {
-  let scrollTimeout;
-
-  function getCurrentSection() {
-    const scrollY = window.scrollY;
-    const sectionHeight = window.innerHeight * 2;
-    if (scrollY < sectionHeight) return 1;
-    else if (scrollY < sectionHeight * 2) return 2;
-    else return 3;
-  }
-
-  function stopAllScrollSounds() {
-    [scrollSound1, scrollSound2, scrollSound3].forEach((sound) => {
-      if (sound && !sound.paused) {
-        sound.pause();
-        sound.currentTime = 0;
-      }
-    });
-  }
-
-  window.addEventListener("scroll", () => {
-    const newSection = getCurrentSection();
-    isScrolling = true;
-    if (newSection !== currentSection) {
-      stopAllScrollSounds();
-      currentSection = newSection;
-    }
-    const currentScrollSound = eval(`scrollSound${currentSection}`);
-    if (currentScrollSound && currentScrollSound.paused) {
-      currentScrollSound.currentTime = 0;
-      currentScrollSound.play().catch((e) => {});
-    }
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      stopAllScrollSounds();
-      isScrolling = false;
-    }, 150);
-  });
-}
 
 function startAnimations() {
   gsap.registerPlugin(ScrollTrigger);
