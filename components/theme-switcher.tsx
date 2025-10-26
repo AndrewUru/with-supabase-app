@@ -88,17 +88,23 @@ const ThemeSwitcher = () => {
   const DisplayIcon = displayOption.icon;
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <DropdownMenu data-oid="86jd8q.">
+      <DropdownMenuTrigger asChild data-oid="fpmaewn">
         <Button
           variant="outline"
           size="icon"
           aria-label={`Cambiar tema (${displayOption.label})`}
           className="relative h-11 w-11 rounded-full border-border/60 bg-background/80 p-0 text-muted-foreground shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent/60 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          data-oid="vm:mntn"
         >
-          <span className="sr-only">Cambiar tema</span>
-          <span className="flex h-full w-full items-center justify-center">
-            <AnimatePresence mode="wait" initial={false}>
+          <span className="sr-only" data-oid="4p6qsda">
+            Cambiar tema
+          </span>
+          <span
+            className="flex h-full w-full items-center justify-center"
+            data-oid="1ot7pyi"
+          >
+            <AnimatePresence mode="wait" initial={false} data-oid="0v765np">
               <motion.span
                 key={displayOption.value}
                 initial={{ scale: 0.7, opacity: 0, rotate: -10 }}
@@ -106,8 +112,9 @@ const ThemeSwitcher = () => {
                 exit={{ scale: 0.7, opacity: 0, rotate: 10 }}
                 transition={{ duration: 0.18, ease: "easeOut" }}
                 className="flex"
+                data-oid="a.6x5_k"
               >
-                <DisplayIcon size={ICON_SIZE} />
+                <DisplayIcon size={ICON_SIZE} data-oid="0jv0e4n" />
               </motion.span>
             </AnimatePresence>
           </span>
@@ -117,14 +124,19 @@ const ThemeSwitcher = () => {
         sideOffset={10}
         align="end"
         className="w-60"
+        data-oid="fkamcpm"
       >
-        <DropdownMenuLabel className="text-muted-foreground/80">
+        <DropdownMenuLabel
+          className="text-muted-foreground/80"
+          data-oid="zqif0.j"
+        >
           Elige el ambiente
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator data-oid="xjxfh_r" />
         <DropdownMenuRadioGroup
           value={currentTheme}
           onValueChange={handleThemeChange}
+          data-oid="bvj0uu3"
         >
           {THEME_OPTIONS.map((option) => (
             <DropdownMenuRadioItem
@@ -132,24 +144,32 @@ const ThemeSwitcher = () => {
               value={option.value}
               className={cn(
                 "group flex items-center gap-3 rounded-2xl px-4 py-2 transition-all duration-200",
-                "focus:bg-accent/60 focus:text-foreground data-[state=checked]:bg-accent/80 data-[state=checked]:text-foreground"
+                "focus:bg-accent/60 focus:text-foreground data-[state=checked]:bg-accent/80 data-[state=checked]:text-foreground",
               )}
+              data-oid="nlvzhxg"
             >
               <span
                 aria-hidden
                 className={cn(
                   "flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-muted/60 text-muted-foreground transition duration-200",
                   option.tint,
-                  "group-data-[state=checked]:border-transparent group-data-[state=checked]:bg-background group-data-[state=checked]:text-foreground"
+                  "group-data-[state=checked]:border-transparent group-data-[state=checked]:bg-background group-data-[state=checked]:text-foreground",
                 )}
+                data-oid="b9gts4m"
               >
-                <option.icon size={14} strokeWidth={1.8} />
+                <option.icon size={14} strokeWidth={1.8} data-oid="3rzag:i" />
               </span>
-              <span className="flex flex-col text-left">
-                <span className="text-sm font-medium leading-tight tracking-normal">
+              <span className="flex flex-col text-left" data-oid="6wjpoh9">
+                <span
+                  className="text-sm font-medium leading-tight tracking-normal"
+                  data-oid="p:mh5np"
+                >
                   {option.label}
                 </span>
-                <span className="text-xs font-normal uppercase tracking-[0.16em] text-muted-foreground/70">
+                <span
+                  className="text-xs font-normal uppercase tracking-[0.16em] text-muted-foreground/70"
+                  data-oid="9s.qv.z"
+                >
                   {option.description}
                 </span>
               </span>

@@ -69,8 +69,12 @@ function CaretDown({ className = "w-3 h-3" }) {
       fill="currentColor"
       className={className}
       aria-hidden="true"
+      data-oid="m3ftvsi"
     >
-      <path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.17l3.71-2.94a.75.75 0 1 1 .94 1.16l-4.2 3.33a.75.75 0 0 1-.94 0l-4.2-3.33a.75.75 0 0 1 .02-1.18z" />
+      <path
+        d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.17l3.71-2.94a.75.75 0 1 1 .94 1.16l-4.2 3.33a.75.75 0 0 1-.94 0l-4.2-3.33a.75.75 0 0 1 .02-1.18z"
+        data-oid="aw5ig:0"
+      />
     </svg>
   );
 }
@@ -82,9 +86,10 @@ function MegaMenuTrigger({ label, href }: { label: string; href: string }) {
       prefetch={false}
       className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80 transition hover:text-foreground"
       aria-haspopup="true"
+      data-oid="wj_-8ck"
     >
-      <span>{label}</span>
-      <CaretDown className="w-3 h-3 opacity-90" />
+      <span data-oid="e6spu_1">{label}</span>
+      <CaretDown className="w-3 h-3 opacity-90" data-oid="rp1-o1x" />
     </Link>
   );
 }
@@ -94,20 +99,25 @@ function MegaPanel({ columns }: { columns: MegaColumn[] }) {
     <div
       className="invisible absolute left-1/2 top-full z-40 mt-2 w-64 -translate-x-1/2 rounded-[1.75rem] border border-border/80 bg-black p-5  shadow-soft transition duration-200 group-hover:visible group-hover:opacity-100 z-index-50 "
       role="menu"
+      data-oid="9_337mq"
     >
-      <div className="space-y-5">
+      <div className="space-y-5" data-oid="be9w29k">
         {columns.map((col) => (
-          <div key={col.title} className="space-y-3">
-            <h4 className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
+          <div key={col.title} className="space-y-3" data-oid="3rohdd-">
+            <h4
+              className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70"
+              data-oid="1605ip2"
+            >
               {col.title}
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-2.5" data-oid="4vj.dzw">
               {col.links.map((link) => (
-                <li key={link.href}>
+                <li key={link.href} data-oid="n.34xuj">
                   <Link
                     href={link.href}
                     className="block rounded-full px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/75 transition hover:-translate-y-0.5 hover:bg-accent/60 hover:text-foreground"
                     role="menuitem"
+                    data-oid="v:_055h"
                   >
                     {link.label}
                   </Link>
@@ -132,6 +142,7 @@ function NavLink({
     <Link
       href={href}
       className="inline-flex items-center rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80 transition hover:text-foreground"
+      data-oid="235_hmi"
     >
       {children}
     </Link>
@@ -145,81 +156,129 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
   } = await supabase.auth.getUser();
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
-      <div className="container-app flex h-20 items-center justify-between gap-6">
+    <header
+      className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl"
+      data-oid="ogotedp"
+    >
+      <div
+        className="container-app flex h-20 items-center justify-between gap-6"
+        data-oid="_.hu0er"
+      >
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a
           href="/"
           aria-label="Volver al inicio"
           className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 text-sm font-semibold uppercase tracking-[0.24em] text-foreground shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift"
+          data-oid="lax:f5z"
         >
           <Sparkle
             className="h-4 w-4 text-[hsl(var(--brand))]"
             aria-hidden="true"
+            data-oid="wokn9vn"
           />
+
           {brand}
         </a>
 
-        <nav className="hidden items-center gap-1 md:flex">
-          <div className="group relative">
-            <MegaMenuTrigger label="Chamanismo" href="/chamanismo" />
-            <MegaPanel columns={CHAMANISMO_COLS} />
+        <nav className="hidden items-center gap-1 md:flex" data-oid="be9vaik">
+          <div className="group relative" data-oid="bynyfwc">
+            <MegaMenuTrigger
+              label="Chamanismo"
+              href="/chamanismo"
+              data-oid="tzk99d3"
+            />
+            <MegaPanel columns={CHAMANISMO_COLS} data-oid="b8o15w2" />
           </div>
 
-          <div className="group relative">
-            <MegaMenuTrigger label="Sonidos" href="/sonidos-ancestrales" />
-            <MegaPanel columns={SONIDOS_COLS} />
+          <div className="group relative" data-oid="taiin2-">
+            <MegaMenuTrigger
+              label="Sonidos"
+              href="/sonidos-ancestrales"
+              data-oid="bzq8:j0"
+            />
+            <MegaPanel columns={SONIDOS_COLS} data-oid="mb3s0qv" />
           </div>
 
-          <NavLink href="/guitarra-consciente">Guitarra</NavLink>
+          <NavLink href="/guitarra-consciente" data-oid="lq1584t">
+            Guitarra
+          </NavLink>
 
-          <div className="group relative">
-            <MegaMenuTrigger label="Terapias" href="/terapias" />
-            <MegaPanel columns={TERAPIAS_COLS} />
+          <div className="group relative" data-oid="c5nlzu8">
+            <MegaMenuTrigger
+              label="Terapias"
+              href="/terapias"
+              data-oid="x.l.4p1"
+            />
+            <MegaPanel columns={TERAPIAS_COLS} data-oid="0pn4eug" />
           </div>
 
-          <div className="group relative">
-            <MegaMenuTrigger label="Recursos" href="/recursos" />
-            <MegaPanel columns={RECURSOS_COLS} />
+          <div className="group relative" data-oid="fh8fdi.">
+            <MegaMenuTrigger
+              label="Recursos"
+              href="/recursos"
+              data-oid="h825a9f"
+            />
+            <MegaPanel columns={RECURSOS_COLS} data-oid="zd3:ql7" />
           </div>
 
-          <NavLink href="/contacto">Contacto</NavLink>
+          <NavLink href="/contacto" data-oid="hlul55w">
+            Contacto
+          </NavLink>
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 md:flex" data-oid="ilv_uq0">
           {user ? (
             <>
               <Link
                 href="/protected"
                 className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/85 transition hover:-translate-y-0.5 hover:bg-accent/60 hover:text-foreground"
+                data-oid="cxwd4tt"
               >
-                <User className="h-4 w-4" aria-hidden="true" />
+                <User
+                  className="h-4 w-4"
+                  aria-hidden="true"
+                  data-oid="jer1lqn"
+                />
                 Mi cuenta
               </Link>
-              <form action={signOut}>
+              <form action={signOut} data-oid="nkjl6nv">
                 <button
                   type="submit"
                   className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-transparent px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 transition hover:-translate-y-0.5 hover:bg-destructive/70 hover:text-destructive-foreground"
+                  data-oid="sct7o4h"
                 >
                   Salir
                 </button>
               </form>
             </>
           ) : (
-            <AuthButton variant="default" />
+            <AuthButton variant="default" data-oid="iv7tb0n" />
           )}
-          <ThemeSwitcher />
+          <ThemeSwitcher data-oid="kxj89-w" />
         </div>
 
-        <div className="md:hidden">
-          <details id="mobile-menu" className="group relative">
-            <summary className="list-none inline-flex items-center gap-2 rounded-full border border-border/60 bg-black px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 transition hover:bg-accent/60 hover:text-foreground">
+        <div className="md:hidden" data-oid="0o7e5:2">
+          <details
+            id="mobile-menu"
+            className="group relative"
+            data-oid="j0t5:.c"
+          >
+            <summary
+              className="list-none inline-flex items-center gap-2 rounded-full border border-border/60 bg-black px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 transition hover:bg-accent/60 hover:text-foreground"
+              data-oid="q14_slb"
+            >
               Menu
-              <CaretDown className="h-3 w-3 transition group-open:rotate-180" />
+              <CaretDown
+                className="h-3 w-3 transition group-open:rotate-180"
+                data-oid="6hxc19:"
+              />
             </summary>
 
-            <div className="absolute right-0 mt-3 w-72 rounded-[1.75rem] border border-border/60 bg-black p-4 shadow-soft backdrop-blur-xl">
-              <nav className="space-y-1">
+            <div
+              className="absolute right-0 mt-3 w-72 rounded-[1.75rem] border border-border/60 bg-black p-4 shadow-soft backdrop-blur-xl"
+              data-oid="kn9k.10"
+            >
+              <nav className="space-y-1" data-oid=":t6sw:9">
                 {[
                   { href: "/chamanismo", label: "Chamanismo" },
                   {
@@ -238,26 +297,29 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                     key={item.href}
                     href={item.href}
                     className="block rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80 transition hover:bg-accent/60 hover:text-foreground"
+                    data-oid="5mnuwyt"
                   >
                     {item.label}
                   </Link>
                 ))}
               </nav>
 
-              <div className="my-3 h-px bg-border/70" />
+              <div className="my-3 h-px bg-border/70" data-oid="8-s6whk" />
 
               {user ? (
                 <>
                   <Link
                     href="/protected"
                     className="block rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80 transition hover:bg-accent/60 hover:text-foreground"
+                    data-oid="3fpxp.l"
                   >
                     Mi cuenta
                   </Link>
-                  <form action={signOut} className="mt-1">
+                  <form action={signOut} className="mt-1" data-oid="q.h6yew">
                     <button
                       type="submit"
                       className="w-full rounded-full border border-border/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80 transition hover:bg-destructive/70 hover:text-destructive-foreground"
+                      data-oid="z2.wrxl"
                     >
                       Cerrar sesion
                     </button>
@@ -267,18 +329,19 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                 <AuthButton
                   variant="default"
                   className="mt-1 w-full justify-center"
+                  data-oid="4_8mn-j"
                 />
               )}
 
-              <div className="mt-3 flex justify-center">
-                <ThemeSwitcher />
+              <div className="mt-3 flex justify-center" data-oid="icx6kks">
+                <ThemeSwitcher data-oid="z27xts4" />
               </div>
             </div>
           </details>
         </div>
       </div>
 
-      <MobileMenuCloser menuId="mobile-menu" />
+      <MobileMenuCloser menuId="mobile-menu" data-oid="xeo9au5" />
     </header>
   );
 }

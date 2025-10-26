@@ -9,17 +9,26 @@ export function DeployButton() {
         target="_blank"
         className="inline-flex"
         aria-label="Deploy to Vercel"
+        data-oid="u0pwky-"
       >
-        <Button className="gap-3 shadow-soft" size="default">
+        <Button className="gap-3 shadow-soft" size="default" data-oid="580zk0s">
           <svg
             className="h-3 w-3"
             viewBox="0 0 76 65"
             fill="currentColor"
             xmlns="http://www.w3.org/2000/svg"
+            data-oid="4fs:nxv"
           >
-            <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="inherit" />
+            <path
+              d="M37.5274 0L75.0548 65H0L37.5274 0Z"
+              fill="inherit"
+              data-oid="o1y1lft"
+            />
           </svg>
-          <span className="text-xs font-semibold uppercase tracking-[0.2em]">
+          <span
+            className="text-xs font-semibold uppercase tracking-[0.2em]"
+            data-oid="6.gucl9"
+          >
             Deploy to Vercel
           </span>
         </Button>

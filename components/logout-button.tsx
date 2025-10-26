@@ -14,7 +14,7 @@ export function LogoutButton() {
   };
 
   return (
-    <Button onClick={logout} className="shadow-soft">
+    <Button onClick={logout} className="shadow-soft" data-oid="1le8.7u">
       Cerrar sesion
     </Button>
   );

@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
@@ -49,6 +49,7 @@ const THERAPIES: Therapy[] = [
       "Acompaña procesos de cambio y liberación emocional.",
       "Favorece descanso profundo y claridad.",
     ],
+
     duration: "60–75 min",
     mode: "Presencial (Valencia) y online adaptada.",
     image: "/images/terapias/tameana.jpg",
@@ -64,6 +65,7 @@ const THERAPIES: Therapy[] = [
       "Invita a la presencia y a la autoescucha.",
       "Apoya procesos de sanación emocional.",
     ],
+
     duration: "60–75 min",
     mode: "Sesión individual o dúo. Presencial.",
     image: "/images/terapias/sonoterapia.jpg",
@@ -78,6 +80,7 @@ const THERAPIES: Therapy[] = [
       "Acompaña en dolor físico y carga mental.",
       "Complemento a procesos terapéuticos.",
     ],
+
     duration: "50–60 min",
     mode: "Presencial y online.",
     image: "/images/terapias/reiki.jpg",
@@ -92,6 +95,7 @@ const THERAPIES: Therapy[] = [
       "Favorece descanso, concentración y bienestar.",
       "Recomendable tras mudanzas, obras o conflictos.",
     ],
+
     duration: "90–120 min (según metros)",
     mode: "A domicilio. Valencia y alrededores.",
     image: "/images/terapias/limpieza-espacios.jpg",
@@ -106,6 +110,7 @@ const THERAPIES: Therapy[] = [
       "Conectar con símbolos, ancestros y animales de poder.",
       "Integración respetuosa posterior al viaje.",
     ],
+
     duration: "75–90 min",
     mode: "Presencial (individual o grupal).",
     image: "/images/terapias/tambor.jpg",
@@ -121,6 +126,7 @@ const THERAPIES: Therapy[] = [
       "Grabación breve de práctica para casa.",
       "Acompañamiento suave y progresivo.",
     ],
+
     duration: "50–60 min",
     mode: "Presencial y online.",
     image: "/images/terapias/meditacion-guiada.jpg",
@@ -189,11 +195,18 @@ function HeroSection() {
         <div className="space-y-8">
           <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/60 px-4 py-1.5 text-[11px] text-foreground backdrop-blur dark:border-white/10 dark:bg-white/10 dark:text-white">
-              <span className="h-2 w-2 rounded-sm" style={{ backgroundImage: wiphalaGradient }} aria-hidden="true" />
+              <span
+                className="h-2 w-2 rounded-sm"
+                style={{ backgroundImage: wiphalaGradient }}
+                aria-hidden="true"
+              />
               Terapias vibracionales
             </span>
             <span className="inline-flex items-center gap-2 rounded-full border border-transparent bg-[hsl(var(--spiritual-light)/0.22)] px-4 py-1.5 text-[11px] text-[hsl(var(--spiritual-ember))] dark:bg-[hsl(var(--spiritual-shadow)/0.5)] dark:text-[hsl(var(--spiritual-light))]">
-              <span className="h-2 w-2 rounded-full bg-gradient-to-br from-[#EE3124] via-[#FFD500] to-[#00A859]" aria-hidden="true" />
+              <span
+                className="h-2 w-2 rounded-full bg-gradient-to-br from-[#EE3124] via-[#FFD500] to-[#00A859]"
+                aria-hidden="true"
+              />
               Sabiduría ancestral
             </span>
           </div>
@@ -203,21 +216,30 @@ function HeroSection() {
               Acompañamientos que honran cuerpo, emoción y espíritu
             </h1>
             <p className="max-w-2xl text-lg text-muted-foreground">
-              Ceremonias terapéuticas creadas para armonizar tu campo energético, descansar la mente y recuperar claridad. Un puente entre tradiciones nativas, sonido, respiración y presencia consciente.
+              Ceremonias terapéuticas creadas para armonizar tu campo
+              energético, descansar la mente y recuperar claridad. Un puente
+              entre tradiciones nativas, sonido, respiración y presencia
+              consciente.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="rounded-2xl border border-border/50 bg-card/70 p-4 shadow-sm backdrop-blur">
-              <p className="text-sm font-semibold text-foreground">En Valencia y online</p>
+              <p className="text-sm font-semibold text-foreground">
+                En Valencia y online
+              </p>
               <p className="mt-1 text-sm text-muted-foreground">
-                Sesiones individuales, dúos o grupos reducidos según lo que tu proceso necesite.
+                Sesiones individuales, dúos o grupos reducidos según lo que tu
+                proceso necesite.
               </p>
             </div>
             <div className="rounded-2xl border border-border/50 bg-card/70 p-4 shadow-sm backdrop-blur">
-              <p className="text-sm font-semibold text-foreground">Instrumentos rituales</p>
+              <p className="text-sm font-semibold text-foreground">
+                Instrumentos rituales
+              </p>
               <p className="mt-1 text-sm text-muted-foreground">
-                Cuarzos, tambor, cantos, cuencos, esencias y ofrendas inspiradas en cosmovisiones originarias.
+                Cuarzos, tambor, cantos, cuencos, esencias y ofrendas inspiradas
+                en cosmovisiones originarias.
               </p>
             </div>
           </div>
@@ -251,7 +273,8 @@ function HeroSection() {
               />
             </div>
             <div className="border-t border-white/20 bg-gradient-to-r from-white/60 via-transparent to-white/40 px-5 py-4 text-sm text-foreground dark:border-white/10 dark:from-white/5 dark:to-white/10">
-              &ldquo;El sonido y la energía nos recuerdan lo que siempre estuvo dentro.&rdquo; — EDHUCO
+              &ldquo;El sonido y la energía nos recuerdan lo que siempre estuvo
+              dentro.&rdquo; — EDHUCO
             </div>
           </div>
         </div>
@@ -264,6 +287,7 @@ function HeroBackground() {
   return (
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-[rgba(238,49,36,0.12)] via-[rgba(0,168,89,0.08)] to-[rgba(109,59,150,0.18)]" />
+
       <div
         className="absolute inset-x-0 top-0 hidden h-20 opacity-80 md:block"
         style={{
@@ -272,6 +296,7 @@ function HeroBackground() {
         }}
         aria-hidden="true"
       />
+
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="hidden rotate-3 overflow-hidden rounded-[40px] border border-white/30 bg-white/35 p-3 shadow-[0_45px_120px_-70px_rgba(16,24,40,0.9)] backdrop-blur-md dark:border-white/10 dark:bg-white/5 lg:block">
           <div className="grid grid-cols-7 gap-[2px]">
@@ -289,20 +314,32 @@ function HeroBackground() {
           </div>
         </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/80 to-transparent" aria-hidden="true" />
+      <div
+        className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/80 to-transparent"
+        aria-hidden="true"
+      />
     </div>
   );
 }
 
 function TherapiesSection() {
   return (
-    <section id="oferta" className="relative border-t border-border/40 bg-gradient-to-b from-background via-background/80 to-background py-16 md:py-20">
+    <section
+      id="oferta"
+      className="relative border-t border-border/40 bg-gradient-to-b from-background via-background/80 to-background py-16 md:py-20"
+    >
       <div className="container-app mx-auto px-4">
         <div className="max-w-3xl">
-          <p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">Tratamientos</p>
-          <h2 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">Rutas terapéuticas para cada momento</h2>
+          <p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">
+            Tratamientos
+          </p>
+          <h2 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">
+            Rutas terapéuticas para cada momento
+          </h2>
           <p className="mt-4 text-muted-foreground">
-            Selecciona la propuesta que resuena contigo o combínalas según tu proceso. Cada sesión inicia con escucha, intención y apertura del espacio sagrado.
+            Selecciona la propuesta que resuena contigo o combínalas según tu
+            proceso. Cada sesión inicia con escucha, intención y apertura del
+            espacio sagrado.
           </p>
         </div>
 
@@ -320,6 +357,7 @@ function TherapiesSection() {
                 }}
                 aria-hidden="true"
               />
+
               <div className="flex h-full flex-col">
                 <div className="relative overflow-hidden">
                   <div className="relative aspect-[16/10]">
@@ -330,7 +368,12 @@ function TherapiesSection() {
                       className="object-cover transition duration-700 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" aria-hidden="true" />
+
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent"
+                      aria-hidden="true"
+                    />
+
                     <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-black/55 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white">
                       {therapy.slug.replace("-", " ")}
                     </span>
@@ -338,8 +381,12 @@ function TherapiesSection() {
                 </div>
 
                 <div className="flex flex-1 flex-col p-6 md:p-7">
-                  <h3 className="text-xl font-semibold text-foreground">{therapy.title}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground">{therapy.short}</p>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    {therapy.title}
+                  </h3>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    {therapy.short}
+                  </p>
 
                   <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
                     {therapy.bullets.map((bullet, index) => (
@@ -349,6 +396,7 @@ function TherapiesSection() {
                           style={{ backgroundImage: wiphalaGradient }}
                           aria-hidden="true"
                         />
+
                         <span>{bullet}</span>
                       </li>
                     ))}
@@ -356,18 +404,29 @@ function TherapiesSection() {
 
                   <div className="mt-6 flex flex-wrap items-center gap-3 text-xs sm:text-sm">
                     <span className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/60 px-3 py-1 font-medium text-foreground/80">
-                      <span className="h-2 w-2 rounded-full bg-gradient-to-br from-[#EE3124] via-[#FFD500] to-[#0084C9]" aria-hidden="true" />
+                      <span
+                        className="h-2 w-2 rounded-full bg-gradient-to-br from-[#EE3124] via-[#FFD500] to-[#0084C9]"
+                        aria-hidden="true"
+                      />
+
                       {therapy.duration}
                     </span>
                     <span className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/60 px-3 py-1 font-medium text-foreground/80">
-                      <span className="h-2 w-2 rounded-full bg-gradient-to-br from-[#00A859] via-[#FFD500] to-[#6D3B96]" aria-hidden="true" />
+                      <span
+                        className="h-2 w-2 rounded-full bg-gradient-to-br from-[#00A859] via-[#FFD500] to-[#6D3B96]"
+                        aria-hidden="true"
+                      />
+
                       {therapy.mode}
                     </span>
                   </div>
 
                   {therapy.note && (
                     <p className="mt-4 text-xs text-muted-foreground/80">
-                      <strong className="font-semibold text-foreground/80">Nota:</strong> {therapy.note}
+                      <strong className="font-semibold text-foreground/80">
+                        Nota:
+                      </strong>{" "}
+                      {therapy.note}
                     </p>
                   )}
 
@@ -398,13 +457,23 @@ function TherapiesSection() {
 function CeremonialSection() {
   return (
     <section className="relative border-t border-border/40 py-16 md:py-20">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(238,49,36,0.5)] to-transparent" aria-hidden="true" />
+      <div
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(238,49,36,0.5)] to-transparent"
+        aria-hidden="true"
+      />
+
       <div className="container-app mx-auto px-4">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">Círculo ceremonial</p>
-          <h2 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">Una experiencia con raíz y presente</h2>
+          <p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">
+            Círculo ceremonial
+          </p>
+          <h2 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">
+            Una experiencia con raíz y presente
+          </h2>
           <p className="mt-4 text-muted-foreground">
-            Cada encuentro honra la cosmovisión de los pueblos originarios andino-amazónicos. Sostenemos el espacio con ética, responsabilidad y belleza ritual.
+            Cada encuentro honra la cosmovisión de los pueblos originarios
+            andino-amazónicos. Sostenemos el espacio con ética, responsabilidad
+            y belleza ritual.
           </p>
         </div>
 
@@ -415,8 +484,12 @@ function CeremonialSection() {
               className="relative overflow-hidden rounded-[28px] border border-border/50 bg-card/70 p-8 shadow-[0_30px_80px_-60px_rgba(16,24,40,0.5)] backdrop-blur transition hover:border-[rgba(0,168,89,0.45)] hover:shadow-[0_40px_110px_-65px_rgba(16,24,40,0.6)]"
             >
               <ChakanaGlyph />
-              <h3 className="mt-6 text-lg font-semibold text-foreground">{pillar.title}</h3>
-              <p className="mt-3 text-sm text-muted-foreground">{pillar.description}</p>
+              <h3 className="mt-6 text-lg font-semibold text-foreground">
+                {pillar.title}
+              </h3>
+              <p className="mt-3 text-sm text-muted-foreground">
+                {pillar.description}
+              </p>
             </div>
           ))}
         </div>
@@ -427,11 +500,18 @@ function CeremonialSection() {
 
 function FaqSection() {
   return (
-    <section id="faq" className="relative border-t border-border/40 bg-muted/20 py-16 md:py-20">
+    <section
+      id="faq"
+      className="relative border-t border-border/40 bg-muted/20 py-16 md:py-20"
+    >
       <div className="container-app mx-auto px-4">
         <div className="max-w-2xl">
-          <p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">Preguntas frecuentes</p>
-          <h2 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">Para llegar con calma y confianza</h2>
+          <p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">
+            Preguntas frecuentes
+          </p>
+          <h2 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">
+            Para llegar con calma y confianza
+          </h2>
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -440,8 +520,14 @@ function FaqSection() {
               key={faq.question}
               className="relative overflow-hidden rounded-[26px] border border-border/50 bg-card/70 p-6 shadow-[0_30px_80px_-65px_rgba(16,24,40,0.5)] backdrop-blur"
             >
-              <div className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-gradient-to-br from-[#FFD500]/20 via-transparent to-transparent" aria-hidden="true" />
-              <h3 className="text-lg font-semibold text-foreground">{faq.question}</h3>
+              <div
+                className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-gradient-to-br from-[#FFD500]/20 via-transparent to-transparent"
+                aria-hidden="true"
+              />
+
+              <h3 className="text-lg font-semibold text-foreground">
+                {faq.question}
+              </h3>
               <p className="mt-3 text-sm text-muted-foreground">{faq.answer}</p>
             </div>
           ))}
@@ -453,19 +539,37 @@ function FaqSection() {
 
 function FinalCtaSection() {
   return (
-    <section id="reserva" className="relative overflow-hidden border-t border-border/40 bg-gradient-to-b from-background via-background/90 to-background py-16 md:py-20">
+    <section
+      id="reserva"
+      className="relative overflow-hidden border-t border-border/40 bg-gradient-to-b from-background via-background/90 to-background py-16 md:py-20"
+    >
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_top,_rgba(255,213,0,0.35),_transparent_70%)]" aria-hidden="true" />
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-[radial-gradient(circle_at_bottom,_rgba(0,132,201,0.25),_transparent_65%)]" aria-hidden="true" />
+        <div
+          className="absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_top,_rgba(255,213,0,0.35),_transparent_70%)]"
+          aria-hidden="true"
+        />
+
+        <div
+          className="absolute inset-x-0 bottom-0 h-24 bg-[radial-gradient(circle_at_bottom,_rgba(0,132,201,0.25),_transparent_65%)]"
+          aria-hidden="true"
+        />
       </div>
       <div className="container-app relative z-10 mx-auto px-4 text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-card/60 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-          <span className="h-2 w-2 rounded-sm" style={{ backgroundImage: wiphalaGradient }} aria-hidden="true" />
+          <span
+            className="h-2 w-2 rounded-sm"
+            style={{ backgroundImage: wiphalaGradient }}
+            aria-hidden="true"
+          />
           Agenda ceremonial
         </div>
-        <h2 className="mt-5 text-3xl font-semibold text-foreground sm:text-4xl">¿Agendamos tu próxima sesión?</h2>
+        <h2 className="mt-5 text-3xl font-semibold text-foreground sm:text-4xl">
+          ¿Agendamos tu próxima sesión?
+        </h2>
         <p className="mt-4 mx-auto max-w-2xl text-muted-foreground">
-          Cuéntame qué necesitas y diseñaremos juntas la terapia o combinación más adecuada. Inspiradas en la sabiduría ancestral, sostenidas con rigor terapéutico.
+          Cuéntame qué necesitas y diseñaremos juntas la terapia o combinación
+          más adecuada. Inspiradas en la sabiduría ancestral, sostenidas con
+          rigor terapéutico.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
@@ -510,13 +614,12 @@ function ChakanaGlyph() {
           );
         })}
       </div>
-      <span className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">Ritual</span>
+      <span className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+        Ritual
+      </span>
     </div>
   );
 }
 
 const wiphalaGradient =
   "linear-gradient(130deg, #EE3124, #F97B00, #FFD500, #FFFFFF, #00A859, #0084C9, #6D3B96)";
-
-
-

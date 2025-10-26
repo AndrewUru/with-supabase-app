@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Navbar from "@/components/site/Navbar";
 import Footer from "@/components/site/Footer";
-
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
-
 const siteTitle = "EDHUCO · Reconexión Ancestral";
 const siteDescription =
   "Plataforma EDHUCO: terapias, viajes chamánicos, formaciones y comunidad.";
-
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: {
@@ -38,44 +34,35 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
 };
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  display: "swap",
-  subsets: ["latin"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-display",
-  display: "swap",
-  subsets: ["latin"],
-});
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning data-oid="wx3lnbb">
       <body
-        className={`${geistSans.variable} ${playfair.variable} bg-background text-foreground antialiased`}
+        className="bg-background text-foreground antialiased"
+        data-oid="08mlyf2"
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
+          data-oid="wn4f6d."
         >
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
+          <div className="flex min-h-screen flex-col" data-oid="u_pkwvq">
+            <Navbar data-oid="2bnf.qc" />
+
             <main
               id="main"
-              className="mx-auto flex flex-1 flex-col gap-16 pb-18 pt-0"
+              className="mx-auto flex flex-1 flex-col gap-16 pb-18 pt-0 opacity-100 mr-[89px] ml-[44.5px] w-[1333px] h-[8600px]"
+              data-oid="i:x_cal"
             >
               {children}
             </main>
-            <Footer />
+            <Footer data-oid="hivn:7:" />
           </div>
         </ThemeProvider>
       </body>

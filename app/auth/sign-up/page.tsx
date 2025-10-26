@@ -2,9 +2,12 @@ import { SignUpForm } from "@/components/sign-up-form";
 
 export default function Page() {
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm">
-        <SignUpForm />
+    <div
+      className="flex min-h-svh w-full items-center justify-center p-6 md:p-10"
+      data-oid="33k:9or"
+    >
+      <div className="w-full max-w-sm" data-oid="jvxss_f">
+        <SignUpForm data-oid="s13-rlc" />
       </div>
     </div>
   );

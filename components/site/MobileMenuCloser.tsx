@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect } from "react";
 
@@ -6,7 +6,9 @@ type MobileMenuCloserProps = {
   menuId?: string;
 };
 
-export function MobileMenuCloser({ menuId = "mobile-menu" }: MobileMenuCloserProps) {
+export function MobileMenuCloser({
+  menuId = "mobile-menu",
+}: MobileMenuCloserProps) {
   useEffect(() => {
     const menu = document.getElementById(menuId) as HTMLDetailsElement | null;
     if (!menu) return;

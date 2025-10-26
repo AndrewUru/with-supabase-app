@@ -23,9 +23,12 @@ export default async function Page({
   if (user) redirect(next);
 
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm">
-        <LoginForm next={next} errorMessage={error} />
+    <div
+      className="flex min-h-svh w-full items-center justify-center p-6 md:p-10"
+      data-oid="9hbwsyj"
+    >
+      <div className="w-full max-w-sm" data-oid="3say2c7">
+        <LoginForm next={next} errorMessage={error} data-oid="o_ths7e" />
       </div>
     </div>
   );

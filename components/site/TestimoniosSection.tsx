@@ -35,28 +35,42 @@ export default function TestimoniosSection() {
       id="testimonios"
       aria-labelledby="testimonios-title"
       className="relative py-20 md:py-24 overflow-hidden"
+      data-oid="8yixrwt"
     >
       {/* Decorative background */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-10" data-oid="kun5gpz">
         <div
           className="absolute top-0 right-0 w-96 h-96 rounded-full blur-[120px] opacity-20 dark:opacity-10"
           style={{ background: WIPHLA_GRADIENT }}
           aria-hidden="true"
+          data-oid="i9_cqwi"
         />
+
         <div
           className="absolute bottom-0 left-0 w-80 h-80 rounded-full blur-[120px] opacity-20 dark:opacity-10"
           style={{ background: WIPHLA_GRADIENT }}
           aria-hidden="true"
+          data-oid="1uptrka"
         />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-        <header className="space-y-4 text-center mb-12 md:mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full bg-purple-50/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-purple-700 ring-1 ring-purple-200/60 backdrop-blur-sm dark:bg-purple-950/60 dark:text-purple-300 dark:ring-purple-500/30">
+      <div
+        className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"
+        data-oid="el7vkkm"
+      >
+        <header
+          className="space-y-4 text-center mb-12 md:mb-16"
+          data-oid="ozwev7k"
+        >
+          <div
+            className="inline-flex items-center gap-2 rounded-full bg-purple-50/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-purple-700 ring-1 ring-purple-200/60 backdrop-blur-sm dark:bg-purple-950/60 dark:text-purple-300 dark:ring-purple-500/30"
+            data-oid="8:rrm92"
+          >
             <span
               className="h-2 w-2 rounded-full shadow-sm ring-2 ring-white/70 dark:ring-white/20"
               style={{ backgroundImage: WIPHLA_GRADIENT }}
               aria-hidden="true"
+              data-oid="3tsu644"
             />
             Lo que dicen quienes nos visitan
           </div>
@@ -64,23 +78,31 @@ export default function TestimoniosSection() {
           <h2
             id="testimonios-title"
             className="text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl lg:text-[52px]"
+            data-oid="sqyqv:o"
           >
             Voces que confían en{" "}
             <span
               className="bg-clip-text text-transparent"
               style={{ backgroundImage: WIPHLA_GRADIENT }}
+              data-oid="isjq:-j"
             >
               EDHUCO
             </span>
           </h2>
 
-          <p className="mx-auto max-w-2xl text-lg text-slate-600 dark:text-slate-300">
+          <p
+            className="mx-auto max-w-2xl text-lg text-slate-600 dark:text-slate-300"
+            data-oid="zsl-6g0"
+          >
             Testimonios sencillos que resumen la experiencia de quienes
             participan en nuestras sesiones y programas.
           </p>
         </header>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          data-oid="_rfkjxk"
+        >
           {TESTIMONIOS.map((testimonio, index) => (
             <article
               key={testimonio.name}
@@ -94,6 +116,7 @@ export default function TestimoniosSection() {
               style={{
                 animationDelay: `${index * 150}ms`,
               }}
+              data-oid="d8ry335"
             >
               {/* Gradient overlay on hover */}
               <div
@@ -102,6 +125,7 @@ export default function TestimoniosSection() {
                 }`}
                 style={{ backgroundImage: WIPHLA_GRADIENT }}
                 aria-hidden="true"
+                data-oid="uxqex7u"
               />
 
               {/* Quote icon */}
@@ -111,6 +135,7 @@ export default function TestimoniosSection() {
                     ? "bg-purple-100 dark:bg-purple-900/50 scale-110"
                     : "bg-slate-100 dark:bg-slate-700/50"
                 }`}
+                data-oid="x.2101-"
               >
                 <Quote
                   className={`h-5 w-5 transition-colors duration-500 ${
@@ -119,12 +144,13 @@ export default function TestimoniosSection() {
                       : "text-slate-400 dark:text-slate-500"
                   }`}
                   aria-hidden="true"
+                  data-oid="v1gn_cp"
                 />
               </div>
 
-              <div className="relative space-y-5">
+              <div className="relative space-y-5" data-oid="7ql1can">
                 {/* Rating stars */}
-                <div className="flex gap-1">
+                <div className="flex gap-1" data-oid="n2:-::j">
                   {Array.from({ length: testimonio.rating }).map((_, i) => (
                     <Star
                       key={i}
@@ -135,12 +161,16 @@ export default function TestimoniosSection() {
                       }`}
                       style={{ transitionDelay: `${i * 50}ms` }}
                       aria-hidden="true"
+                      data-oid="qhgmqh-"
                     />
                   ))}
                 </div>
 
                 {/* Testimonial text */}
-                <p className="text-base leading-relaxed text-slate-700 dark:text-slate-200">
+                <p
+                  className="text-base leading-relaxed text-slate-700 dark:text-slate-200"
+                  data-oid="cx-yfd8"
+                >
                   &ldquo;{testimonio.text}&rdquo;
                 </p>
 
@@ -151,16 +181,27 @@ export default function TestimoniosSection() {
                       ? "bg-gradient-to-r from-transparent via-purple-400 to-transparent dark:via-purple-600"
                       : "bg-gradient-to-r from-transparent via-slate-300 to-transparent dark:via-slate-600"
                   }`}
+                  data-oid="zlvt3_v"
                 />
 
                 {/* Author info */}
-                <div className="space-y-2">
-                  <p className="font-semibold text-slate-900 dark:text-white">
+                <div className="space-y-2" data-oid="8nc4kja">
+                  <p
+                    className="font-semibold text-slate-900 dark:text-white"
+                    data-oid="j4g6-9r"
+                  >
                     {testimonio.name}
                   </p>
-                  <div className="flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-400">
-                    <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
-                    <span>{testimonio.location}</span>
+                  <div
+                    className="flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-400"
+                    data-oid="8e8jdi9"
+                  >
+                    <MapPin
+                      className="h-3.5 w-3.5"
+                      aria-hidden="true"
+                      data-oid="x8wq:sx"
+                    />
+                    <span data-oid="djds1rb">{testimonio.location}</span>
                   </div>
                 </div>
               </div>
@@ -172,16 +213,18 @@ export default function TestimoniosSection() {
                 }`}
                 style={{ backgroundImage: WIPHLA_GRADIENT }}
                 aria-hidden="true"
+                data-oid="-7dyj87"
               />
             </article>
           ))}
         </div>
 
         {/* Call to action */}
-        <div className="mt-12 text-center">
+        <div className="mt-12 text-center" data-oid="54aa-2u">
           <a
             href="#contacto"
             className="group inline-flex items-center gap-2 rounded-full border-2 border-purple-200 bg-white/80 px-6 py-3 text-sm font-semibold text-purple-700 backdrop-blur-sm transition-all duration-300 hover:border-purple-300 hover:bg-purple-50 hover:shadow-lg hover:scale-105 dark:border-purple-700 dark:bg-slate-800/60 dark:text-purple-300 dark:hover:bg-slate-700/80 dark:hover:border-purple-600"
+            data-oid="eucyxwg"
           >
             Comparte tu experiencia
             <svg
@@ -190,19 +233,21 @@ export default function TestimoniosSection() {
               viewBox="0 0 24 24"
               stroke="currentColor"
               aria-hidden="true"
+              data-oid="iurqdsp"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
                 d="M17 8l4 4m0 0l-4 4m4-4H3"
+                data-oid="jiugo:7"
               />
             </svg>
           </a>
         </div>
       </div>
 
-      <style jsx>{`
+      <style jsx data-oid="4cculy3">{`
         @keyframes fade-in-up {
           from {
             opacity: 0;

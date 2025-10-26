@@ -78,14 +78,17 @@ export default function BeneficiosSection() {
       id="servicios"
       aria-labelledby="beneficios-title"
       className="relative py-20 md:py-24 overflow-hidden "
+      data-oid="it:mxfl"
     >
       {/* Decorative background */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-10" data-oid="yomv._3">
         <div
           className="absolute top-20 left-10 w-72 h-72 rounded-full blur-[140px] opacity-20 dark:opacity-10 animate-pulse-slow"
           style={{ background: WIPHLA_GRADIENT }}
           aria-hidden="true"
+          data-oid="m9m9q-:"
         />
+
         <div
           className="absolute bottom-20 right-10 w-96 h-96 rounded-full blur-[140px] opacity-20 dark:opacity-10 animate-pulse-slow"
           style={{
@@ -94,7 +97,9 @@ export default function BeneficiosSection() {
             animationDelay: "2s",
           }}
           aria-hidden="true"
+          data-oid=".h66p96"
         />
+
         <div
           className="absolute inset-0 opacity-[0.03] dark:opacity-[0.06]"
           style={{
@@ -103,37 +108,56 @@ export default function BeneficiosSection() {
             backgroundSize: "80px 80px",
           }}
           aria-hidden="true"
+          data-oid="icwtcmx"
         />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-        <header className="space-y-4 text-center mb-12 md:mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full bg-purple-50/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-purple-700 ring-1 ring-purple-200/60 backdrop-blur-sm dark:bg-purple-950/60 dark:text-purple-300 dark:ring-purple-500/30">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+      <div
+        className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl"
+        data-oid="b44:34e"
+      >
+        <header
+          className="space-y-4 text-center mb-12 md:mb-16"
+          data-oid="dh3j3m0"
+        >
+          <div
+            className="inline-flex items-center gap-2 rounded-full bg-purple-50/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-purple-700 ring-1 ring-purple-200/60 backdrop-blur-sm dark:bg-purple-950/60 dark:text-purple-300 dark:ring-purple-500/30"
+            data-oid="zzjzefd"
+          >
+            <Sparkles
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              data-oid="xuld:p9"
+            />
             Formación EDHUCO
           </div>
 
           <h2
             id="beneficios-title"
             className="mx-auto max-w-3xl text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl lg:text-[52px]"
+            data-oid="nbpxa1q"
           >
             Formación y acompañamiento para{" "}
             <span
               className="bg-clip-text text-transparent"
               style={{ backgroundImage: WIPHLA_GRADIENT }}
+              data-oid="-8s:lrp"
             >
               2025
             </span>
           </h2>
 
-          <p className="mx-auto max-w-2xl text-lg text-slate-600 dark:text-slate-300">
+          <p
+            className="mx-auto max-w-2xl text-lg text-slate-600 dark:text-slate-300"
+            data-oid="1:y89hs"
+          >
             Diseñamos experiencias simples para integrar cosmovisión andina,
             arte ritual y cuidado del territorio, con opciones según tu ritmo y
             posibilidades.
           </p>
         </header>
 
-        <div className="grid gap-6 md:gap-8 mb-12">
+        <div className="grid gap-6 md:gap-8 mb-12" data-oid="3r.w:yx">
           {BENEFITS.map((benefit, index) => {
             const Icon = ICONS[benefit.icon as keyof typeof ICONS];
             const isHovered = hoveredIndex === index;
@@ -153,6 +177,7 @@ export default function BeneficiosSection() {
                 style={{
                   animationDelay: `${index * 150}ms`,
                 }}
+                data-oid="7-jq:sd"
               >
                 {/* Gradient overlay */}
                 <div
@@ -161,11 +186,18 @@ export default function BeneficiosSection() {
                   }`}
                   style={{ backgroundImage: WIPHLA_GRADIENT }}
                   aria-hidden="true"
+                  data-oid="texvfp9"
                 />
 
-                <div className="relative p-6 md:p-8">
-                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
-                    <div className="flex items-start gap-4 flex-1">
+                <div className="relative p-6 md:p-8" data-oid=".4k9vat">
+                  <div
+                    className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4"
+                    data-oid="srigzg0"
+                  >
+                    <div
+                      className="flex items-start gap-4 flex-1"
+                      data-oid="950pz2-"
+                    >
                       {/* Icon */}
                       <div
                         className={`rounded-2xl p-3.5 transition-all duration-500 ${
@@ -173,6 +205,7 @@ export default function BeneficiosSection() {
                             ? "bg-purple-100 dark:bg-purple-900/50 scale-110"
                             : "bg-slate-100 dark:bg-slate-700/50"
                         }`}
+                        data-oid="jdft4xf"
                       >
                         <Icon
                           className={`h-6 w-6 transition-colors duration-500 ${
@@ -181,20 +214,29 @@ export default function BeneficiosSection() {
                               : "text-slate-600 dark:text-slate-400"
                           }`}
                           aria-hidden="true"
+                          data-oid="k2hnafi"
                         />
                       </div>
 
                       {/* Title and note */}
-                      <div className="flex-1 space-y-2">
-                        <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
+                      <div className="flex-1 space-y-2" data-oid="073irqt">
+                        <h3
+                          className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white"
+                          data-oid="t76l0yk"
+                        >
                           {benefit.title}
                         </h3>
                         {benefit.note && (
-                          <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200/60 dark:bg-emerald-950/60 dark:text-emerald-300 dark:ring-emerald-500/30">
+                          <div
+                            className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200/60 dark:bg-emerald-950/60 dark:text-emerald-300 dark:ring-emerald-500/30"
+                            data-oid="e1zwtir"
+                          >
                             <div
                               className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"
                               aria-hidden="true"
+                              data-oid="p6nyur9"
                             />
+
                             {benefit.note}
                           </div>
                         )}
@@ -208,8 +250,12 @@ export default function BeneficiosSection() {
                           ? "bg-purple-100 dark:bg-purple-900/50"
                           : "bg-slate-100 dark:bg-slate-700/50"
                       }`}
+                      data-oid="_iyshzi"
                     >
-                      <div className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                      <div
+                        className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400"
+                        data-oid="dhvkfbo"
+                      >
                         {benefit.highlight}
                       </div>
                       <div
@@ -218,6 +264,7 @@ export default function BeneficiosSection() {
                             ? "text-purple-700 dark:text-purple-300"
                             : "text-slate-900 dark:text-white"
                         }`}
+                        data-oid="uja_:yx"
                       >
                         {benefit.price}
                       </div>
@@ -225,7 +272,10 @@ export default function BeneficiosSection() {
                   </div>
 
                   {/* Description */}
-                  <p className="text-base leading-relaxed text-slate-600 dark:text-slate-300 pl-0 md:pl-[72px]">
+                  <p
+                    className="text-base leading-relaxed text-slate-600 dark:text-slate-300 pl-0 md:pl-[72px]"
+                    data-oid="73t:n-_"
+                  >
                     {benefit.description}
                   </p>
 
@@ -236,20 +286,23 @@ export default function BeneficiosSection() {
                         ? "text-purple-600 dark:text-purple-400 translate-x-2"
                         : "text-slate-400 dark:text-slate-500"
                     }`}
+                    data-oid="es:1_y9"
                   >
-                    <span>Más información</span>
+                    <span data-oid="mr3:x6q">Más información</span>
                     <svg
                       className="h-4 w-4 transition-transform duration-300"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                       aria-hidden="true"
+                      data-oid="j68o.wc"
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
                         d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        data-oid="a6ou56a"
                       />
                     </svg>
                   </div>
@@ -262,6 +315,7 @@ export default function BeneficiosSection() {
                   }`}
                   style={{ backgroundImage: WIPHLA_GRADIENT }}
                   aria-hidden="true"
+                  data-oid="r9axlgn"
                 />
               </article>
             );
@@ -272,41 +326,61 @@ export default function BeneficiosSection() {
         <section
           className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/80 p-8 md:p-10 backdrop-blur-sm dark:border-slate-700 dark:bg-slate-800/60"
           aria-label="Qué incluye"
+          data-oid="k3ek10y"
         >
           <div
             className="absolute inset-0 opacity-5 dark:opacity-10"
             style={{ backgroundImage: WIPHLA_GRADIENT }}
             aria-hidden="true"
+            data-oid="1hdj286"
           />
 
-          <div className="relative space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-purple-100 p-2.5 dark:bg-purple-900/50">
+          <div className="relative space-y-6" data-oid="-pi.xy4">
+            <div className="flex items-center gap-3" data-oid="lt0o-s7">
+              <div
+                className="rounded-xl bg-purple-100 p-2.5 dark:bg-purple-900/50"
+                data-oid="8zj0h96"
+              >
                 <Check
                   className="h-5 w-5 text-purple-600 dark:text-purple-400"
                   aria-hidden="true"
+                  data-oid="sxclfdn"
                 />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+              <h3
+                className="text-2xl font-bold text-slate-900 dark:text-white"
+                data-oid="ogcmo_f"
+              >
                 Qué incluye
               </h3>
             </div>
 
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <ul
+              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+              data-oid="eqlvuqm"
+            >
               {INCLUDES.map((item, index) => {
                 const Icon = ICONS[item.icon as keyof typeof ICONS];
                 return (
                   <li
                     key={index}
                     className="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/50 p-4 transition-all duration-300 hover:border-purple-300 hover:bg-purple-50/50 hover:shadow-lg hover:scale-105 dark:border-slate-700 dark:bg-slate-700/30 dark:hover:border-purple-500/50 dark:hover:bg-purple-900/20"
+                    data-oid="zh2993i"
                   >
-                    <div className="shrink-0 rounded-lg bg-white p-2 shadow-sm dark:bg-slate-800">
+                    <div
+                      className="shrink-0 rounded-lg bg-white p-2 shadow-sm dark:bg-slate-800"
+                      data-oid="bt8:5c_"
+                    >
                       <Icon
                         className="h-4 w-4 text-purple-600 dark:text-purple-400"
                         aria-hidden="true"
+                        data-oid="jl84eey"
                       />
                     </div>
-                    <span className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                    <span
+                      className="text-sm leading-relaxed text-slate-700 dark:text-slate-300"
+                      data-oid="_vksj1-"
+                    >
                       {item.text}
                     </span>
                   </li>
@@ -317,10 +391,11 @@ export default function BeneficiosSection() {
         </section>
 
         {/* CTA */}
-        <div className="mt-12 text-center">
+        <div className="mt-12 text-center" data-oid="7ndqb2x">
           <a
             href="#contacto"
             className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 text-sm font-bold text-white shadow-lg shadow-purple-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/40 hover:scale-105"
+            data-oid="hoxxu4e"
           >
             Reserva tu plaza para 2025
             <svg
@@ -329,19 +404,21 @@ export default function BeneficiosSection() {
               viewBox="0 0 24 24"
               stroke="currentColor"
               aria-hidden="true"
+              data-oid="m:1txb7"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
                 d="M17 8l4 4m0 0l-4 4m4-4H3"
+                data-oid="l4uli4y"
               />
             </svg>
           </a>
         </div>
       </div>
 
-      <style jsx>{`
+      <style jsx data-oid="6a9tj4y">{`
         @keyframes fade-in-up {
           from {
             opacity: 0;

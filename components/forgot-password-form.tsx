@@ -50,36 +50,51 @@ export function ForgotPasswordForm({
     <div
       className={cn("spiritual-aura flex flex-col gap-8", className)}
       {...props}
+      data-oid="np8l5uu"
     >
       {success ? (
-        <Card className="border border-border/55 bg-card/80 shadow-soft backdrop-blur-2xl">
-          <CardHeader className="gap-4">
-            <CardTitle className="text-3xl">Revisa tu email</CardTitle>
-            <CardDescription>
+        <Card
+          className="border border-border/55 bg-card/80 shadow-soft backdrop-blur-2xl"
+          data-oid="o7-qmja"
+        >
+          <CardHeader className="gap-4" data-oid="ged3i2_">
+            <CardTitle className="text-3xl" data-oid="4865628">
+              Revisa tu email
+            </CardTitle>
+            <CardDescription data-oid="b33s9lq">
               Enviamos instrucciones para restablecer tu contrasena.
             </CardDescription>
           </CardHeader>
-          <CardContent className="pt-2">
-            <p className="text-sm text-muted-foreground">
+          <CardContent className="pt-2" data-oid="st2ooel">
+            <p className="text-sm text-muted-foreground" data-oid="iuw3n9d">
               Si te registraste con correo y contrasena recibirias un mensaje en
               pocos minutos. Revisa tambien tu carpeta de spam.
             </p>
           </CardContent>
         </Card>
       ) : (
-        <Card className="border border-border/55 bg-card/80 shadow-soft backdrop-blur-2xl">
-          <CardHeader className="gap-4">
-            <CardTitle className="text-3xl">
+        <Card
+          className="border border-border/55 bg-card/80 shadow-soft backdrop-blur-2xl"
+          data-oid="onuinx5"
+        >
+          <CardHeader className="gap-4" data-oid="5u0kxkr">
+            <CardTitle className="text-3xl" data-oid="gmgm6ai">
               Restablece tu contrasena
             </CardTitle>
-            <CardDescription>
+            <CardDescription data-oid="_g92_99">
               Escribe tu correo y te enviaremos un enlace para continuar.
             </CardDescription>
           </CardHeader>
-          <CardContent className="pt-2">
-            <form onSubmit={handleForgotPassword} className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+          <CardContent className="pt-2" data-oid="d_3y9zn">
+            <form
+              onSubmit={handleForgotPassword}
+              className="flex flex-col gap-6"
+              data-oid="1ng2pam"
+            >
+              <div className="grid gap-2" data-oid="uz99btu">
+                <Label htmlFor="email" data-oid=".52o6tx">
+                  Email
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -87,11 +102,15 @@ export function ForgotPasswordForm({
                   required
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
+                  data-oid="tl-t.-y"
                 />
               </div>
 
               {error && (
-                <p className="rounded-full bg-destructive/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-destructive">
+                <p
+                  className="rounded-full bg-destructive/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-destructive"
+                  data-oid="e-fup75"
+                >
                   {error}
                 </p>
               )}
@@ -100,15 +119,20 @@ export function ForgotPasswordForm({
                 type="submit"
                 className="w-full justify-center shadow-soft"
                 disabled={isLoading}
+                data-oid="x8dklmu"
               >
                 {isLoading ? "Enviando..." : "Enviar enlace"}
               </Button>
 
-              <div className="text-center text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80">
+              <div
+                className="text-center text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80"
+                data-oid="tz1c6kr"
+              >
                 Ya tienes una cuenta?{" "}
                 <Link
                   href="/auth/login"
                   className="text-foreground underline-offset-4 transition-colors duration-200 hover:text-brand hover:underline"
+                  data-oid="-rxle6."
                 >
                   Iniciar sesion
                 </Link>

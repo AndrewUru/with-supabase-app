@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as TabsPrimitive from "@radix-ui/react-tabs"
+import * as React from "react";
+import * as TabsPrimitive from "@radix-ui/react-tabs";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Tabs({
   className,
@@ -14,8 +14,9 @@ function Tabs({
       data-slot="tabs"
       className={cn("flex flex-col gap-6", className)}
       {...props}
+      data-oid="46.g87f"
     />
-  )
+  );
 }
 
 function TabsList({
@@ -27,11 +28,12 @@ function TabsList({
       data-slot="tabs-list"
       className={cn(
         "inline-flex w-fit items-center justify-center gap-2 rounded-full border border-border/60 bg-card/70 p-1 text-muted-foreground/80 shadow-soft backdrop-blur",
-        className
+        className,
       )}
       {...props}
+      data-oid="mdu.n5y"
     />
-  )
+  );
 }
 
 function TabsTrigger({
@@ -43,11 +45,12 @@ function TabsTrigger({
       data-slot="tabs-trigger"
       className={cn(
         "inline-flex min-w-[8rem] flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background/90 data-[state=active]:text-foreground data-[state=active]:shadow-soft hover:text-foreground/90 hover:-translate-y-0.5",
-        className
+        className,
       )}
       {...props}
+      data-oid="2u3m0_6"
     />
-  )
+  );
 }
 
 function TabsContent({
@@ -59,8 +62,9 @@ function TabsContent({
       data-slot="tabs-content"
       className={cn("flex-1 outline-none", className)}
       {...props}
+      data-oid="yah3lfm"
     />
-  )
+  );
 }
 
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+export { Tabs, TabsList, TabsTrigger, TabsContent };

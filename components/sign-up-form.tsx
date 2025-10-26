@@ -98,18 +98,30 @@ export function SignUpForm({
     <div
       className={cn("spiritual-aura mx-auto w-full max-w-lg", className)}
       {...props}
+      data-oid="zmj3rjs"
     >
-      <Card className="border border-border/55 bg-card/80 shadow-soft backdrop-blur-2xl">
-        <CardHeader className="gap-4">
-          <CardTitle className="text-3xl">Crea tu cuenta</CardTitle>
-          <CardDescription>
+      <Card
+        className="border border-border/55 bg-card/80 shadow-soft backdrop-blur-2xl"
+        data-oid="1:d8cf-"
+      >
+        <CardHeader className="gap-4" data-oid="p7p9dn9">
+          <CardTitle className="text-3xl" data-oid="4bwqg0f">
+            Crea tu cuenta
+          </CardTitle>
+          <CardDescription data-oid="9i:vbx4">
             Registrate para acceder a tu area personal.
           </CardDescription>
         </CardHeader>
-        <CardContent className="pt-2">
-          <form className="grid gap-6" onSubmit={handleSubmit}>
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email*</Label>
+        <CardContent className="pt-2" data-oid="negzw7a">
+          <form
+            className="grid gap-6"
+            onSubmit={handleSubmit}
+            data-oid=":wkryk_"
+          >
+            <div className="grid gap-2" data-oid="ycol8gq">
+              <Label htmlFor="email" data-oid="-iznu0a">
+                Email*
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -118,11 +130,14 @@ export function SignUpForm({
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder="tucorreo@ejemplo.com"
                 required
+                data-oid="n46k77_"
               />
             </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="password">Contrasena*</Label>
+            <div className="grid gap-2" data-oid="mr4um57">
+              <Label htmlFor="password" data-oid="rqmdsh1">
+                Contrasena*
+              </Label>
               <Input
                 id="password"
                 type="password"
@@ -131,11 +146,14 @@ export function SignUpForm({
                 onChange={(event) => setPassword(event.target.value)}
                 required
                 minLength={6}
+                data-oid="858ok.b"
               />
             </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="repeat-password">Repite la contrasena*</Label>
+            <div className="grid gap-2" data-oid="-5weaq9">
+              <Label htmlFor="repeat-password" data-oid="zc_2s9o">
+                Repite la contrasena*
+              </Label>
               <Input
                 id="repeat-password"
                 type="password"
@@ -144,32 +162,42 @@ export function SignUpForm({
                 onChange={(event) => setRepeatPassword(event.target.value)}
                 required
                 minLength={6}
+                data-oid="l87wp19"
               />
             </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="full_name">Nombre (opcional)</Label>
+            <div className="grid gap-2" data-oid="9rsp807">
+              <Label htmlFor="full_name" data-oid="45mjjij">
+                Nombre (opcional)
+              </Label>
               <Input
                 id="full_name"
                 value={fullName}
                 onChange={(event) => setFullName(event.target.value)}
                 placeholder="Tu nombre completo"
+                data-oid="d9x7bb4"
               />
             </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="phone">Telefono (opcional)</Label>
+            <div className="grid gap-2" data-oid="6o9bmzt">
+              <Label htmlFor="phone" data-oid="4s4y.sh">
+                Telefono (opcional)
+              </Label>
               <Input
                 id="phone"
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
                 placeholder="+34 600 000 000"
                 autoComplete="tel"
+                data-oid="pvapzlh"
               />
             </div>
 
             {error && (
-              <p className="rounded-full bg-destructive/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-destructive">
+              <p
+                className="rounded-full bg-destructive/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-destructive"
+                data-oid="cu48kwh"
+              >
                 {error}
               </p>
             )}
@@ -178,25 +206,46 @@ export function SignUpForm({
               type="submit"
               disabled={isLoading}
               className="w-full justify-center shadow-soft"
+              data-oid="e7uddki"
             >
               {isLoading ? "Creando cuenta..." : "Crear cuenta"}
             </Button>
 
-            <div className="relative flex items-center gap-3 text-muted-foreground/70">
-              <span className="flex-1 border-t border-border/60" />
-              <span className="text-[0.68rem] font-semibold uppercase tracking-[0.28em]">
+            <div
+              className="relative flex items-center gap-3 text-muted-foreground/70"
+              data-oid="miryg:4"
+            >
+              <span
+                className="flex-1 border-t border-border/60"
+                data-oid="ayz.8nm"
+              />
+              <span
+                className="text-[0.68rem] font-semibold uppercase tracking-[0.28em]"
+                data-oid="785phjx"
+              >
                 O continua con
               </span>
-              <span className="flex-1 border-t border-border/60" />
+              <span
+                className="flex-1 border-t border-border/60"
+                data-oid="jo:foh1"
+              />
             </div>
 
-            <GoogleSignInButton next={SOCIAL_REDIRECT} className="w-full" />
+            <GoogleSignInButton
+              next={SOCIAL_REDIRECT}
+              className="w-full"
+              data-oid="9_0q0zl"
+            />
 
-            <p className="text-center text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80">
+            <p
+              className="text-center text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80"
+              data-oid="2-o29hu"
+            >
               Ya tienes cuenta?{" "}
               <Link
                 className="text-foreground underline-offset-4 transition-colors duration-200 hover:text-brand hover:underline"
                 href="/auth/login"
+                data-oid="12gkiiq"
               >
                 Inicia sesion
               </Link>

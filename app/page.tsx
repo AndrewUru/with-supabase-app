@@ -27,6 +27,7 @@ export const metadata: Metadata = {
         alt: "EDHUCO - Reconexion Ancestral",
       },
     ],
+
     locale: "es_ES",
     type: "website",
   },
@@ -49,11 +50,18 @@ const sections = [
 
 export default function Home() {
   return (
-    <main className="relative mx-auto flex min-h-screen w-full flex-col bg-background text-foreground">
-      <div className="absolute inset-x-0 top-0 -z-10 bg-gradient-to-b from-brand/10 via-background to-transparent" />
+    <main
+      className="relative mx-auto flex min-h-screen w-full flex-col bg-background text-foreground"
+      data-oid="n9r3tz1"
+    >
+      <div
+        className="absolute inset-x-0 top-0 -z-10 bg-gradient-to-b from-brand/10 via-background to-transparent"
+        data-oid="slno4ox"
+      />
+
       {sections.map(({ id, component: Section }) => (
-        <section key={id} id={id} className="">
-          <Section />
+        <section key={id} id={id} className="" data-oid="3i.yblc">
+          <Section data-oid="y9iqg2e" />
         </section>
       ))}
     </main>

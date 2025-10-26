@@ -51,15 +51,19 @@ export default function Page() {
 
 export function FetchDataSteps() {
   return (
-    <ol className="flex flex-col gap-6">
-      <TutorialStep title="Create some tables and insert some data">
-        <p>
+    <ol className="flex flex-col gap-6" data-oid="a8a_e9r">
+      <TutorialStep
+        title="Create some tables and insert some data"
+        data-oid="2-2-v_v"
+      >
+        <p data-oid="4vryd-.">
           Head over to the{" "}
           <a
             href="https://supabase.com/dashboard/project/_/editor"
             className="font-bold hover:underline text-foreground/80"
             target="_blank"
             rel="noreferrer"
+            data-oid="9rs-nxj"
           >
             Table Editor
           </a>{" "}
@@ -71,24 +75,26 @@ export function FetchDataSteps() {
             className="font-bold hover:underline text-foreground/80"
             target="_blank"
             rel="noreferrer"
+            data-oid="epl._5m"
           >
             SQL Editor
           </a>{" "}
           and click RUN!
         </p>
-        <CodeBlock code={create} />
+        <CodeBlock code={create} data-oid="8har9_." />
       </TutorialStep>
 
-      <TutorialStep title="Enable Row Level Security (RLS)">
-        <p>
+      <TutorialStep title="Enable Row Level Security (RLS)" data-oid="e3x7:en">
+        <p data-oid="ex-:wd7">
           Supabase enables Row Level Security (RLS) by default. To query data
-          from your <code>notes</code> table, you need to add a policy. You can
-          do this in the{" "}
+          from your <code data-oid="365:u1m">notes</code> table, you need to add
+          a policy. You can do this in the{" "}
           <a
             href="https://supabase.com/dashboard/project/_/editor"
             className="font-bold hover:underline text-foreground/80"
             target="_blank"
             rel="noreferrer"
+            data-oid="od_a5.."
           >
             Table Editor
           </a>{" "}
@@ -98,23 +104,25 @@ export function FetchDataSteps() {
             className="font-bold hover:underline text-foreground/80"
             target="_blank"
             rel="noreferrer"
+            data-oid="9i6pghj"
           >
             SQL Editor
           </a>
           .
         </p>
-        <p>
+        <p data-oid="03tfnab">
           For example, you can run the following SQL to allow public read
           access:
         </p>
-        <CodeBlock code={rls} />
-        <p>
+        <CodeBlock code={rls} data-oid="vj_cih-" />
+        <p data-oid="is43a07">
           You can learn more about RLS in the{" "}
           <a
             href="https://supabase.com/docs/guides/auth/row-level-security"
             className="font-bold hover:underline text-foreground/80"
             target="_blank"
             rel="noreferrer"
+            data-oid="08ou2gu"
           >
             Supabase docs
           </a>
@@ -122,26 +130,30 @@ export function FetchDataSteps() {
         </p>
       </TutorialStep>
 
-      <TutorialStep title="Query Supabase data from Next.js">
-        <p>
+      <TutorialStep title="Query Supabase data from Next.js" data-oid="7zbcuvg">
+        <p data-oid="isz6z8y">
           To create a Supabase client and query data from an Async Server
           Component, create a new page.tsx file at{" "}
-          <span className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs font-medium text-secondary-foreground border">
+          <span
+            className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs font-medium text-secondary-foreground border"
+            data-oid="cap66no"
+          >
             /app/notes/page.tsx
           </span>{" "}
           and add the following.
         </p>
-        <CodeBlock code={server} />
-        <p>Alternatively, you can use a Client Component.</p>
-        <CodeBlock code={client} />
+        <CodeBlock code={server} data-oid="_l.cezd" />
+        <p data-oid="j1it7m2">Alternatively, you can use a Client Component.</p>
+        <CodeBlock code={client} data-oid="y1gzvd:" />
       </TutorialStep>
 
-      <TutorialStep title="Explore the Supabase UI Library">
-        <p>
+      <TutorialStep title="Explore the Supabase UI Library" data-oid="zath.:y">
+        <p data-oid="89rqkc5">
           Head over to the{" "}
           <a
             href="https://supabase.com/ui"
             className="font-bold hover:underline text-foreground/80"
+            data-oid="u0i-eoz"
           >
             Supabase UI library
           </a>{" "}
@@ -152,11 +164,17 @@ export function FetchDataSteps() {
           code={
             "npx shadcn@latest add https://supabase.com/ui/r/realtime-chat-nextjs.json"
           }
+          data-oid=".24u:z4"
         />
       </TutorialStep>
 
-      <TutorialStep title="Build in a weekend and scale to millions!">
-        <p>You&apos;re ready to launch your product to the world! 🚀</p>
+      <TutorialStep
+        title="Build in a weekend and scale to millions!"
+        data-oid="t6c2t_h"
+      >
+        <p data-oid="ranknx2">
+          You&apos;re ready to launch your product to the world! 🚀
+        </p>
       </TutorialStep>
     </ol>
   );
