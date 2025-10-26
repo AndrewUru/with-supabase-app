@@ -232,21 +232,21 @@ export default function Hero({
       </audio>
       <audio id="scrollSound1" loop preload="auto" data-oid="fuepbz5">
         <source
-          src="https://elsaltoweb.es/wp-content/uploads/2025/10/AUDIO-CHAMANICO-ZOOM-1.mp3"
+          src=""
           type="audio/mpeg"
           data-oid="38xck6h"
         />
       </audio>
       <audio id="scrollSound2" loop preload="auto" data-oid="oe0ehzs">
         <source
-          src="https://elsaltoweb.es/wp-content/uploads/2025/10/AUDIO-CHAMANICO-ZOOM-1.mp3"
+          src=""
           type="audio/mpeg"
           data-oid="9ie4261"
         />
       </audio>
       <audio id="scrollSound3" loop preload="auto" data-oid="9ifz7gr">
         <source
-          src="https://elsaltoweb.es/wp-content/uploads/2025/10/AUDIO-CHAMANICO-ZOOM-1.mp3"
+          src=""
           type="audio/mpeg"
           data-oid="pqn-5h3"
         />

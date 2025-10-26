@@ -94,8 +94,7 @@ export default function AboutEdhuco() {
             className="text-base text-muted-foreground leading-relaxed"
             data-oid="9h3uf89"
           >
-            Entrelazamos saberes ancestrales y herramientas actuales para
-            ofrecer{" "}
+            Entrelazo saberes ancestrales y herramientas actuales para ofrecer{" "}
             <strong className="text-foreground/90" data-oid="w44v_us">
               recursos, acompañamiento y comunidad
             </strong>{" "}

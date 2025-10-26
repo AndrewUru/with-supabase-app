@@ -151,7 +151,7 @@ export default function BeneficiosSection() {
             className="mx-auto max-w-2xl text-lg text-slate-600 dark:text-slate-300"
             data-oid="1:y89hs"
           >
-            Diseñamos experiencias simples para integrar cosmovisión andina,
+            Diseño experiencias simples para integrar cosmovisión andina,
             arte ritual y cuidado del territorio, con opciones según tu ritmo y
             posibilidades.
           </p>

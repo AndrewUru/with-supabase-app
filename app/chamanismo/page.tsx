@@ -468,7 +468,7 @@ export default function ChamanismoPage() {
                 className="max-w-3xl text-lg text-muted-foreground md:text-xl"
                 data-oid="-07o3v."
               >
-                Combinamos prácticas ancestrales, rituales, arte simbólico y
+                Combino prácticas ancestrales, rituales, arte simbólico y
                 acompañamiento cercano para sanar la historia personal, activar
                 el poder interior y crear una relación armoniosa con la
                 naturaleza.
