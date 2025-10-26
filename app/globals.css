@@ -652,3 +652,18 @@ a:hover {
 .site-navbar__mobile-signout-form {
   margin-top: 0.75rem;
 }
+
+/* ---------- Theme Switcher ---------- */
+.site-navbar__theme-trigger {
+  position: relative;
+  z-index: 120;
+}
+
+.theme-switcher__content {
+  z-index: 140 !important;
+  min-width: 15rem;
+  border-radius: calc(var(--radius) * 0.9);
+  border-color: color-mix(in srgb, var(--warm-off-white) 14%, transparent);
+  background-color: color-mix(in srgb, var(--warm-off-black) 78%, transparent);
+  backdrop-filter: blur(16px);
+}

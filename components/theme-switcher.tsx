@@ -94,7 +94,9 @@ const ThemeSwitcher = () => {
           variant="outline"
           size="icon"
           aria-label={`Cambiar tema (${displayOption.label})`}
-          className="relative h-11 w-11 rounded-full border-border/60 bg-background/80 p-0 text-muted-foreground shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent/60 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className={cn(
+            "site-navbar__theme-trigger h-11 w-11 rounded-full border-border/60 bg-background/80 p-0 text-muted-foreground shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent/60 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          )}
           data-oid="vm:mntn"
         >
           <span className="sr-only" data-oid="4p6qsda">
@@ -123,7 +125,7 @@ const ThemeSwitcher = () => {
       <DropdownMenuContent
         sideOffset={10}
         align="end"
-        className="w-60"
+        className={cn("theme-switcher__content w-60")}
         data-oid="fkamcpm"
       >
         <DropdownMenuLabel
@@ -144,7 +146,7 @@ const ThemeSwitcher = () => {
               value={option.value}
               className={cn(
                 "group flex items-center gap-3 rounded-2xl px-4 py-2 transition-all duration-200",
-                "focus:bg-accent/60 focus:text-foreground data-[state=checked]:bg-accent/80 data-[state=checked]:text-foreground",
+                "focus:bg-accent/60 focus:text-foreground data-[state=checked]:bg-accent/80 data-[state=checked]:text-foreground"
               )}
               data-oid="nlvzhxg"
             >
@@ -153,7 +155,7 @@ const ThemeSwitcher = () => {
                 className={cn(
                   "flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-muted/60 text-muted-foreground transition duration-200",
                   option.tint,
-                  "group-data-[state=checked]:border-transparent group-data-[state=checked]:bg-background group-data-[state=checked]:text-foreground",
+                  "group-data-[state=checked]:border-transparent group-data-[state=checked]:bg-background group-data-[state=checked]:text-foreground"
                 )}
                 data-oid="b9gts4m"
               >
