@@ -62,7 +62,7 @@ export async function signOut() {
   redirect("/");
 }
 
-function CaretDown({ className = "w-3 h-3" }) {
+function CaretDown({ className = "site-navbar__caret" }) {
   return (
     <svg
       viewBox="0 0 20 20"
@@ -84,12 +84,12 @@ function MegaMenuTrigger({ label, href }: { label: string; href: string }) {
     <Link
       href={href}
       prefetch={false}
-      className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80 transition hover:text-foreground"
+      className="site-navbar__trigger"
       aria-haspopup="true"
       data-oid="wj_-8ck"
     >
       <span data-oid="e6spu_1">{label}</span>
-      <CaretDown className="w-3 h-3 opacity-90" data-oid="rp1-o1x" />
+      <CaretDown className="site-navbar__caret" data-oid="rp1-o1x" />
     </Link>
   );
 }
@@ -97,25 +97,22 @@ function MegaMenuTrigger({ label, href }: { label: string; href: string }) {
 function MegaPanel({ columns }: { columns: MegaColumn[] }) {
   return (
     <div
-      className="invisible absolute left-1/2 top-full z-40 mt-2 w-64 -translate-x-1/2 rounded-[1.75rem] border border-border/80 bg-black p-5  shadow-soft transition duration-200 group-hover:visible group-hover:opacity-100 z-index-50 "
+      className="site-navbar__panel"
       role="menu"
       data-oid="9_337mq"
     >
-      <div className="space-y-5" data-oid="be9w29k">
+      <div className="site-navbar__panel-columns" data-oid="be9w29k">
         {columns.map((col) => (
-          <div key={col.title} className="space-y-3" data-oid="3rohdd-">
-            <h4
-              className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70"
-              data-oid="1605ip2"
-            >
+          <div key={col.title} data-oid="3rohdd-">
+            <h4 className="site-navbar__panel-title" data-oid="1605ip2">
               {col.title}
             </h4>
-            <ul className="space-y-2.5" data-oid="4vj.dzw">
+            <ul className="site-navbar__panel-links" data-oid="4vj.dzw">
               {col.links.map((link) => (
                 <li key={link.href} data-oid="n.34xuj">
                   <Link
                     href={link.href}
-                    className="block rounded-full px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/75 transition hover:-translate-y-0.5 hover:bg-accent/60 hover:text-foreground"
+                    className="site-navbar__panel-link"
                     role="menuitem"
                     data-oid="v:_055h"
                   >
@@ -139,11 +136,7 @@ function NavLink({
   children: React.ReactNode;
 }) {
   return (
-    <Link
-      href={href}
-      className="inline-flex items-center rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80 transition hover:text-foreground"
-      data-oid="235_hmi"
-    >
+    <Link href={href} className="site-navbar__link" data-oid="235_hmi">
       {children}
     </Link>
   );
@@ -156,23 +149,17 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
   } = await supabase.auth.getUser();
 
   return (
-    <header
-      className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl"
-      data-oid="ogotedp"
-    >
-      <div
-        className="container-app flex h-20 items-center justify-between gap-6"
-        data-oid="_.hu0er"
-      >
+    <header className="site-navbar" data-oid="ogotedp">
+      <div className="site-navbar__inner container-app" data-oid="_.hu0er">
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a
           href="/"
           aria-label="Volver al inicio"
-          className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 text-sm font-semibold uppercase tracking-[0.24em] text-foreground shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift"
+          className="site-navbar__brand"
           data-oid="lax:f5z"
         >
           <Sparkle
-            className="h-4 w-4 text-[hsl(var(--brand))]"
+            className="site-navbar__brand-icon"
             aria-hidden="true"
             data-oid="wokn9vn"
           />
@@ -180,8 +167,8 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
           {brand}
         </a>
 
-        <nav className="hidden items-center gap-1 md:flex" data-oid="be9vaik">
-          <div className="group relative" data-oid="bynyfwc">
+        <nav className="site-navbar__menu" data-oid="be9vaik">
+          <div className="site-navbar__mega" data-oid="bynyfwc">
             <MegaMenuTrigger
               label="Chamanismo"
               href="/chamanismo"
@@ -190,7 +177,7 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
             <MegaPanel columns={CHAMANISMO_COLS} data-oid="b8o15w2" />
           </div>
 
-          <div className="group relative" data-oid="taiin2-">
+          <div className="site-navbar__mega" data-oid="taiin2-">
             <MegaMenuTrigger
               label="Sonidos"
               href="/sonidos-ancestrales"
@@ -203,7 +190,7 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
             Guitarra
           </NavLink>
 
-          <div className="group relative" data-oid="c5nlzu8">
+          <div className="site-navbar__mega" data-oid="c5nlzu8">
             <MegaMenuTrigger
               label="Terapias"
               href="/terapias"
@@ -212,7 +199,7 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
             <MegaPanel columns={TERAPIAS_COLS} data-oid="0pn4eug" />
           </div>
 
-          <div className="group relative" data-oid="fh8fdi.">
+          <div className="site-navbar__mega" data-oid="fh8fdi.">
             <MegaMenuTrigger
               label="Recursos"
               href="/recursos"
@@ -226,16 +213,16 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
           </NavLink>
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex" data-oid="ilv_uq0">
+        <div className="site-navbar__actions" data-oid="ilv_uq0">
           {user ? (
             <>
               <Link
                 href="/protected"
-                className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/85 transition hover:-translate-y-0.5 hover:bg-accent/60 hover:text-foreground"
+                className="site-navbar__account"
                 data-oid="cxwd4tt"
               >
                 <User
-                  className="h-4 w-4"
+                  className="site-navbar__account-icon"
                   aria-hidden="true"
                   data-oid="jer1lqn"
                 />
@@ -244,7 +231,7 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
               <form action={signOut} data-oid="nkjl6nv">
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-transparent px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 transition hover:-translate-y-0.5 hover:bg-destructive/70 hover:text-destructive-foreground"
+                  className="site-navbar__signout"
                   data-oid="sct7o4h"
                 >
                   Salir
@@ -252,33 +239,37 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
               </form>
             </>
           ) : (
-            <AuthButton variant="default" data-oid="iv7tb0n" />
+            <AuthButton
+              variant="default"
+              className="site-navbar__login"
+              data-oid="iv7tb0n"
+            />
           )}
           <ThemeSwitcher data-oid="kxj89-w" />
         </div>
 
-        <div className="md:hidden" data-oid="0o7e5:2">
+        <div className="site-navbar__mobile" data-oid="0o7e5:2">
           <details
             id="mobile-menu"
-            className="group relative"
+            className="site-navbar__mobile-details"
             data-oid="j0t5:.c"
           >
             <summary
-              className="list-none inline-flex items-center gap-2 rounded-full border border-border/60 bg-black px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 transition hover:bg-accent/60 hover:text-foreground"
+              className="site-navbar__mobile-toggle"
               data-oid="q14_slb"
             >
               Menu
               <CaretDown
-                className="h-3 w-3 transition group-open:rotate-180"
+                className="site-navbar__caret"
                 data-oid="6hxc19:"
               />
             </summary>
 
             <div
-              className="absolute right-0 mt-3 w-72 rounded-[1.75rem] border border-border/60 bg-black p-4 shadow-soft backdrop-blur-xl"
+              className="site-navbar__mobile-panel"
               data-oid="kn9k.10"
             >
-              <nav className="space-y-1" data-oid=":t6sw:9">
+              <nav className="site-navbar__mobile-links" data-oid=":t6sw:9">
                 {[
                   { href: "/chamanismo", label: "Chamanismo" },
                   {
@@ -296,7 +287,7 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="block rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80 transition hover:bg-accent/60 hover:text-foreground"
+                    className="site-navbar__mobile-link"
                     data-oid="5mnuwyt"
                   >
                     {item.label}
@@ -304,21 +295,25 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
                 ))}
               </nav>
 
-              <div className="my-3 h-px bg-border/70" data-oid="8-s6whk" />
+              <div className="site-navbar__divider" data-oid="8-s6whk" />
 
               {user ? (
                 <>
                   <Link
                     href="/protected"
-                    className="block rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80 transition hover:bg-accent/60 hover:text-foreground"
+                    className="site-navbar__mobile-link"
                     data-oid="3fpxp.l"
                   >
                     Mi cuenta
                   </Link>
-                  <form action={signOut} className="mt-1" data-oid="q.h6yew">
+                  <form
+                    action={signOut}
+                    className="site-navbar__mobile-signout-form"
+                    data-oid="q.h6yew"
+                  >
                     <button
                       type="submit"
-                      className="w-full rounded-full border border-border/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80 transition hover:bg-destructive/70 hover:text-destructive-foreground"
+                      className="site-navbar__mobile-signout"
                       data-oid="z2.wrxl"
                     >
                       Cerrar sesion
@@ -328,12 +323,12 @@ export default async function Navbar({ brand = "EDHUCO" }: NavbarProps) {
               ) : (
                 <AuthButton
                   variant="default"
-                  className="mt-1 w-full justify-center"
+                  className="site-navbar__mobile-auth site-navbar__login"
                   data-oid="4_8mn-j"
                 />
               )}
 
-              <div className="mt-3 flex justify-center" data-oid="icx6kks">
+              <div className="site-navbar__mobile-footer" data-oid="icx6kks">
                 <ThemeSwitcher data-oid="z27xts4" />
               </div>
             </div>
